@@ -1,5 +1,5 @@
 <h1>
-  <img src="./icon.png" alt="転職面談管理" width="32" height="32" align="middle">
+  <img src="./icon.png" alt="転職面談管理" width="40" height="40" align="top">
   転職面談管理
 </h1>
 
