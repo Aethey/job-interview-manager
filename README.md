@@ -1,4 +1,7 @@
-# <img src="./icon.png" alt="転職面談管理" width="44" align="center"> 転職面談管理
+<h1>
+  <img src="./icon.png" alt="転職面談管理" width="32" height="32" align="middle">
+  転職面談管理
+</h1>
 
 Findy の採用担当者との会話を AI で整理し、確定した面談日時や、返信が必要な候補日時をすぐ確認できる Chrome 拡張機能です。
 
