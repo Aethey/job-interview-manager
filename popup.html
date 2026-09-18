@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面谈管理</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --line: #e5e9f0;
+      --text: #172033;
+      --muted: #748096;
+      --primary: #276ef1;
+      --primary-soft: #edf3ff;
+      --success: #14845a;
+      --success-soft: #eaf8f2;
+      --warning: #a45c14;
+      --warning-soft: #fff4e6;
+      --danger: #c83d3d;
+      --shadow: 0 8px 24px rgba(27, 45, 78, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: transparent; }
+
+    body {
+      margin: 0;
+      width: 440px;
+      min-height: 620px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      min-height: 620px;
+      padding: 18px;
+      background: var(--bg);
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 13px;
+      margin-bottom: 13px;
+      border: 1px solid rgba(219, 228, 242, 0.95);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%);
+      box-shadow: 0 5px 16px rgba(39, 110, 241, 0.08);
+    }
+
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(39, 110, 241, 0.16);
+    }
+
+    .app-title {
+      font-size: 18px;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 14px;
+      background: #e9edf4;
+      border-radius: 12px;
+    }
+
+    .tab {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 3px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .tab.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(27, 45, 78, 0.09);
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .card {
+      padding: 14px;
+      margin-bottom: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 11px;
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 11px; }
+
+    .source-row, .split-row, .list-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .source-row { margin-bottom: 12px; }
+    .source-name { font-size: 14px; font-weight: 700; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge.success { background: var(--success-soft); color: var(--success); }
+    .badge.warning { background: var(--warning-soft); color: var(--warning); }
+    .badge.danger { background: #fff0f0; color: var(--danger); }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 9px 10px;
+      outline: none;
+      color: var(--text);
+      background: #fff;
+      font-size: 12px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #8eb2ff;
+      box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.1);
+    }
+
+    textarea { min-height: 78px; resize: vertical; line-height: 1.5; }
+
+    .field { margin-bottom: 11px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+    .primary-button, .secondary-button, .danger-button {
+      min-height: 36px;
+      border-radius: 9px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .primary-button { border: 0; background: var(--primary); color: #fff; }
+    .primary-button:hover { background: #1f62dc; }
+    .secondary-button { border: 1px solid var(--line); background: #fff; color: var(--text); }
+    .secondary-button:hover { background: #f8faff; }
+    .danger-button { border: 1px solid #f2caca; background: #fff7f7; color: var(--danger); }
+    .wide-button { width: 100%; }
+
+    .status-message {
+      min-height: 18px;
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .status-message.success { color: var(--success); }
+    .status-message.error { color: var(--danger); }
+    .status-message.warning { color: var(--warning); }
+
+    .empty {
+      padding: 24px 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .timeline { position: relative; padding-left: 21px; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 7px;
+      bottom: 7px;
+      width: 1px;
+      background: #cbd6e8;
+    }
+
+    .timeline-item { position: relative; padding: 0 0 15px 9px; }
+    .timeline-item:last-child { padding-bottom: 2px; }
+    .timeline-dot {
+      position: absolute;
+      left: -20px;
+      top: 3px;
+      width: 11px;
+      height: 11px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 1px #9bb9ed;
+    }
+
+    .timeline-title { font-size: 12px; font-weight: 720; }
+    .timeline-description { margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .timeline-meta { margin-top: 4px; color: var(--primary); font-size: 10px; }
+
+    .company-card, .company-group, .schedule-item {
+      padding: 12px;
+      margin-bottom: 9px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+    }
+
+    .company-card.clickable, .schedule-item.clickable { cursor: pointer; }
+    .company-card.clickable:hover, .schedule-item.clickable:hover { border-color: #aac4f7; }
+    .company-group { padding: 0; overflow: hidden; }
+    .company-summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .company-summary::-webkit-details-marker { display: none; }
+    .company-summary::after {
+      content: "›";
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1;
+      transform: rotate(0deg);
+      transition: transform 0.16s ease;
+    }
+    .company-group[open] > .company-summary::after { transform: rotate(90deg); }
+    .company-summary-main { min-width: 0; flex: 1; }
+    .analysis-list { border-top: 1px solid var(--line); background: #f9fbff; }
+    .analysis-item { padding: 11px 12px; border-bottom: 1px solid var(--line); }
+    .analysis-item:last-child { border-bottom: 0; }
+    .analysis-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .analysis-time { color: var(--muted); font-size: 10px; }
+    .analysis-title { margin-top: 7px; font-size: 12px; font-weight: 720; }
+    .analysis-description { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .analysis-meta { margin-top: 6px; color: var(--primary); font-size: 10px; }
+    .analysis-next { margin-top: 5px; font-size: 11px; line-height: 1.45; }
+    .analysis-delete { min-height: 28px; padding: 4px 8px; font-size: 10px; }
+    .analysis-empty { padding: 16px 12px; }
+    .company-name { font-size: 13px; font-weight: 750; }
+    .company-meta { margin-top: 6px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .company-interview-time { margin-top: 7px; color: var(--primary); font-size: 12px; font-weight: 750; }
+    .action-hint { margin-top: 8px; color: var(--warning); font-size: 11px; font-weight: 650; }
+
+    .analysis-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 90px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .loading-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #dbe5f7;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .interview-title { font-size: 14px; font-weight: 750; }
+    .interview-time { margin-top: 8px; color: var(--primary); font-size: 15px; font-weight: 750; }
+    .interview-detail { margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .availability-title { margin-top: 15px; font-size: 12px; font-weight: 750; }
+    .availability-list { display: grid; gap: 6px; margin-top: 8px; }
+    .availability-day {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 9px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      font-size: 11px;
+    }
+    .availability-day strong { color: var(--primary); text-align: right; }
+
+    .settings-section { padding: 0; overflow: hidden; }
+    .settings-section > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 14px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+      font-weight: 720;
+    }
+    .settings-section > summary::-webkit-details-marker { display: none; }
+    .settings-section > summary::after { content: "›"; color: var(--muted); font-size: 20px; transform: rotate(0deg); }
+    .settings-section[open] > summary::after { transform: rotate(90deg); }
+    .settings-content { padding: 0 14px 14px; }
+
+    .schedule-date {
+      margin: 15px 0 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .schedule-date:first-child { margin-top: 0; }
+    .schedule-time { min-width: 55px; font-size: 15px; font-weight: 750; }
+    .schedule-title { font-size: 12px; font-weight: 700; }
+    .schedule-meta { margin-top: 3px; color: var(--muted); font-size: 10px; }
+
+    .slot-list { display: grid; gap: 7px; margin-top: 10px; }
+    .slot-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .slot-option input { width: auto; }
+
+    .hidden { display: none !important; }
+    .divider { height: 1px; margin: 14px 0; background: var(--line); }
+    .footer-note { margin-top: 14px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <img src="icon.png" class="app-icon" alt="面谈管理">
+      <div class="app-title" data-i18n="appTitle">转职面谈管理</div>
+    </header>
+
+    <nav class="tabs" aria-label="主导航">
+      <button class="tab active" data-view="analyze" data-i18n="analyzeTab">Analyze</button>
+      <button class="tab" data-view="schedule" data-i18n="scheduleTab">面试日程</button>
+      <button class="tab" data-view="settings" data-i18n="settingsTab">Settings</button>
+    </nav>
+
+    <section id="view-analyze" class="view active">
+      <div class="card">
+        <div class="source-row">
+          <div>
+            <div id="sourceName" class="source-name">正在读取当前页面</div>
+            <div id="sourceInfo" class="muted small">请保持招聘网站对话页面处于当前标签页</div>
+          </div>
+        </div>
+
+        <button id="analyzeButton" class="primary-button wide-button" data-i18n="analyzeCurrent">分析当前对话</button>
+        <button id="copyRawButton" class="secondary-button wide-button" style="margin-top:8px" data-i18n="copyConversation">复制原始对话</button>
+        <div id="analyzeStatus" class="status-message" data-i18n="checkingConversation">正在检查当前会话。</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span data-i18n="analysisResultTitle">分析结果</span>
+          <span id="analysisUpdatedAt" class="muted small"></span>
+        </div>
+        <div id="analysisLoading" class="analysis-loading hidden">
+          <span class="loading-spinner"></span>
+          <span data-i18n="analyzingConversation">正在分析当前对话…</span>
+        </div>
+        <div id="analysisResult">
+          <div class="empty" data-i18n="analysisEmpty">分析后显示最新确定的面试信息。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-schedule" class="view">
+      <div class="card">
+        <div class="card-title"><span data-i18n="scheduleTitle">面试日程</span><span id="scheduleCount" class="muted small"></span></div>
+        <div id="scheduleList"><div class="empty" data-i18n="scheduleEmpty">还没有已确定的面试。</div></div>
+      </div>
+      <div id="scheduleEditorCard" class="card hidden">
+        <div class="card-title"><span data-i18n="editSchedule">编辑时间安排</span><button id="cancelScheduleEdit" class="secondary-button" data-i18n="cancel">取消</button></div>
+        <input id="scheduleEditId" type="hidden">
+        <div class="field"><label for="scheduleEditTitle" data-i18n="title">标题</label><input id="scheduleEditTitle" type="text"></div>
+        <div class="grid-2">
+          <div class="field"><label for="scheduleEditStart" data-i18n="start">开始</label><input id="scheduleEditStart" type="datetime-local"></div>
+          <div class="field"><label for="scheduleEditEnd" data-i18n="end">结束</label><input id="scheduleEditEnd" type="datetime-local"></div>
+        </div>
+        <button id="saveScheduleEdit" class="primary-button wide-button" data-i18n="saveChanges">保存更新</button>
+        <div id="scheduleEditStatus" class="status-message"></div>
+      </div>
+    </section>
+
+    <section id="view-settings" class="view">
+      <details class="card settings-section" data-settings-section="language" open>
+        <summary data-i18n="language">语言</summary>
+        <div class="settings-content">
+          <label for="language" data-i18n="language">语言</label>
+          <select id="language">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+      </details>
+
+      <details class="card settings-section" data-settings-section="ai" open>
+        <summary>AI</summary>
+        <div class="settings-content">
+          <div class="muted small" style="margin-bottom:11px" data-i18n="protocolHint">根据 URL 自动判断协议</div>
+          <div class="field">
+            <label for="apiUrl">API URL</label>
+            <input id="apiUrl" type="url" placeholder="https://your-provider.example/v1/chat/completions">
+          </div>
+          <div class="field">
+            <label for="apiKey">API Key</label>
+            <input id="apiKey" type="password" autocomplete="off" placeholder="API Key">
+          </div>
+          <div class="field">
+            <label for="model" data-i18n="modelName">模型名称</label>
+            <input id="model" type="text" placeholder="model-name">
+          </div>
+          <button id="saveAiSettingsButton" class="primary-button wide-button" data-i18n="saveAi">保存 AI 设置</button>
+          <div id="aiSettingsStatus" class="status-message"></div>
+        </div>
+      </details>
+
+      <details class="card settings-section" data-settings-section="availability" open>
+        <summary data-i18n="availability">可用时间设置</summary>
+        <div class="settings-content">
+          <div class="grid-2">
+            <div class="field"><label for="availableFrom" data-i18n="availableFrom">每天开始</label><input id="availableFrom" type="time"></div>
+            <div class="field"><label for="availableTo" data-i18n="availableTo">每天结束</label><input id="availableTo" type="time"></div>
+          </div>
+          <div class="field"><label for="defaultBuffer" data-i18n="buffer">面试时间前后余量（分钟）</label><input id="defaultBuffer" type="number" min="0" step="15"></div>
+          <button id="saveSettingsButton" class="primary-button wide-button" data-i18n="saveSettings">保存设置</button>
+          <div id="settingsStatus" class="status-message"></div>
+        </div>
+      </details>
+
+      <details class="card settings-section" data-settings-section="data">
+        <summary data-i18n="data">数据</summary>
+        <div class="settings-content">
+          <div id="dataSummary" class="muted small"></div>
+          <button id="clearDataButton" class="danger-button wide-button" style="margin-top:10px" data-i18n="clearData">清空本地数据</button>
+          <div class="footer-note" data-i18n="dataFooter">API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。</div>
+        </div>
+      </details>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
