@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 2,
+  "currentCompanyId": "company-a",
+  "settings": {
+    "language": "ja",
+    "availabilityVersion": 1,
+    "openSettingsSections": ["language", "ai", "availability"],
+    "ai": {
+      "url": "https://api.openai.com/v1/chat/completions",
+      "apiKey": "",
+      "model": "gpt-5.6"
+    },
+    "availableFrom": "10:00",
+    "availableTo": "19:00",
+    "durationMinutes": 60,
+    "bufferMinutes": 60,
+    "candidateCount": 3
+  },
+  "companies": [
+    {
+      "id": "company-a",
+      "source": "Findy",
+      "conversationKey": "mock://findy::会社a",
+      "name": "会社a",
+      "contactName": "人事a",
+      "stage": "面談確定",
+      "status": "confirmed",
+      "nextAction": "一次面談の準備",
+      "needsUserAction": false,
+      "lastUpdatedAt": "2026-09-18T14:20:00.000Z"
+    },
+    {
+      "id": "company-b",
+      "source": "Findy",
+      "conversationKey": "mock://findy::会社b",
+      "name": "会社b",
+      "contactName": "人事b",
+      "stage": "面談確定",
+      "status": "confirmed",
+      "nextAction": "カジュアル面談の準備",
+      "needsUserAction": false,
+      "lastUpdatedAt": "2026-09-18T13:10:00.000Z"
+    },
+    {
+      "id": "company-c",
+      "source": "Findy",
+      "conversationKey": "mock://findy::会社c",
+      "name": "会社c",
+      "contactName": "人事c",
+      "stage": "面談確定",
+      "status": "confirmed",
+      "nextAction": "技術面談の準備",
+      "needsUserAction": false,
+      "lastUpdatedAt": "2026-09-18T12:00:00.000Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "message-a-1",
+      "companyId": "company-a",
+      "conversationKey": "mock://findy::会社a",
+      "senderType": "company",
+      "senderName": "人事a",
+      "datetime": "2026-09-17T09:00:00+09:00",
+      "text": "一次面談の日程についてご連絡いたします。"
+    },
+    {
+      "id": "message-a-2",
+      "companyId": "company-a",
+      "conversationKey": "mock://findy::会社a",
+      "senderType": "user",
+      "senderName": "応募者",
+      "datetime": "2026-09-17T09:20:00+09:00",
+      "text": "9月24日の午後であれば参加可能です。"
+    },
+    {
+      "id": "message-a-3",
+      "companyId": "company-a",
+      "conversationKey": "mock://findy::会社a",
+      "senderType": "company",
+      "senderName": "人事a",
+      "datetime": "2026-09-18T22:55:00+09:00",
+      "text": "9月24日15時からオンラインでお願いいたします。"
+    },
+    {
+      "id": "message-a-4",
+      "companyId": "company-a",
+      "conversationKey": "mock://findy::会社a",
+      "senderType": "user",
+      "senderName": "応募者",
+      "datetime": "2026-09-18T23:00:00+09:00",
+      "text": "承知しました。当日はよろしくお願いいたします。"
+    },
+    {
+      "id": "message-b-1",
+      "companyId": "company-b",
+      "conversationKey": "mock://findy::会社b",
+      "senderType": "company",
+      "senderName": "人事b",
+      "datetime": "2026-09-18T11:00:00+09:00",
+      "text": "カジュアル面談を9月25日11時から実施します。"
+    },
+    {
+      "id": "message-b-2",
+      "companyId": "company-b",
+      "conversationKey": "mock://findy::会社b",
+      "senderType": "user",
+      "senderName": "応募者",
+      "datetime": "2026-09-18T11:10:00+09:00",
+      "text": "承知しました。"
+    },
+    {
+      "id": "message-c-1",
+      "companyId": "company-c",
+      "conversationKey": "mock://findy::会社c",
+      "senderType": "company",
+      "senderName": "人事c",
+      "datetime": "2026-09-18T10:00:00+09:00",
+      "text": "技術面談を9月29日14時から実施します。"
+    },
+    {
+      "id": "message-c-2",
+      "companyId": "company-c",
+      "conversationKey": "mock://findy::会社c",
+      "senderType": "user",
+      "senderName": "応募者",
+      "datetime": "2026-09-18T10:10:00+09:00",
+      "text": "よろしくお願いいたします。"
+    }
+  ],
+  "analyses": [
+    {
+      "id": "analysis-a",
+      "companyId": "company-a",
+      "conversationKey": "mock://findy::会社a",
+      "createdAt": "2026-09-18T14:20:00.000Z",
+      "result": {
+        "companyName": "会社a",
+        "contactName": "人事a",
+        "analysisType": "confirmed_interview",
+        "stage": "面談確定",
+        "status": "confirmed",
+        "nextAction": "一次面談の準備",
+        "needsUserAction": false,
+        "eventTitle": "一次面談",
+        "eventDescription": "会社aの人事aより、一次面談の日時とオンライン会議URLが確定されています。",
+        "timeline": [],
+        "scheduleItems": [],
+        "candidateRequest": { "requested": false, "fromDate": "", "toDate": "", "fromTime": "", "toTime": "", "notes": "" },
+        "summary": "会社aの人事aより、一次面談の日時とオンライン会議URLが確定されています。",
+        "hasConfirmedInterview": true,
+        "latestConfirmedInterview": {
+          "title": "一次面談",
+          "startAt": "2026-09-24T15:00:00+09:00",
+          "endAt": "2026-09-24T16:00:00+09:00",
+          "contactName": "人事a",
+          "method": "オンライン",
+          "location": "https://meet.example.com/company-a",
+          "notes": "履歴書と職務経歴書を事前に準備"
+        }
+      }
+    },
+    {
+      "id": "analysis-b",
+      "companyId": "company-b",
+      "conversationKey": "mock://findy::会社b",
+      "createdAt": "2026-09-18T13:10:00.000Z",
+      "result": {
+        "companyName": "会社b",
+        "contactName": "人事b",
+        "analysisType": "confirmed_interview",
+        "stage": "面談確定",
+        "status": "confirmed",
+        "nextAction": "カジュアル面談の準備",
+        "needsUserAction": false,
+        "summary": "会社bとのカジュアル面談が確定しています。",
+        "hasConfirmedInterview": true,
+        "latestConfirmedInterview": {
+          "title": "カジュアル面談",
+          "startAt": "2026-09-25T11:00:00+09:00",
+          "endAt": "2026-09-25T12:00:00+09:00",
+          "contactName": "人事b",
+          "method": "Google Meet",
+          "location": "https://meet.example.com/company-b",
+          "notes": "服装自由"
+        }
+      }
+    },
+    {
+      "id": "analysis-c",
+      "companyId": "company-c",
+      "conversationKey": "mock://findy::会社c",
+      "createdAt": "2026-09-18T12:00:00.000Z",
+      "result": {
+        "companyName": "会社c",
+        "contactName": "人事c",
+        "analysisType": "confirmed_interview",
+        "stage": "面談確定",
+        "status": "confirmed",
+        "nextAction": "技術面談の準備",
+        "needsUserAction": false,
+        "summary": "会社cとの技術面談が確定しています。",
+        "hasConfirmedInterview": true,
+        "latestConfirmedInterview": {
+          "title": "技術面談",
+          "startAt": "2026-09-29T14:00:00+09:00",
+          "endAt": "2026-09-29T15:00:00+09:00",
+          "contactName": "人事c",
+          "method": "Microsoft Teams",
+          "location": "https://meet.example.com/company-c",
+          "notes": "開発経験について質問予定"
+        }
+      }
+    }
+  ],
+  "scheduleItems": [
+    {
+      "id": "schedule-a",
+      "companyId": "company-a",
+      "title": "一次面談",
+      "startAt": "2026-09-24T15:00:00+09:00",
+      "endAt": "2026-09-24T16:00:00+09:00",
+      "status": "confirmed",
+      "contactName": "人事a",
+      "method": "オンライン",
+      "location": "https://meet.example.com/company-a",
+      "notes": "履歴書と職務経歴書を事前に準備",
+      "sourceAnalysisId": "analysis-a",
+      "createdAt": "2026-09-18T14:20:00.000Z"
+    },
+    {
+      "id": "schedule-b",
+      "companyId": "company-b",
+      "title": "カジュアル面談",
+      "startAt": "2026-09-25T11:00:00+09:00",
+      "endAt": "2026-09-25T12:00:00+09:00",
+      "status": "confirmed",
+      "contactName": "人事b",
+      "method": "Google Meet",
+      "location": "https://meet.example.com/company-b",
+      "notes": "服装自由",
+      "sourceAnalysisId": "analysis-b",
+      "createdAt": "2026-09-18T13:10:00.000Z"
+    },
+    {
+      "id": "schedule-c",
+      "companyId": "company-c",
+      "title": "技術面談",
+      "startAt": "2026-09-29T14:00:00+09:00",
+      "endAt": "2026-09-29T15:00:00+09:00",
+      "status": "confirmed",
+      "contactName": "人事c",
+      "method": "Microsoft Teams",
+      "location": "https://meet.example.com/company-c",
+      "notes": "開発経験について質問予定",
+      "sourceAnalysisId": "analysis-c",
+      "createdAt": "2026-09-18T12:00:00.000Z"
+    }
+  ]
+}

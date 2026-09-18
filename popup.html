@@ -179,6 +179,8 @@
     .field { margin-bottom: 11px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .settings-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .data-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
 
     .primary-button, .secondary-button, .danger-button {
       min-height: 36px;
@@ -312,19 +314,98 @@
     .interview-title { font-size: 14px; font-weight: 750; }
     .interview-time { margin-top: 8px; color: var(--primary); font-size: 15px; font-weight: 750; }
     .interview-detail { margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.55; }
-    .availability-title { margin-top: 15px; font-size: 12px; font-weight: 750; }
-    .availability-list { display: grid; gap: 6px; margin-top: 8px; }
-    .availability-day {
+    .availability-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 8px 9px;
-      border-radius: 8px;
-      background: var(--primary-soft);
-      font-size: 11px;
+      margin-top: 17px;
     }
-    .availability-day strong { color: var(--primary); text-align: right; }
+    .availability-title { font-size: 13px; font-weight: 780; letter-spacing: -0.01em; }
+    .availability-count {
+      padding: 4px 8px;
+      border: 1px solid #d8e6ff;
+      border-radius: 999px;
+      background: #f4f8ff;
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .availability-list { display: grid; gap: 8px; margin-top: 10px; }
+    .availability-day {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      min-height: 54px;
+      overflow: hidden;
+      border: 1px solid #dfe6f1;
+      border-radius: 11px;
+      background: #fff;
+      box-shadow: 0 3px 10px rgba(27, 45, 78, 0.04);
+    }
+    .availability-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 8px;
+      border-right: 1px solid #e5eaf2;
+      background: #f7f9fc;
+    }
+    .availability-date-main { color: var(--text); font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
+    .availability-weekday {
+      min-width: 26px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #e9edf4;
+      color: #637087;
+      font-size: 9px;
+      font-weight: 750;
+      text-align: center;
+    }
+    .availability-slots {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      min-width: 0;
+      padding: 9px 10px;
+    }
+    .availability-slot {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 28px;
+      padding: 5px 8px;
+      border: 1px solid #d9e6ff;
+      border-radius: 8px;
+      background: #f2f6ff;
+      color: #1f62dc;
+      font-size: 10px;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+    .availability-slot::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .availability-slot.full {
+      border-color: #cce9dc;
+      background: var(--success-soft);
+      color: var(--success);
+    }
+    .availability-slot.unavailable {
+      border-color: #e4e7ed;
+      background: #f6f7f9;
+      color: var(--muted);
+    }
+    .availability-slot-note { font-size: 9px; font-weight: 700; opacity: 0.82; }
 
     .settings-section { padding: 0; overflow: hidden; }
     .settings-section > summary {
@@ -462,7 +543,10 @@
             <label for="model" data-i18n="modelName">模型名称</label>
             <input id="model" type="text" placeholder="model-name">
           </div>
-          <button id="saveAiSettingsButton" class="primary-button wide-button" data-i18n="saveAi">保存 AI 设置</button>
+          <div class="settings-actions">
+            <button id="testAiConnectionButton" class="secondary-button" data-i18n="testConnection">测试连接</button>
+            <button id="saveAiSettingsButton" class="primary-button" data-i18n="saveAi">保存 AI 设置</button>
+          </div>
           <div id="aiSettingsStatus" class="status-message"></div>
         </div>
       </details>
@@ -484,7 +568,13 @@
         <summary data-i18n="data">数据</summary>
         <div class="settings-content">
           <div id="dataSummary" class="muted small"></div>
+          <div class="data-actions">
+            <button id="importDataButton" class="secondary-button" data-i18n="importData">导入数据</button>
+            <button id="exportDataButton" class="secondary-button" data-i18n="exportData">导出数据</button>
+          </div>
+          <input id="importDataInput" type="file" accept="application/json,.json" hidden>
           <button id="clearDataButton" class="danger-button wide-button" style="margin-top:10px" data-i18n="clearData">清空本地数据</button>
+          <div id="dataStatus" class="status-message"></div>
           <div class="footer-note" data-i18n="dataFooter">API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。</div>
         </div>
       </details>

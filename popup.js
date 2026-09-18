@@ -1,5 +1,9 @@
 const STORAGE_KEY = "jobInterviewManagerState";
 const CURRENT_SCHEMA_VERSION = 2;
+const DATA_EXPORT_FORMAT = "job-conversation-extractor-backup";
+const DATA_EXPORT_VERSION = 1;
+const JAPANESE_HOLIDAY_API_BASE_URL = "https://api.jp-calendar.com/v1/holidays";
+const USE_MOCK_DATA = false;
 const LANGUAGE_LOCALES = { zh: "zh-CN", en: "en-US", ja: "ja-JP" };
 const TRANSLATIONS = {
   zh: {
@@ -9,9 +13,9 @@ const TRANSLATIONS = {
     latestInterview: "最新确定的面试", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示最新确定的面试或候选时间请求。",
     scheduleTitle: "面试日程", scheduleEmpty: "还没有已确定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
     title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言",
-    protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", saveAi: "保存 AI 设置", scheduling: "日程设置",
+    protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
-    saveSettings: "保存设置", data: "数据", clearData: "清空本地数据",
+    saveSettings: "保存设置", data: "数据", importData: "导入数据", exportData: "导出数据", clearData: "清空本地数据",
     dataFooter: "API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。",
     unreadable: "当前页面不可读取", openFindy: "请打开 Findy 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
     updatedAt: "更新于 {time}", noConfirmed: "当前没有已确定的面试", noConfirmedDesc: "对话中没有明确确认的面试时间。",
@@ -22,10 +26,11 @@ const TRANSLATIONS = {
     missingAi: "请到设置中填写 API URL、API Key 和模型后再次分析。", reanalyzing: "上次报告晚于最新消息，正在重新分析完整对话……",
     analyzingFull: "正在分析当前完整对话（{count} 条消息）……", analyzeDone: "分析完成。", copyDone: "原始对话已复制到剪贴板。",
     unsupported: "当前页面暂不支持。请打开 Findy 的对话页面。", ready: "当前会话已准备好，可以开始分析。",
-    aiFieldsRequired: "请填写 API URL、API Key 和模型名称。", aiSaved: "AI 设置已保存。", settingsSaved: "设置已保存到本地。",
-    clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。"
+    aiFieldsRequired: "请填写 API URL、API Key 和模型名称。", testingConnection: "正在测试连接……", connectionOk: "连接成功。", connectionFailed: "连接失败：{error}", permissionDenied: "未授予该 API 地址的访问权限。", aiSaved: "AI 设置已保存。", settingsSaved: "设置已保存到本地。",
+    clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
+    importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。"
     ,candidateRequest: "待回复候选时间", nextTwoWeeks: "未来两周可用时间", allAvailable: "{start}–{end} 都可以", unavailable: "没有可用时间",
-    availability: "可用时间设置"
+    availability: "可用时间设置", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用"
   },
   en: {
     appTitle: "Interview Manager", appSubtitle: "Spend less time organizing and more time communicating",
@@ -34,9 +39,9 @@ const TRANSLATIONS = {
     latestInterview: "Latest confirmed interview", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed interview or request for candidate times will appear here.",
     scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
     title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language",
-    protocolHint: "Protocol is detected from the URL", modelName: "Model", saveAi: "Save AI settings", scheduling: "Schedule settings",
+    protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
-    saveSettings: "Save settings", data: "Data", clearData: "Clear local data",
+    saveSettings: "Save settings", data: "Data", importData: "Import data", exportData: "Export data", clearData: "Clear local data",
     dataFooter: "The API key, messages, analysis results, and interview schedule are stored locally in this browser extension.",
     unreadable: "This page cannot be read", openFindy: "Open a Findy conversation and reopen the extension.", messageCount: "{count} messages",
     updatedAt: "Updated {time}", noConfirmed: "No confirmed interview", noConfirmedDesc: "The conversation does not contain a clearly confirmed interview time.",
@@ -47,10 +52,11 @@ const TRANSLATIONS = {
     missingAi: "Set the API URL, API key, and model in Settings, then analyze again.", reanalyzing: "The previous report is newer than the latest message. Reanalyzing the full conversation…",
     analyzingFull: "Analyzing the full conversation ({count} messages)…", analyzeDone: "Analysis complete.", copyDone: "Conversation copied to the clipboard.",
     unsupported: "This page is not supported. Open a Findy conversation.", ready: "The current conversation is ready to analyze.",
-    aiFieldsRequired: "Enter the API URL, API key, and model.", aiSaved: "AI settings saved.", settingsSaved: "Settings saved locally.",
-    clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times."
+    aiFieldsRequired: "Enter the API URL, API key, and model.", testingConnection: "Testing connection…", connectionOk: "Connection successful.", connectionFailed: "Connection failed: {error}", permissionDenied: "Access to this API address was not granted.", aiSaved: "AI settings saved.", settingsSaved: "Settings saved locally.",
+    clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
+    importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported."
     ,candidateRequest: "Candidate times requested", nextTwoWeeks: "Availability for the next two weeks", allAvailable: "Any time from {start}–{end}", unavailable: "No available time",
-    availability: "Availability"
+    availability: "Availability", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available"
   },
   ja: {
     appTitle: "転職面談管理", appSubtitle: "整理の手間を減らし、連絡に集中",
@@ -59,9 +65,9 @@ const TRANSLATIONS = {
     latestInterview: "最新の確定面談", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定面談または候補日時の提示依頼を表示します。",
     scheduleTitle: "面談日程", scheduleEmpty: "確定済みの面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
     title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語",
-    protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", saveAi: "AI 設定を保存", scheduling: "日程設定",
+    protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
-    saveSettings: "設定を保存", data: "データ", clearData: "ローカルデータを消去",
+    saveSettings: "設定を保存", data: "データ", importData: "データを読み込む", exportData: "データを書き出す", clearData: "ローカルデータを消去",
     dataFooter: "API キー、メッセージ、分析結果、面談日程は、このブラウザ拡張機能のローカルストレージに保存されます。",
     unreadable: "現在のページを読み取れません", openFindy: "Findy の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
     updatedAt: "更新：{time}", noConfirmed: "確定済みの面談はありません", noConfirmedDesc: "会話内に明確に確定した面談日時がありません。",
@@ -72,10 +78,11 @@ const TRANSLATIONS = {
     missingAi: "設定で API URL、API キー、モデルを入力してから、もう一度分析してください。", reanalyzing: "前回のレポートが最新メッセージより新しいため、会話全文を再分析しています…",
     analyzingFull: "現在の会話全文（{count} 件）を分析しています…", analyzeDone: "分析が完了しました。", copyDone: "元の会話をクリップボードにコピーしました。",
     unsupported: "このページは未対応です。Findy の会話ページを開いてください。", ready: "現在の会話を分析できます。",
-    aiFieldsRequired: "API URL、API キー、モデル名を入力してください。", aiSaved: "AI 設定を保存しました。", settingsSaved: "設定をローカルに保存しました。",
-    clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。"
+    aiFieldsRequired: "API URL、API キー、モデル名を入力してください。", testingConnection: "接続をテストしています…", connectionOk: "接続に成功しました。", connectionFailed: "接続に失敗しました：{error}", permissionDenied: "この API アドレスへのアクセスが許可されませんでした。", aiSaved: "AI 設定を保存しました。", settingsSaved: "設定をローカルに保存しました。",
+    clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
+    importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。"
     ,candidateRequest: "候補日時の返信待ち", nextTwoWeeks: "今後2週間の空き時間", allAvailable: "{start}〜{end} はいつでも可", unavailable: "空き時間なし",
-    availability: "空き時間設定"
+    availability: "空き時間設定", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き"
   }
 };
 
@@ -176,6 +183,8 @@ let currentSnapshot = null;
 let currentCompanyId = null;
 let pageDetectionRevision = 0;
 let pageDetectionTimer = null;
+let japaneseHolidayDates = new Set();
+let holidayDataStatus = "idle";
 const requestedBackgroundJobs = new Set();
 
 function createEmptyState() {
@@ -188,6 +197,51 @@ function createEmptyState() {
     analysisJob: null,
     settings: createDefaultSettings()
   };
+}
+
+function createMockPreview(mockData) {
+  if (!mockData || typeof mockData !== "object") {
+    throw new Error("Mock data is invalid.");
+  }
+
+  const collectionKeys = ["companies", "messages", "analyses", "scheduleItems"];
+  if (collectionKeys.some(key => !Array.isArray(mockData[key]))) {
+    throw new Error("Mock data collections are invalid.");
+  }
+
+  const company = mockData.companies.find(item => item.id === mockData.currentCompanyId);
+  if (!company) {
+    throw new Error("Mock current company was not found.");
+  }
+
+  const messages = mockData.messages.filter(message => message.companyId === company.id);
+  const snapshot = {
+    source: company.source || "Findy",
+    platform: company.source || "Findy",
+    url: company.url || "https://findy-code.io/matches/mock-chat",
+    baseConversationKey: company.conversationKey.split("::")[0],
+    conversationKey: company.conversationKey,
+    companyName: company.name,
+    messages
+  };
+  const mockState = {
+    ...createEmptyState(),
+    companies: mockData.companies,
+    messages: mockData.messages,
+    analyses: mockData.analyses,
+    scheduleItems: mockData.scheduleItems,
+    settings: normalizeSettings(mockData.settings || {})
+  };
+
+  return { state: mockState, snapshot, companyId: company.id };
+}
+
+async function loadMockPreview(fetchImpl = fetch) {
+  const response = await fetchImpl("mock-data.json", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Mock data could not be loaded (${response.status}).`);
+  }
+  return createMockPreview(await response.json());
 }
 
 function normalizeSettings(savedSettings = {}) {
@@ -261,6 +315,63 @@ async function loadState() {
 
 async function saveState() {
   await chrome.storage.local.set({ [STORAGE_KEY]: state });
+}
+
+function createExportPayload(sourceState, exportedAt = new Date().toISOString()) {
+  return {
+    format: DATA_EXPORT_FORMAT,
+    exportVersion: DATA_EXPORT_VERSION,
+    exportedAt,
+    state: sourceState
+  };
+}
+
+function normalizeImportedState(payload) {
+  if (
+    !payload ||
+    payload.format !== DATA_EXPORT_FORMAT ||
+    payload.exportVersion !== DATA_EXPORT_VERSION ||
+    !payload.state ||
+    typeof payload.state !== "object" ||
+    payload.state.schemaVersion !== CURRENT_SCHEMA_VERSION
+  ) {
+    throw new Error("Invalid backup format.");
+  }
+
+  const imported = payload.state;
+  const collectionKeys = ["companies", "messages", "analyses", "scheduleItems"];
+  if (collectionKeys.some(key => !Array.isArray(imported[key]))) {
+    throw new Error("Invalid backup data.");
+  }
+
+  if (!imported.settings || typeof imported.settings !== "object" || Array.isArray(imported.settings)) {
+    throw new Error("Invalid backup settings.");
+  }
+
+  return {
+    ...createEmptyState(),
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+    companies: imported.companies,
+    messages: imported.messages,
+    analyses: imported.analyses,
+    scheduleItems: imported.scheduleItems,
+    analysisJob: imported.analysisJob && typeof imported.analysisJob === "object" ? imported.analysisJob : null,
+    settings: normalizeSettings(imported.settings)
+  };
+}
+
+function downloadDataBackup() {
+  const payload = createExportPayload(state);
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const date = new Date().toISOString().slice(0, 10);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `job-conversation-extractor-${date}.json`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 function createId(prefix) {
@@ -818,6 +929,46 @@ async function readJsonResponse(response, requestConfig = null) {
   }
 }
 
+async function testAiConnection(ai, fetchImpl = fetch) {
+  const requestConfig = resolveAiRequestConfig(ai.url);
+  const isAnthropic = requestConfig.protocol === "anthropic-messages";
+  const response = await fetchImpl(requestConfig.url, {
+    method: "POST",
+    headers: isAnthropic
+      ? {
+          "Content-Type": "application/json",
+          "x-api-key": ai.apiKey,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true"
+        }
+      : {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${ai.apiKey}`
+        },
+    body: JSON.stringify(isAnthropic
+      ? {
+          model: ai.model,
+          max_tokens: 8,
+          messages: [{ role: "user", content: "Reply with OK." }]
+        }
+      : {
+          model: ai.model,
+          stream: false,
+          messages: [{ role: "user", content: "Reply with OK." }]
+        })
+  });
+
+  const payload = await readJsonResponse(response, requestConfig);
+  if (!response.ok) {
+    throw new Error(
+      payload?.error?.message ||
+      `AI 请求失败（${response.status}）：${requestConfig.displayUrl}`
+    );
+  }
+
+  return { protocol: requestConfig.protocol, displayUrl: requestConfig.displayUrl };
+}
+
 async function requestAiAnalysis(snapshot) {
   const ai = state.settings.ai;
   if (!ai?.url || !ai.apiKey.trim() || !ai.model.trim()) {
@@ -983,10 +1134,65 @@ function minutesToClock(value) {
   return `${hours}:${minutes}`;
 }
 
+function localDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function availabilityYears(referenceDate = new Date()) {
+  const firstDate = new Date(referenceDate);
+  firstDate.setHours(0, 0, 0, 0);
+  const lastDate = new Date(firstDate);
+  lastDate.setDate(firstDate.getDate() + 13);
+  return [...new Set([firstDate.getFullYear(), lastDate.getFullYear()])];
+}
+
+async function fetchJapaneseHolidayDates(referenceDate = new Date(), fetchImpl = fetch) {
+  const holidayMaps = await Promise.all(availabilityYears(referenceDate).map(async year => {
+    const response = await fetchImpl(`${JAPANESE_HOLIDAY_API_BASE_URL}/${year}.json`);
+    if (!response.ok) {
+      throw new Error(`Japanese holiday API request failed (${response.status}).`);
+    }
+    const payload = await response.json();
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("Japanese holiday API returned invalid data.");
+    }
+    return payload;
+  }));
+
+  return new Set(
+    holidayMaps.flatMap(holidayMap => Object.keys(holidayMap))
+      .filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date))
+  );
+}
+
+async function refreshJapaneseHolidayDates(referenceDate = new Date()) {
+  holidayDataStatus = "loading";
+  let timeoutId;
+  try {
+    japaneseHolidayDates = await Promise.race([
+      fetchJapaneseHolidayDates(referenceDate),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error("Japanese holiday API request timed out.")), 5000);
+      })
+    ]);
+    holidayDataStatus = "loaded";
+  } catch (error) {
+    console.warn("Japanese holidays could not be loaded.", error);
+    japaneseHolidayDates = new Set();
+    holidayDataStatus = "error";
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 function buildAvailabilityDays(
   scheduleItems = state.scheduleItems,
   settings = state.settings,
-  referenceDate = new Date()
+  referenceDate = new Date(),
+  holidayDates = japaneseHolidayDates
 ) {
   const startMinutes = clockToMinutes(settings.availableFrom, 10 * 60);
   const configuredEnd = clockToMinutes(settings.availableTo, 19 * 60);
@@ -1033,35 +1239,63 @@ function buildAvailabilityDays(
     if (cursor < endMinutes) available.push([cursor, endMinutes]);
 
     return { date, available, startMinutes, endMinutes };
-  });
+  }).filter(day => (
+    day.date.getDay() !== 0 &&
+    day.date.getDay() !== 6 &&
+    !holidayDates.has(localDateKey(day.date))
+  ));
 }
 
 function renderAvailability() {
   const dateFormatter = new Intl.DateTimeFormat(LANGUAGE_LOCALES[currentLanguage()], {
     month: "numeric",
-    day: "numeric",
+    day: "numeric"
+  });
+  const weekdayFormatter = new Intl.DateTimeFormat(LANGUAGE_LOCALES[currentLanguage()], {
     weekday: "short"
   });
 
+  if (holidayDataStatus === "idle" || holidayDataStatus === "loading") {
+    return `
+      <div class="availability-header">
+        <div class="availability-title">${escapeHtml(t("nextTwoWeeks"))}</div>
+      </div>
+      <div class="muted small">${escapeHtml(t("holidaysLoading"))}</div>`;
+  }
+
+  const holidayWarning = holidayDataStatus === "error"
+    ? `<div class="status-message warning">${escapeHtml(t("holidaysUnavailable"))}</div>`
+    : "";
+  const availabilityDays = buildAvailabilityDays();
+
   return `
-    <div class="availability-title">${escapeHtml(t("nextTwoWeeks"))}</div>
+    <div class="availability-header">
+      <div class="availability-title">${escapeHtml(t("nextTwoWeeks"))}</div>
+      <span class="availability-count">${escapeHtml(t("availableDayCount", { count: availabilityDays.length }))}</span>
+    </div>
+    ${holidayWarning}
     <div class="availability-list">
-      ${buildAvailabilityDays().map(day => {
+      ${availabilityDays.map(day => {
         const fullDay = day.available.length === 1 &&
           day.available[0][0] === day.startMinutes &&
           day.available[0][1] === day.endMinutes;
-        const ranges = fullDay
-          ? t("allAvailable", {
-              start: minutesToClock(day.startMinutes),
-              end: minutesToClock(day.endMinutes)
-            })
+        const slots = fullDay
+          ? `<span class="availability-slot full">
+              <span>${escapeHtml(`${minutesToClock(day.startMinutes)}–${minutesToClock(day.endMinutes)}`)}</span>
+              <span class="availability-slot-note">${escapeHtml(t("fullWindowAvailable"))}</span>
+            </span>`
           : day.available.length
-            ? day.available.map(([start, end]) => `${minutesToClock(start)}–${minutesToClock(end)}`).join(" / ")
-            : t("unavailable");
+            ? day.available.map(([start, end]) => `
+                <span class="availability-slot">${escapeHtml(`${minutesToClock(start)}–${minutesToClock(end)}`)}</span>
+              `).join("")
+            : `<span class="availability-slot unavailable">${escapeHtml(t("unavailable"))}</span>`;
         return `
           <div class="availability-day">
-            <span>${escapeHtml(dateFormatter.format(day.date))}</span>
-            <strong>${escapeHtml(ranges)}</strong>
+            <div class="availability-date">
+              <span class="availability-date-main">${escapeHtml(dateFormatter.format(day.date))}</span>
+              <span class="availability-weekday">${escapeHtml(weekdayFormatter.format(day.date))}</span>
+            </div>
+            <div class="availability-slots">${slots}</div>
           </div>`;
       }).join("")}
     </div>`;
@@ -1477,6 +1711,37 @@ function bindEvents() {
     setStatus(document.getElementById("analyzeStatus"), t("ready"), "success");
   });
 
+  document.getElementById("testAiConnectionButton").addEventListener("click", async () => {
+    const button = document.getElementById("testAiConnectionButton");
+    const status = document.getElementById("aiSettingsStatus");
+    const ai = {
+      url: document.getElementById("apiUrl").value.trim(),
+      apiKey: document.getElementById("apiKey").value.trim(),
+      model: document.getElementById("model").value.trim()
+    };
+
+    if (!ai.url || !ai.apiKey || !ai.model) {
+      setStatus(status, t("aiFieldsRequired"), "error");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = t("testingConnection");
+    setStatus(status, t("testingConnection"));
+    try {
+      if (!await ensureApiOriginPermission(ai.url)) {
+        throw new Error(t("permissionDenied"));
+      }
+      await testAiConnection(ai);
+      setStatus(status, t("connectionOk"), "success");
+    } catch (error) {
+      setStatus(status, t("connectionFailed", { error: error.message || String(error) }), "error");
+    } finally {
+      button.disabled = false;
+      button.textContent = t("testConnection");
+    }
+  });
+
   document.getElementById("saveAiSettingsButton").addEventListener("click", async () => {
     const status = document.getElementById("aiSettingsStatus");
     const ai = {
@@ -1517,6 +1782,36 @@ function bindEvents() {
     setStatus(document.getElementById("settingsStatus"), t("settingsSaved"), "success");
   });
 
+  document.getElementById("exportDataButton").addEventListener("click", () => {
+    downloadDataBackup();
+    setStatus(document.getElementById("dataStatus"), t("exportDone"), "success");
+  });
+
+  document.getElementById("importDataButton").addEventListener("click", () => {
+    document.getElementById("importDataInput").click();
+  });
+
+  document.getElementById("importDataInput").addEventListener("change", async event => {
+    const input = event.target;
+    const file = input.files?.[0];
+    input.value = "";
+    if (!file) return;
+
+    try {
+      const importedState = normalizeImportedState(JSON.parse(await file.text()));
+      if (!confirm(t("importConfirm"))) return;
+      state = importedState;
+      await saveState();
+      currentCompanyId = null;
+      applySettingsSectionState();
+      renderAll();
+      setStatus(document.getElementById("dataStatus"), t("importDone"), "success");
+    } catch (error) {
+      console.error(error);
+      setStatus(document.getElementById("dataStatus"), t("importFailed"), "error");
+    }
+  });
+
   document.getElementById("clearDataButton").addEventListener("click", async () => {
     if (!confirm(t("clearConfirm"))) return;
     const settings = state.settings;
@@ -1525,7 +1820,7 @@ function bindEvents() {
     await saveState();
     currentCompanyId = null;
     renderAll();
-    setStatus(document.getElementById("settingsStatus"), t("dataCleared"), "success");
+    setStatus(document.getElementById("dataStatus"), t("dataCleared"), "success");
   });
 
   document.getElementById("scheduleList").addEventListener("click", async event => {
@@ -1567,6 +1862,20 @@ function bindEvents() {
 }
 
 async function initialize() {
+  if (USE_MOCK_DATA) {
+    const mockPreview = await loadMockPreview();
+    state = mockPreview.state;
+    currentSnapshot = mockPreview.snapshot;
+    currentCompanyId = mockPreview.companyId;
+    applySettingsSectionState();
+    bindEvents();
+    renderAll();
+    await refreshJapaneseHolidayDates();
+    renderAll();
+    setStatus(document.getElementById("analyzeStatus"), t("analyzeDone"), "success");
+    return;
+  }
+
   try {
     state = await loadState();
   } catch (error) {
@@ -1577,6 +1886,7 @@ async function initialize() {
   applySettingsSectionState();
   bindEvents();
   renderAll();
+  refreshJapaneseHolidayDates().then(renderAll);
   await detectCurrentPage();
 }
 
@@ -1587,9 +1897,15 @@ if (typeof chrome !== "undefined" && typeof document !== "undefined") {
 if (typeof module !== "undefined") {
   module.exports = {
     buildAvailabilityDays,
+    createExportPayload,
+    createMockPreview,
     deleteAnalysisRecord,
+    fetchJapaneseHolidayDates,
+    loadMockPreview,
+    normalizeImportedState,
     normalizeSnapshotForAnalysis,
     readJsonResponse,
-    resolveAiRequestConfig
+    resolveAiRequestConfig,
+    testAiConnection
   };
 }

@@ -14,7 +14,8 @@
     "host_permissions": [
       "https://api.openai.com/*",
       "https://api.anthropic.com/*",
-      "https://api.deepseek.com/*"
+      "https://api.deepseek.com/*",
+      "https://api.jp-calendar.com/*"
     ],
 
     "optional_host_permissions": [
