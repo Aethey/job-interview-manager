@@ -176,6 +176,7 @@ let currentSnapshot = null;
 let currentCompanyId = null;
 let pageDetectionRevision = 0;
 let pageDetectionTimer = null;
+const requestedBackgroundJobs = new Set();
 
 function createEmptyState() {
   return {
@@ -184,6 +185,7 @@ function createEmptyState() {
     messages: [],
     analyses: [],
     scheduleItems: [],
+    analysisJob: null,
     settings: createDefaultSettings()
   };
 }
@@ -1241,6 +1243,59 @@ function renderAll() {
   renderAnalyze();
   renderSchedule();
   renderSettings();
+  return renderBackgroundJobState();
+}
+
+function requestBackgroundJob(jobId) {
+  if (!jobId || requestedBackgroundJobs.has(jobId)) return;
+  requestedBackgroundJobs.add(jobId);
+  chrome.runtime.sendMessage({ type: "runAnalysisJob", jobId }).catch(async error => {
+    requestedBackgroundJobs.delete(jobId);
+    state = await loadState();
+    if (state.analysisJob?.id !== jobId || state.analysisJob.status !== "analyzing") return;
+    state.analysisJob = {
+      ...state.analysisJob,
+      status: "error",
+      error: error.message || "Background analysis could not start.",
+      completedAt: new Date().toISOString()
+    };
+    await saveState();
+    renderAll();
+  });
+}
+
+function renderBackgroundJobState() {
+  const job = state.analysisJob;
+  if (!job || !currentSnapshot || job.conversationKey !== currentSnapshot.conversationKey) return false;
+
+  const status = document.getElementById("analyzeStatus");
+  const button = document.getElementById("analyzeButton");
+  if (job.status === "analyzing") {
+    setAnalysisLoading(true);
+    button.disabled = true;
+    setStatus(
+      status,
+      job.reportIsNewer
+        ? t("reanalyzing")
+        : t("analyzingFull", { count: job.messageCount || currentSnapshot.messages.length }),
+      job.reportIsNewer ? "warning" : ""
+    );
+    requestBackgroundJob(job.id);
+    return true;
+  }
+
+  requestedBackgroundJobs.delete(job.id);
+  setAnalysisLoading(false);
+  button.disabled = currentSnapshot.messages.length === 0;
+  if (job.status === "error") {
+    setStatus(status, job.error || "AI request failed.", "error");
+    return true;
+  }
+  if (job.status === "success") {
+    setStatus(status, t("analyzeDone"), "success");
+    return true;
+  }
+  return false;
 }
 
 function applySettingsSectionState() {
@@ -1253,6 +1308,7 @@ function applySettingsSectionState() {
 async function analyzeCurrentConversation() {
   const status = document.getElementById("analyzeStatus");
   const button = document.getElementById("analyzeButton");
+
   const tab = await getCurrentTab();
 
   if (!tab?.id || !tab.url?.includes("findy-code.io")) {
@@ -1270,19 +1326,16 @@ async function analyzeCurrentConversation() {
     return;
   }
 
-  const company = upsertCompany(currentSnapshot);
-  saveSnapshotMessages(currentSnapshot, company);
-  const previousAnalysis = latestAnalysisForCompany(company.id);
-
-  await saveState();
-  renderAll();
-
   const ai = state.settings.ai;
   if (!ai?.apiKey.trim() || !ai?.url || !ai?.model.trim()) {
     setStatus(status, t("missingAi"), "warning");
     button.disabled = false;
     return;
   }
+
+  const company = upsertCompany(currentSnapshot);
+  saveSnapshotMessages(currentSnapshot, company);
+  const previousAnalysis = latestAnalysisForCompany(company.id);
 
   const latestMessageTime = Math.max(...currentSnapshot.messages.map(message => {
     const time = new Date(message.datetime || 0).getTime();
@@ -1293,51 +1346,24 @@ async function analyzeCurrentConversation() {
     : 0;
   const reportIsNewer = latestMessageTime > 0 && previousAnalysisTime >= latestMessageTime;
 
+  const jobId = createId("job");
+  state.analysisJob = {
+    id: jobId,
+    status: "analyzing",
+    conversationKey: currentSnapshot.conversationKey,
+    messageCount: currentSnapshot.messages.length,
+    startedAt: new Date().toISOString(),
+    reportIsNewer,
+    snapshot: currentSnapshot
+  };
+  await saveState();
   setAnalysisLoading(true);
   setStatus(
     status,
-    reportIsNewer
-      ? t("reanalyzing")
-      : t("analyzingFull", { count: currentSnapshot.messages.length }),
+    reportIsNewer ? t("reanalyzing") : t("analyzingFull", { count: currentSnapshot.messages.length }),
     reportIsNewer ? "warning" : ""
   );
-
-  let result;
-  try {
-    result = await requestAiAnalysis(currentSnapshot);
-  } catch (error) {
-    renderLatestInterview(previousAnalysis);
-    setStatus(status, error.message || "AI 请求失败。", "error");
-    button.disabled = false;
-    return;
-  }
-
-  const companyBeforeAnalysis = { ...company };
-  const analysisCountBefore = state.analyses.length;
-  const scheduleCountBefore = state.scheduleItems.length;
-  let analysis;
-
-  try {
-    analysis = addAnalysis(company, currentSnapshot, currentSnapshot.messages, result);
-    await saveState();
-  } catch (error) {
-    state.analyses.splice(analysisCountBefore);
-    state.scheduleItems.splice(scheduleCountBefore);
-    Object.assign(company, companyBeforeAnalysis);
-    renderLatestInterview(previousAnalysis);
-    setStatus(status, `分析结果保存失败：${error.message || "未知错误"}`, "error");
-    button.disabled = false;
-    return;
-  }
-
-  try {
-    renderAll();
-  } catch (error) {
-    console.error("分析结果已保存，但界面刷新失败。", error);
-    renderLatestInterview(analysis);
-  }
-  setStatus(status, t("analyzeDone"), "success");
-  button.disabled = false;
+  renderAll();
 }
 
 function switchView(viewName) {
@@ -1384,8 +1410,8 @@ async function detectCurrentPage() {
     currentSnapshot = nextSnapshot;
     const company = findCompanyByConversation(currentSnapshot.conversationKey);
     currentCompanyId = company?.id || null;
-    renderAll();
-    setStatus(status, t("ready"), "success");
+    const jobRendered = renderAll();
+    if (!jobRendered) setStatus(status, t("ready"), "success");
   } catch (error) {
     if (revision !== pageDetectionRevision) return;
     currentSnapshot = null;
@@ -1436,6 +1462,12 @@ function bindEvents() {
     if (tab.active && (changeInfo.url || changeInfo.status === "complete")) {
       scheduleCurrentPageDetection(200);
     }
+  });
+
+  chrome.storage.onChanged.addListener(async (changes, areaName) => {
+    if (areaName !== "local" || !changes[STORAGE_KEY]) return;
+    state = await loadState();
+    renderAll();
   });
 
   document.getElementById("language").addEventListener("change", async event => {
