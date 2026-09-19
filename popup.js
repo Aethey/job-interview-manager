@@ -3,7 +3,7 @@ const CURRENT_SCHEMA_VERSION = 2;
 const DATA_EXPORT_FORMAT = "job-conversation-extractor-backup";
 const DATA_EXPORT_VERSION = 1;
 const JAPANESE_HOLIDAY_API_BASE_URL = "https://api.jp-calendar.com/v1/holidays";
-const USE_MOCK_DATA = false;
+const USE_MOCK_DATA = true;
 const LANGUAGE_LOCALES = { zh: "zh-CN", en: "en-US", ja: "ja-JP" };
 const TRANSLATIONS = {
   zh: {
@@ -1423,20 +1423,31 @@ function renderSchedule() {
       : "";
     return `${heading}
       <div class="schedule-item">
-        <div class="list-row">
-          <div class="schedule-time">${escapeHtml(startTime)}${endTime ? `<br><span class="muted small">～ ${escapeHtml(endTime)}</span>` : ""}</div>
-          <div style="flex:1">
-            <div class="schedule-title">${escapeHtml(company?.name || "未命名公司")}</div>
-            <div class="schedule-meta">${escapeHtml(item.title)} · ${escapeHtml(t("confirmed"))}</div>
-            ${contactName ? `<div class="schedule-meta">${escapeHtml(t("contact"))}：${escapeHtml(contactName)}</div>` : ""}
-            ${method ? `<div class="schedule-meta">${escapeHtml(t("method"))}：${escapeHtml(method)}</div>` : ""}
-            ${location ? `<div class="schedule-meta">${escapeHtml(t("location"))}：${escapeHtml(location)}</div>` : ""}
-            ${notes ? `<div class="schedule-meta">${escapeHtml(t("notes"))}：${escapeHtml(notes)}</div>` : ""}
+        <div class="schedule-item-header">
+          <div class="schedule-time">
+            <span class="schedule-time-start">${escapeHtml(startTime)}</span>
+            ${endTime ? `<span class="schedule-time-separator">→</span><span class="schedule-time-end">${escapeHtml(endTime)}</span>` : ""}
           </div>
-          <div style="display:flex;gap:5px">
-            <button class="secondary-button edit-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("edit"))}</button>
-            <button class="secondary-button delete-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
+          <div class="schedule-actions">
+            <button class="secondary-button schedule-action edit-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("edit"))}</button>
+            <button class="danger-button schedule-action delete-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
           </div>
+        </div>
+        <div class="schedule-item-body">
+          <div class="schedule-summary">
+            <div class="schedule-company-row">
+              <div class="schedule-company">${escapeHtml(company?.name || "未命名公司")}</div>
+              <span class="badge success">${escapeHtml(t("confirmed"))}</span>
+            </div>
+            <div class="schedule-title">${escapeHtml(item.title)}</div>
+          </div>
+          ${(contactName || method || location || notes) ? `
+            <div class="schedule-details">
+              ${contactName ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("contact"))}</span><span class="schedule-detail-value">${escapeHtml(contactName)}</span></div>` : ""}
+              ${method ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("method"))}</span><span class="schedule-detail-value">${escapeHtml(method)}</span></div>` : ""}
+              ${location ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("location"))}</span><span class="schedule-detail-value">${escapeHtml(location)}</span></div>` : ""}
+              ${notes ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("notes"))}</span><span class="schedule-detail-value">${escapeHtml(notes)}</span></div>` : ""}
+            </div>` : ""}
         </div>
       </div>`;
   }).join("");
