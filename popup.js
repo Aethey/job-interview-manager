@@ -3,7 +3,7 @@ const CURRENT_SCHEMA_VERSION = 2;
 const DATA_EXPORT_FORMAT = "job-conversation-extractor-backup";
 const DATA_EXPORT_VERSION = 1;
 const JAPANESE_HOLIDAY_API_BASE_URL = "https://api.jp-calendar.com/v1/holidays";
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 const LANGUAGE_LOCALES = { zh: "zh-CN", en: "en-US", ja: "ja-JP" };
 const TRANSLATIONS = {
   zh: {
