@@ -7,6 +7,12 @@ Findy と BizReach の採用担当者との会話を AI で整理し、確定し
 
 会話を読み返して予定を手作業で整理する時間を減らし、面談対応に集中することを目的としています。
 
+## 更新履歴
+
+| 日付 | 種別 | 内容 |
+| --- | --- | --- |
+| 2026-09-21 | ![Added](https://img.shields.io/badge/Added-3fb950) | BizReach の会話ページに対応 |
+
 ## 主な機能
 
 - **Findy と BizReach に対応**：両方の採用担当者との会話ページを読み取り、同じ流れで分析と面談日程の管理ができます。
@@ -126,10 +132,6 @@ API キーはローカルに保存されますが、暗号化保管ではあり�
 - BizReach の会話ページ（`/messages/{ID}`）
 - OpenAI Chat Completions 互換 API
 - Anthropic Messages API
-
-## 更新履歴
-
-- **2026-09-21**：BizReach の会話ページに対応しました。
 
 ## テスト
 
