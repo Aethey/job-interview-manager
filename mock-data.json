@@ -31,8 +31,8 @@
     },
     {
       "id": "company-b",
-      "source": "Findy",
-      "conversationKey": "mock://findy::会社b",
+      "source": "BizReach",
+      "conversationKey": "bizreach:443477610",
       "name": "会社b",
       "contactName": "人事b",
       "stage": "面談確定",
@@ -94,7 +94,7 @@
     {
       "id": "message-b-1",
       "companyId": "company-b",
-      "conversationKey": "mock://findy::会社b",
+      "conversationKey": "bizreach:443477610",
       "senderType": "company",
       "senderName": "人事b",
       "datetime": "2026-09-18T11:00:00+09:00",
@@ -103,7 +103,7 @@
     {
       "id": "message-b-2",
       "companyId": "company-b",
-      "conversationKey": "mock://findy::会社b",
+      "conversationKey": "bizreach:443477610",
       "senderType": "user",
       "senderName": "応募者",
       "datetime": "2026-09-18T11:10:00+09:00",
@@ -163,7 +163,7 @@
     {
       "id": "analysis-b",
       "companyId": "company-b",
-      "conversationKey": "mock://findy::会社b",
+      "conversationKey": "bizreach:443477610",
       "createdAt": "2026-09-18T13:10:00.000Z",
       "result": {
         "companyName": "会社b",
@@ -225,6 +225,7 @@
       "method": "オンライン",
       "location": "https://meet.example.com/company-a",
       "notes": "履歴書と職務経歴書を事前に準備",
+      "platform": "Findy",
       "sourceAnalysisId": "analysis-a",
       "createdAt": "2026-09-18T14:20:00.000Z"
     },
@@ -239,6 +240,7 @@
       "method": "Google Meet",
       "location": "https://meet.example.com/company-b",
       "notes": "服装自由",
+      "platform": "BizReach",
       "sourceAnalysisId": "analysis-b",
       "createdAt": "2026-09-18T13:10:00.000Z"
     },
@@ -253,6 +255,7 @@
       "method": "Microsoft Teams",
       "location": "https://meet.example.com/company-c",
       "notes": "開発経験について質問予定",
+      "platform": "Findy",
       "sourceAnalysisId": "analysis-c",
       "createdAt": "2026-09-18T12:00:00.000Z"
     }

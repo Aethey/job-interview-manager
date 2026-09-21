@@ -17,7 +17,7 @@ const TRANSLATIONS = {
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
     saveSettings: "保存设置", data: "数据", importData: "导入数据", exportData: "导出数据", clearData: "清空本地数据",
     dataFooter: "API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。",
-    unreadable: "当前页面不可读取", openFindy: "请打开 Findy 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
+    unreadable: "当前页面不可读取", openFindy: "请打开 Findy 或 BizReach 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
     updatedAt: "更新于 {time}", noConfirmed: "当前没有已确定的面试", noConfirmedDesc: "对话中没有明确确认的面试时间。",
     contact: "联系人", method: "方式", location: "地点 / 链接", notes: "备注", rationale: "判断",
     scheduleCount: "{count} 项", confirmed: "已确定", edit: "编辑", delete: "删除",
@@ -25,7 +25,7 @@ const TRANSLATIONS = {
     interview: "面试", reading: "正在读取当前对话……", noMessages: "当前对话没有可分析的消息。",
     missingAi: "请到设置中填写 API URL、API Key 和模型后再次分析。", reanalyzing: "上次报告晚于最新消息，正在重新分析完整对话……",
     analyzingFull: "正在分析当前完整对话（{count} 条消息）……", analyzeDone: "分析完成。", copyDone: "原始对话已复制到剪贴板。",
-    unsupported: "当前页面暂不支持。请打开 Findy 的对话页面。", ready: "当前会话已准备好，可以开始分析。",
+    unsupported: "当前页面暂不支持。请打开 Findy 或 BizReach 的对话页面。", ready: "当前会话已准备好，可以开始分析。",
     aiFieldsRequired: "请填写 API URL、API Key 和模型名称。", testingConnection: "正在测试连接……", connectionOk: "连接成功。", connectionFailed: "连接失败：{error}", permissionDenied: "未授予该 API 地址的访问权限。", aiSaved: "AI 设置已保存。", settingsSaved: "设置已保存到本地。",
     clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
     importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。"
@@ -43,7 +43,7 @@ const TRANSLATIONS = {
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
     saveSettings: "Save settings", data: "Data", importData: "Import data", exportData: "Export data", clearData: "Clear local data",
     dataFooter: "The API key, messages, analysis results, and interview schedule are stored locally in this browser extension.",
-    unreadable: "This page cannot be read", openFindy: "Open a Findy conversation and reopen the extension.", messageCount: "{count} messages",
+    unreadable: "This page cannot be read", openFindy: "Open a Findy or BizReach conversation and reopen the extension.", messageCount: "{count} messages",
     updatedAt: "Updated {time}", noConfirmed: "No confirmed interview", noConfirmedDesc: "The conversation does not contain a clearly confirmed interview time.",
     contact: "Contact", method: "Method", location: "Location / link", notes: "Notes", rationale: "Reason",
     scheduleCount: "{count} items", confirmed: "Confirmed", edit: "Edit", delete: "Delete",
@@ -51,7 +51,7 @@ const TRANSLATIONS = {
     interview: "Interview", reading: "Reading the current conversation…", noMessages: "There are no messages to analyze.",
     missingAi: "Set the API URL, API key, and model in Settings, then analyze again.", reanalyzing: "The previous report is newer than the latest message. Reanalyzing the full conversation…",
     analyzingFull: "Analyzing the full conversation ({count} messages)…", analyzeDone: "Analysis complete.", copyDone: "Conversation copied to the clipboard.",
-    unsupported: "This page is not supported. Open a Findy conversation.", ready: "The current conversation is ready to analyze.",
+    unsupported: "This page is not supported. Open a Findy or BizReach conversation.", ready: "The current conversation is ready to analyze.",
     aiFieldsRequired: "Enter the API URL, API key, and model.", testingConnection: "Testing connection…", connectionOk: "Connection successful.", connectionFailed: "Connection failed: {error}", permissionDenied: "Access to this API address was not granted.", aiSaved: "AI settings saved.", settingsSaved: "Settings saved locally.",
     clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
     importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported."
@@ -69,7 +69,7 @@ const TRANSLATIONS = {
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
     saveSettings: "設定を保存", data: "データ", importData: "データを読み込む", exportData: "データを書き出す", clearData: "ローカルデータを消去",
     dataFooter: "API キー、メッセージ、分析結果、面談日程は、このブラウザ拡張機能のローカルストレージに保存されます。",
-    unreadable: "現在のページを読み取れません", openFindy: "Findy の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
+    unreadable: "現在のページを読み取れません", openFindy: "Findy または BizReach の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
     updatedAt: "更新：{time}", noConfirmed: "確定済みの面談はありません", noConfirmedDesc: "会話内に明確に確定した面談日時がありません。",
     contact: "担当者", method: "実施方法", location: "場所 / リンク", notes: "備考", rationale: "判断根拠",
     scheduleCount: "{count} 件", confirmed: "確定", edit: "編集", delete: "削除",
@@ -77,7 +77,7 @@ const TRANSLATIONS = {
     interview: "面談", reading: "現在の会話を読み込んでいます…", noMessages: "分析できるメッセージがありません。",
     missingAi: "設定で API URL、API キー、モデルを入力してから、もう一度分析してください。", reanalyzing: "前回のレポートが最新メッセージより新しいため、会話全文を再分析しています…",
     analyzingFull: "現在の会話全文（{count} 件）を分析しています…", analyzeDone: "分析が完了しました。", copyDone: "元の会話をクリップボードにコピーしました。",
-    unsupported: "このページは未対応です。Findy の会話ページを開いてください。", ready: "現在の会話を分析できます。",
+    unsupported: "このページは未対応です。Findy または BizReach の会話ページを開いてください。", ready: "現在の会話を分析できます。",
     aiFieldsRequired: "API URL、API キー、モデル名を入力してください。", testingConnection: "接続をテストしています…", connectionOk: "接続に成功しました。", connectionFailed: "接続に失敗しました：{error}", permissionDenied: "この API アドレスへのアクセスが許可されませんでした。", aiSaved: "AI 設定を保存しました。", settingsSaved: "設定をローカルに保存しました。",
     clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
     importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。"
@@ -477,17 +477,123 @@ async function getCurrentTab() {
   return tab;
 }
 
-async function extractFindySnapshot(tabId) {
+function parseConversationPageUrl(value) {
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.toLowerCase();
+    if (hostname === "findy-code.io" || hostname.endsWith(".findy-code.io")) {
+      return { platform: "Findy", conversationId: "" };
+    }
+
+    const bizReachMatch = url.pathname.match(/^\/messages\/([^/]+)\/?$/);
+    if ((hostname === "bizreach.jp" || hostname.endsWith(".bizreach.jp")) && bizReachMatch) {
+      return { platform: "BizReach", conversationId: decodeURIComponent(bizReachMatch[1]) };
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function isSupportedConversationUrl(value) {
+  return Boolean(parseConversationPageUrl(value));
+}
+
+function platformLogoMarkup(platform) {
+  const isBizReach = String(platform || "").toLowerCase() === "bizreach";
+  const key = isBizReach ? "bizreach" : "findy";
+  const label = isBizReach ? "BizReach" : "Findy";
+  const initial = isBizReach ? "B" : "F";
+  return `<span class="platform-mark ${key}" aria-label="${label}"><span class="platform-logo" aria-hidden="true">${initial}</span><span class="platform-label">${label}</span></span>`;
+}
+
+async function extractConversationSnapshot(tabId) {
   const results = await chrome.scripting.executeScript({
     target: { tabId },
     func: () => {
+      const currentUrl = new URL(location.href);
+      const hostname = currentUrl.hostname.toLowerCase();
+      const clean = value => (value || "").replace(/\s+/g, " ").trim();
+      const isVisible = element => {
+        const style = getComputedStyle(element);
+        return element.getClientRects().length > 0 &&
+          style.display !== "none" &&
+          style.visibility !== "hidden";
+      };
+      const bizReachMatch = currentUrl.pathname.match(/^\/messages\/([^/]+)\/?$/);
+
+      if ((hostname === "bizreach.jp" || hostname.endsWith(".bizreach.jp")) && bizReachMatch) {
+        const conversationId = decodeURIComponent(bizReachMatch[1]);
+        const header = document.querySelector('header[class*="MessageHeaderContainer"]') ||
+          document.querySelector('header[class*="MessageHeader"]');
+        const companyLink = header?.querySelector('a[href^="/company/view/"], a[href*="bizreach.jp/company/view/"]');
+        const companyName = clean(companyLink?.querySelector("p")?.innerText || companyLink?.innerText);
+        const headerTexts = header
+          ? [...header.querySelectorAll("p")].map(element => clean(element.innerText)).filter(Boolean)
+          : [];
+        const contactName = headerTexts.find(value => value !== companyName) || "";
+        const messageSelector = [
+          'p[class*="Text-module"][class*="size-sm"][class*="line-height-body"][class*="color-inverse"]',
+          'p[class*="Text-module"][class*="size-sm"][class*="line-height-body"][class*="color-high-emphasis"]'
+        ].join(", ");
+        const seenMessages = new Set();
+        const messages = [...document.querySelectorAll(messageSelector)]
+          .filter(element => {
+            if (!clean(element.innerText) || !isVisible(element)) return false;
+            if (element.closest("header, nav, aside, footer, button, form")) return false;
+            if (!header) return Boolean(element.closest('[class*="Message"], [class*="message"]'));
+            return Boolean(header.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING);
+          })
+          .map((textElement, index) => {
+            const classText = String(textElement.className || "");
+            const senderType = classText.includes("color-inverse") ? "me" : "company";
+            const text = textElement.innerText.trim();
+            let scope = textElement.parentElement;
+            let timeElement = null;
+            let depth = 0;
+            while (scope && scope !== document.body && depth < 8 && !timeElement) {
+              if (scope.querySelectorAll?.(messageSelector).length > 1) break;
+              timeElement = scope.querySelector?.("time[datetime], time") || null;
+              scope = scope.parentElement;
+              depth += 1;
+            }
+            const datetime = timeElement?.getAttribute("datetime") || clean(timeElement?.innerText) || null;
+            const messageKey = [datetime || "", senderType, text].join("\u241f");
+            if (seenMessages.has(messageKey)) return null;
+            seenMessages.add(messageKey);
+            return {
+              sourceIndex: index + 1,
+              senderType,
+              senderName: senderType === "company" ? contactName || null : null,
+              text,
+              datetime
+            };
+          })
+          .filter(Boolean);
+        const conversationKey = `bizreach:${conversationId}`;
+
+        return {
+          source: "BizReach",
+          platform: "BizReach",
+          conversationId,
+          url: location.href,
+          baseConversationKey: conversationKey,
+          conversationKey,
+          companyName,
+          contactName,
+          messages
+        };
+      }
+
+      if (!(hostname === "findy-code.io" || hostname.endsWith(".findy-code.io"))) {
+        return null;
+      }
+
       const messageTextSelector = '[class*="__messageText"]';
       const textElements = [...document.querySelectorAll(messageTextSelector)].filter(element => {
-        const style = getComputedStyle(element);
         return element.innerText.trim() &&
-          element.getClientRects().length > 0 &&
-          style.display !== "none" &&
-          style.visibility !== "hidden" &&
+          isVisible(element) &&
           !element.querySelector(messageTextSelector) &&
           !element.closest("a[href]");
       });
@@ -498,9 +604,6 @@ async function extractFindySnapshot(tabId) {
         '[class*="__company"] h1',
         '[class*="__enterprise"] h1'
       ];
-      const currentUrl = new URL(location.href);
-
-      const clean = value => (value || "").replace(/\s+/g, " ").trim();
       const isUsefulCompanyName = value => {
         if (!value || value.length > 80) return false;
         return !/^(findy|message|messages|メッセージ|ホーム|検索|通知|設定|プロフィール|求人|スカウト)$/i.test(value);
@@ -620,9 +723,15 @@ async function extractFindySnapshot(tabId) {
 }
 
 function normalizeSnapshot(snapshot, companyNameOverride = "") {
+  if (!snapshot) {
+    throw new Error("无法读取当前会话。");
+  }
   const companyName = companyNameOverride.trim() || snapshot.companyName || "未命名公司";
-  const baseConversationKey = snapshot.baseConversationKey || snapshot.conversationKey.split("::")[0];
-  const conversationKey = `${baseConversationKey}::${companyName}`;
+  const platformKey = String(snapshot.platform || snapshot.source || "").toLowerCase();
+  const baseConversationKey = snapshot.baseConversationKey || snapshot.conversationKey?.split("::")[0] || snapshot.url;
+  const conversationKey = snapshot.conversationId
+    ? `${platformKey}:${snapshot.conversationId}`
+    : `${baseConversationKey}::${companyName}`;
   const seenMessages = new Set();
   const messages = [];
 
@@ -637,7 +746,7 @@ function normalizeSnapshot(snapshot, companyNameOverride = "") {
     seenMessages.add(messageKey);
     messages.push({
       ...message,
-      id: `msg_${hashString([snapshot.conversationKey, messageKey].join("\u241f"))}`
+      id: `msg_${hashString([conversationKey, messageKey].join("\u241f"))}`
     });
   }
 
@@ -666,7 +775,7 @@ function upsertCompany(snapshot) {
       source: snapshot.source,
       conversationKey: snapshot.conversationKey,
       name: snapshot.companyName,
-      contactName: "",
+      contactName: snapshot.contactName || "",
       stage: "待分析",
       status: "unknown",
       nextAction: "等待分析",
@@ -674,8 +783,12 @@ function upsertCompany(snapshot) {
       lastUpdatedAt: new Date().toISOString()
     };
     state.companies.push(company);
-  } else if (snapshot.companyName && snapshot.companyName !== "未命名公司") {
-    company.name = snapshot.companyName;
+  } else {
+    if (snapshot.companyName && snapshot.companyName !== "未命名公司") {
+      company.name = snapshot.companyName;
+    }
+    if (snapshot.contactName) company.contactName = snapshot.contactName;
+    if (snapshot.source) company.source = snapshot.source;
   }
 
   currentCompanyId = company.id;
@@ -833,6 +946,7 @@ function analysisPrompt(snapshot) {
       "只有企业明确确认了具体面试日期和时间，hasConfirmedInterview 才能为 true。候选时间、询问可用时间、尚未确认的提议都不是已确定面试。",
       "如果存在多次已确定面试，只返回对话中时间最新的一次。",
       "如果对方正在询问候选人的可用时间或要求提供多个候选面谈时间，并且尚未确定具体时间，则 analysisType 为 candidate_time_request，candidateTimeRequest.requested 为 true。",
+      "如果对方提供 Timerex、Calendly 等预约链接，要求候选人自行登记或选择可用时间，但对话中尚未明确具体日期和时间，也必须判定为 candidate_time_request，而不是已确定面试。",
       "startAt 和 endAt 使用包含时区的 ISO 8601 日期时间；对话未明确结束时间时 endAt 返回空字符串。",
       "summary、title、method、location、notes 使用中文。专有名称保持原文。没有已确定面试时，latestConfirmedInterview 的所有字符串字段返回空字符串。",
       "只返回符合下面 JSON Schema 的 JSON object，不要输出 Markdown 或额外说明。"
@@ -843,6 +957,7 @@ function analysisPrompt(snapshot) {
       "Set hasConfirmedInterview to true only when the company has explicitly confirmed a specific interview date and time. Proposed times, availability questions, and unconfirmed suggestions are not confirmed interviews.",
       "If multiple interviews were confirmed, return only the chronologically latest one.",
       "If the company is asking for the candidate's availability or multiple proposed interview times and no exact time is confirmed, set analysisType to candidate_time_request and candidateTimeRequest.requested to true.",
+      "If the company provides a scheduling link such as Timerex or Calendly and asks the candidate to register or choose an available time, treat it as candidate_time_request unless a specific date and time are explicitly confirmed in the conversation.",
       "Use ISO 8601 with a time zone for startAt and endAt. Return an empty endAt when the conversation does not specify an end time.",
       "Write summary, title, method, location, and notes in English. Keep proper nouns in their original form. If no interview is confirmed, return empty strings for every field in latestConfirmedInterview.",
       "Return only a JSON object matching the JSON Schema below. Do not return Markdown or additional commentary."
@@ -853,6 +968,7 @@ function analysisPrompt(snapshot) {
       "企業側が具体的な面談日時を明確に確定した場合に限り、hasConfirmedInterview を true にしてください。候補日時、都合の確認、未確定の提案は確定面談ではありません。",
       "確定した面談が複数ある場合は、日時が最も新しいものだけを返してください。",
       "企業側が候補者の空き時間や複数の面談候補日時の提示を求めており、具体的な日時が未確定の場合、analysisType を candidate_time_request、candidateTimeRequest.requested を true にしてください。",
+      "Timerex、Calendly などの予約リンクから候補者自身に空き時間の登録・選択を求めているだけで、会話内に具体的な日時の確定がない場合も、確定面談ではなく candidate_time_request と判定してください。",
       "startAt と endAt はタイムゾーンを含む ISO 8601 形式にしてください。終了時刻が明示されていない場合、endAt は空文字列にしてください。",
       "summary、title、method、location、notes は日本語で記述してください。固有名詞は原文のまま保持してください。確定面談がない場合、latestConfirmedInterview 内のすべての文字列フィールドを空文字列にしてください。",
       "以下の JSON Schema に一致する JSON object だけを返し、Markdown や追加説明は出力しないでください。"
@@ -1348,12 +1464,15 @@ function renderLatestInterview(analysis) {
 }
 
 function renderAnalyze() {
+  const sourcePlatform = document.getElementById("sourcePlatform");
   const sourceName = document.getElementById("sourceName");
   const sourceInfo = document.getElementById("sourceInfo");
   const analyzeButton = document.getElementById("analyzeButton");
   const copyRawButton = document.getElementById("copyRawButton");
 
   if (!currentSnapshot) {
+    sourcePlatform.innerHTML = "";
+    sourcePlatform.classList.add("hidden");
     sourceName.textContent = t("unreadable");
     sourceInfo.textContent = t("openFindy");
     analyzeButton.disabled = true;
@@ -1362,6 +1481,8 @@ function renderAnalyze() {
     return;
   }
 
+  sourcePlatform.innerHTML = platformLogoMarkup(currentSnapshot.platform || currentSnapshot.source);
+  sourcePlatform.classList.remove("hidden");
   sourceName.textContent = currentSnapshot.companyName || "未识别公司";
   sourceInfo.textContent = t("messageCount", { count: currentSnapshot.messages.length });
   analyzeButton.disabled = currentSnapshot.messages.length === 0;
@@ -1417,6 +1538,7 @@ function renderSchedule() {
     const method = item.method || savedInterview.method || "";
     const location = item.location || savedInterview.location || "";
     const notes = item.notes || savedInterview.notes || "";
+    const platform = item.platform || company?.source || "Findy";
     const startTime = new Date(item.startAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" });
     const endTime = item.endAt && item.endAt !== item.startAt
       ? new Date(item.endAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" })
@@ -1436,7 +1558,10 @@ function renderSchedule() {
         <div class="schedule-item-body">
           <div class="schedule-summary">
             <div class="schedule-company-row">
-              <div class="schedule-company">${escapeHtml(company?.name || "未命名公司")}</div>
+              <div class="schedule-company-main">
+                ${platformLogoMarkup(platform)}
+                <div class="schedule-company">${escapeHtml(company?.name || "未命名公司")}</div>
+              </div>
               <span class="badge success">${escapeHtml(t("confirmed"))}</span>
             </div>
             <div class="schedule-title">${escapeHtml(item.title)}</div>
@@ -1556,14 +1681,14 @@ async function analyzeCurrentConversation() {
 
   const tab = await getCurrentTab();
 
-  if (!tab?.id || !tab.url?.includes("findy-code.io")) {
-    throw new Error("当前页面不是受支持的 Findy 对话页面。");
+  if (!tab?.id || !isSupportedConversationUrl(tab.url)) {
+    throw new Error("当前页面不是受支持的 Findy 或 BizReach 对话页面。");
   }
 
   button.disabled = true;
   setStatus(status, t("reading"));
 
-  const rawSnapshot = await extractFindySnapshot(tab.id);
+  const rawSnapshot = await extractConversationSnapshot(tab.id);
   currentSnapshot = normalizeSnapshot(rawSnapshot);
   if (currentSnapshot.messages.length === 0) {
     setStatus(status, t("noMessages"), "warning");
@@ -1641,7 +1766,7 @@ async function detectCurrentPage() {
     const tab = await getCurrentTab();
     if (revision !== pageDetectionRevision) return;
 
-    if (!tab?.id || !tab.url?.includes("findy-code.io")) {
+    if (!tab?.id || !isSupportedConversationUrl(tab.url)) {
       currentSnapshot = null;
       currentCompanyId = null;
       renderAll();
@@ -1649,7 +1774,7 @@ async function detectCurrentPage() {
       return;
     }
 
-    const nextSnapshot = normalizeSnapshot(await extractFindySnapshot(tab.id));
+    const nextSnapshot = normalizeSnapshot(await extractConversationSnapshot(tab.id));
     if (revision !== pageDetectionRevision) return;
 
     currentSnapshot = nextSnapshot;
@@ -1915,6 +2040,8 @@ if (typeof module !== "undefined") {
     loadMockPreview,
     normalizeImportedState,
     normalizeSnapshotForAnalysis,
+    parseConversationPageUrl,
+    platformLogoMarkup,
     readJsonResponse,
     resolveAiRequestConfig,
     testAiConnection

@@ -131,7 +131,34 @@
     }
 
     .source-row { margin-bottom: 12px; }
+    .source-identity { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .source-identity > div { min-width: 0; }
     .source-name { font-size: 14px; font-weight: 700; }
+
+    .platform-mark {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      gap: 5px;
+      color: #52627a;
+      font-size: 9px;
+      font-weight: 780;
+      line-height: 1;
+    }
+    .platform-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 2px 6px rgba(23, 36, 58, 0.16);
+    }
+    .platform-mark.findy .platform-logo { background: #276ef1; color: #fff; }
+    .platform-mark.bizreach .platform-logo { background: #111; color: #fff; }
 
     .badge {
       display: inline-flex;
@@ -488,6 +515,8 @@
       box-shadow: 0 3px 9px rgba(36, 62, 103, 0.055);
     }
     .schedule-company-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .schedule-company-main { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .schedule-company-main .platform-label { display: none; }
     .schedule-company { min-width: 0; color: #17243a; font-size: 14px; font-weight: 820; letter-spacing: -0.01em; }
     .schedule-title {
       display: inline-flex;
@@ -564,9 +593,12 @@
     <section id="view-analyze" class="view active">
       <div class="card">
         <div class="source-row">
-          <div>
-            <div id="sourceName" class="source-name">正在读取当前页面</div>
-            <div id="sourceInfo" class="muted small">请保持招聘网站对话页面处于当前标签页</div>
+          <div class="source-identity">
+            <span id="sourcePlatform" class="hidden"></span>
+            <div>
+              <div id="sourceName" class="source-name">正在读取当前页面</div>
+              <div id="sourceInfo" class="muted small">请保持招聘网站对话页面处于当前标签页</div>
+            </div>
           </div>
         </div>
 

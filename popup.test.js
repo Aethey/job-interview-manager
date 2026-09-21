@@ -10,6 +10,8 @@ const {
   fetchJapaneseHolidayDates,
   normalizeImportedState,
   normalizeSnapshotForAnalysis,
+  parseConversationPageUrl,
+  platformLogoMarkup,
   readJsonResponse,
   resolveAiRequestConfig,
   testAiConnection
@@ -128,6 +130,28 @@ test("a company name explicitly edited by the user remains an override", () => {
   const result = normalizeSnapshotForAnalysis(snapshot("识别结果"), "手动修正公司", true);
 
   assert.equal(result.companyName, "手动修正公司");
+});
+
+test("BizReach message URL uses its session ID as the stable conversation key", () => {
+  const page = parseConversationPageUrl("https://www.bizreach.jp/messages/443477610/");
+  const result = normalizeSnapshotForAnalysis({
+    source: "BizReach",
+    platform: "BizReach",
+    conversationId: page.conversationId,
+    url: "https://www.bizreach.jp/messages/443477610/",
+    baseConversationKey: "bizreach:443477610",
+    conversationKey: "bizreach:443477610",
+    companyName: "株式会社SparkPlus",
+    messages: []
+  }, "", false);
+
+  assert.deepEqual(page, { platform: "BizReach", conversationId: "443477610" });
+  assert.equal(result.conversationKey, "bizreach:443477610");
+});
+
+test("platform marks use Findy and BizReach visual variants", () => {
+  assert.match(platformLogoMarkup("Findy"), /platform-mark findy/);
+  assert.match(platformLogoMarkup("BizReach"), /platform-mark bizreach/);
 });
 
 test("an OpenAI-compatible v1 base URL resolves to the chat completions endpoint", () => {
