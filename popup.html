@@ -338,7 +338,8 @@
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .interview-title { font-size: 14px; font-weight: 750; }
+    .interview-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .interview-title { min-width: 0; font-size: 14px; font-weight: 750; }
     .interview-time { margin-top: 8px; color: var(--primary); font-size: 15px; font-weight: 750; }
     .interview-detail { margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.55; }
     .availability-header {
@@ -617,7 +618,7 @@
           <span data-i18n="analyzingConversation">正在分析当前对话…</span>
         </div>
         <div id="analysisResult">
-          <div class="empty" data-i18n="analysisEmpty">分析后显示最新确定的面试信息。</div>
+          <div class="empty" data-i18n="analysisEmpty">分析后显示已确定、暂定的面试或候选时间请求。</div>
         </div>
       </div>
     </section>
@@ -625,7 +626,7 @@
     <section id="view-schedule" class="view">
       <div class="card">
         <div class="card-title"><span data-i18n="scheduleTitle">面试日程</span><span id="scheduleCount" class="muted small"></span></div>
-        <div id="scheduleList"><div class="empty" data-i18n="scheduleEmpty">还没有已确定的面试。</div></div>
+        <div id="scheduleList"><div class="empty" data-i18n="scheduleEmpty">还没有确定或暂定的面试。</div></div>
       </div>
       <div id="scheduleEditorCard" class="card hidden">
         <div class="card-title"><span data-i18n="editSchedule">编辑时间安排</span><button id="cancelScheduleEdit" class="secondary-button" data-i18n="cancel">取消</button></div>

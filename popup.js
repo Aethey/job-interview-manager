@@ -10,8 +10,8 @@ const TRANSLATIONS = {
     appTitle: "转职面谈管理", appSubtitle: "少整理一点，把注意力留给沟通",
     analyzeTab: "分析", scheduleTab: "面试日程", settingsTab: "设置",
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
-    latestInterview: "最新确定的面试", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示最新确定的面试或候选时间请求。",
-    scheduleTitle: "面试日程", scheduleEmpty: "还没有已确定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
+    latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
+    scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
     title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言",
     protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
@@ -20,7 +20,7 @@ const TRANSLATIONS = {
     unreadable: "当前页面不可读取", openFindy: "请打开 Findy 或 BizReach 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
     updatedAt: "更新于 {time}", noConfirmed: "当前没有已确定的面试", noConfirmedDesc: "对话中没有明确确认的面试时间。",
     contact: "联系人", method: "方式", location: "地点 / 链接", notes: "备注", rationale: "判断",
-    scheduleCount: "{count} 项", confirmed: "已确定", edit: "编辑", delete: "删除",
+    scheduleCount: "{count} 项", confirmed: "已确定", tentative: "仮予定", edit: "编辑", delete: "删除",
     dataSummary: "{messages} 条消息 · {analyses} 条分析 · {schedules} 项面试日程",
     interview: "面试", reading: "正在读取当前对话……", noMessages: "当前对话没有可分析的消息。",
     missingAi: "请到设置中填写 API URL、API Key 和模型后再次分析。", reanalyzing: "上次报告晚于最新消息，正在重新分析完整对话……",
@@ -36,8 +36,8 @@ const TRANSLATIONS = {
     appTitle: "Interview Manager", appSubtitle: "Spend less time organizing and more time communicating",
     analyzeTab: "Analyze", scheduleTab: "Interviews", settingsTab: "Settings",
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
-    latestInterview: "Latest confirmed interview", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed interview or request for candidate times will appear here.",
-    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
+    latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
+    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
     title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language",
     protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
@@ -46,7 +46,7 @@ const TRANSLATIONS = {
     unreadable: "This page cannot be read", openFindy: "Open a Findy or BizReach conversation and reopen the extension.", messageCount: "{count} messages",
     updatedAt: "Updated {time}", noConfirmed: "No confirmed interview", noConfirmedDesc: "The conversation does not contain a clearly confirmed interview time.",
     contact: "Contact", method: "Method", location: "Location / link", notes: "Notes", rationale: "Reason",
-    scheduleCount: "{count} items", confirmed: "Confirmed", edit: "Edit", delete: "Delete",
+    scheduleCount: "{count} items", confirmed: "Confirmed", tentative: "Tentative", edit: "Edit", delete: "Delete",
     dataSummary: "{messages} messages · {analyses} analyses · {schedules} interviews",
     interview: "Interview", reading: "Reading the current conversation…", noMessages: "There are no messages to analyze.",
     missingAi: "Set the API URL, API key, and model in Settings, then analyze again.", reanalyzing: "The previous report is newer than the latest message. Reanalyzing the full conversation…",
@@ -62,8 +62,8 @@ const TRANSLATIONS = {
     appTitle: "転職面談管理", appSubtitle: "整理の手間を減らし、連絡に集中",
     analyzeTab: "分析", scheduleTab: "面談日程", settingsTab: "設定",
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
-    latestInterview: "最新の確定面談", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定面談または候補日時の提示依頼を表示します。",
-    scheduleTitle: "面談日程", scheduleEmpty: "確定済みの面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
+    latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
+    scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
     title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語",
     protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
@@ -72,7 +72,7 @@ const TRANSLATIONS = {
     unreadable: "現在のページを読み取れません", openFindy: "Findy または BizReach の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
     updatedAt: "更新：{time}", noConfirmed: "確定済みの面談はありません", noConfirmedDesc: "会話内に明確に確定した面談日時がありません。",
     contact: "担当者", method: "実施方法", location: "場所 / リンク", notes: "備考", rationale: "判断根拠",
-    scheduleCount: "{count} 件", confirmed: "確定", edit: "編集", delete: "削除",
+    scheduleCount: "{count} 件", confirmed: "確定", tentative: "仮予定", edit: "編集", delete: "削除",
     dataSummary: "メッセージ {messages} 件 · 分析 {analyses} 件 · 面談日程 {schedules} 件",
     interview: "面談", reading: "現在の会話を読み込んでいます…", noMessages: "分析できるメッセージがありません。",
     missingAi: "設定で API URL、API キー、モデルを入力してから、もう一度分析してください。", reanalyzing: "前回のレポートが最新メッセージより新しいため、会話全文を再分析しています…",
@@ -140,9 +140,24 @@ const ANALYSIS_SCHEMA = {
     companyName: { type: "string" },
     contactName: { type: "string" },
     summary: { type: "string" },
-    analysisType: { type: "string", enum: ["confirmed_interview", "candidate_time_request", "none"] },
+    analysisType: { type: "string", enum: ["confirmed_interview", "tentative_interview", "candidate_time_request", "none"] },
     hasConfirmedInterview: { type: "boolean" },
+    hasTentativeInterview: { type: "boolean" },
     latestConfirmedInterview: {
+      type: "object",
+      properties: {
+        title: { type: "string" },
+        startAt: { type: "string" },
+        endAt: { type: "string" },
+        contactName: { type: "string" },
+        method: { type: "string" },
+        location: { type: "string" },
+        notes: { type: "string" }
+      },
+      required: ["title", "startAt", "endAt", "contactName", "method", "location", "notes"],
+      additionalProperties: false
+    },
+    latestTentativeInterview: {
       type: "object",
       properties: {
         title: { type: "string" },
@@ -172,7 +187,9 @@ const ANALYSIS_SCHEMA = {
     "summary",
     "analysisType",
     "hasConfirmedInterview",
+    "hasTentativeInterview",
     "latestConfirmedInterview",
+    "latestTentativeInterview",
     "candidateTimeRequest"
   ],
   additionalProperties: false
@@ -876,54 +893,99 @@ function normalizeAnalysisResult(result, snapshot) {
     throw new Error("AI 分析结果缺少内容摘要。");
   }
 
-  const interview = result.latestConfirmedInterview || {};
+  const confirmedInterview = result.latestConfirmedInterview || {};
+  const tentativeInterview = result.latestTentativeInterview || (
+    result.analysisType === "tentative_interview" ? confirmedInterview : {}
+  );
   const hasConfirmedInterview = result.hasConfirmedInterview === true;
+  const hasTentativeInterview = !hasConfirmedInterview && (
+    result.hasTentativeInterview === true || result.analysisType === "tentative_interview"
+  );
   const candidateTimeRequest = result.candidateTimeRequest || {};
-  const requestsCandidateTimes = !hasConfirmedInterview && (
+  const requestsCandidateTimes = !hasConfirmedInterview && !hasTentativeInterview && (
     result.analysisType === "candidate_time_request" || candidateTimeRequest.requested === true
   );
   const analysisType = hasConfirmedInterview
     ? "confirmed_interview"
-    : requestsCandidateTimes
-      ? "candidate_time_request"
-      : "none";
-  const startAt = String(interview.startAt || "").trim();
-  if (hasConfirmedInterview && !startAt) {
+    : hasTentativeInterview
+      ? "tentative_interview"
+      : requestsCandidateTimes
+        ? "candidate_time_request"
+        : "none";
+  const confirmedStartAt = String(confirmedInterview.startAt || "").trim();
+  const tentativeStartAt = String(tentativeInterview.startAt || "").trim();
+  if (hasConfirmedInterview && !confirmedStartAt) {
     throw new Error("AI 判断存在已确定面试，但没有返回面试时间。");
   }
+  if (hasTentativeInterview && !tentativeStartAt) {
+    throw new Error("AI 判断存在暂定面试，但没有返回候选人已选择的具体时间。");
+  }
 
-  const normalizedInterview = {
-    title: String(interview.title || "面试").trim() || "面试",
-    startAt,
+  const normalizeInterview = (interview, scheduled) => ({
+    title: scheduled ? String(interview.title || "面试").trim() || "面试" : "",
+    startAt: String(interview.startAt || "").trim(),
     endAt: String(interview.endAt || "").trim(),
     contactName: String(interview.contactName || result.contactName || "").trim(),
     method: String(interview.method || "").trim(),
     location: String(interview.location || "").trim(),
     notes: String(interview.notes || "").trim()
-  };
+  });
+  const normalizedConfirmedInterview = normalizeInterview(confirmedInterview, hasConfirmedInterview);
+  const normalizedTentativeInterview = normalizeInterview(tentativeInterview, hasTentativeInterview);
+  const scheduledInterview = hasConfirmedInterview
+    ? normalizedConfirmedInterview
+    : hasTentativeInterview
+      ? normalizedTentativeInterview
+      : null;
+  const scheduleStatus = hasConfirmedInterview ? "confirmed" : "tentative";
+  const stage = hasConfirmedInterview
+    ? "面试已确定"
+    : hasTentativeInterview
+      ? "面试暂定"
+      : requestsCandidateTimes
+        ? "待回复候选时间"
+        : "未发现面试安排";
+  const nextAction = hasConfirmedInterview
+    ? "准备最新确定的面试"
+    : hasTentativeInterview
+      ? "等待企业确认暂定时间"
+      : requestsCandidateTimes
+        ? "回复可用时间"
+        : "继续关注招聘沟通";
+  const eventTitle = hasConfirmedInterview
+    ? "最新确定的面试"
+    : hasTentativeInterview
+      ? "暂定面试"
+      : requestsCandidateTimes
+        ? "待回复候选时间"
+        : "未发现面试安排";
+
+  const scheduleItems = scheduledInterview ? [{
+    type: "interview",
+    title: scheduledInterview.title,
+    startAt: scheduledInterview.startAt,
+    endAt: scheduledInterview.endAt || scheduledInterview.startAt,
+    status: scheduleStatus,
+    contactName: scheduledInterview.contactName,
+    method: scheduledInterview.method,
+    location: scheduledInterview.location,
+    notes: scheduledInterview.notes
+  }] : [];
 
   return {
     companyName: String(result.companyName || snapshot.companyName).trim() || snapshot.companyName,
-    contactName: String(result.contactName || normalizedInterview.contactName || "").trim(),
+    contactName: String(
+      result.contactName || scheduledInterview?.contactName || ""
+    ).trim(),
     analysisType,
-    stage: hasConfirmedInterview ? "面试已确定" : requestsCandidateTimes ? "待回复候选时间" : "未发现已确定面试",
-    status: hasConfirmedInterview ? "confirmed" : "unknown",
-    nextAction: hasConfirmedInterview ? "准备最新确定的面试" : requestsCandidateTimes ? "回复可用时间" : "继续关注招聘沟通",
+    stage,
+    status: hasConfirmedInterview ? "confirmed" : hasTentativeInterview ? "waiting_company" : "unknown",
+    nextAction,
     needsUserAction: requestsCandidateTimes,
-    eventTitle: hasConfirmedInterview ? "最新确定的面试" : requestsCandidateTimes ? "待回复候选时间" : "未发现已确定面试",
+    eventTitle,
     eventDescription: summary,
     timeline: [],
-    scheduleItems: hasConfirmedInterview ? [{
-      type: "interview",
-      title: normalizedInterview.title,
-      startAt: normalizedInterview.startAt,
-      endAt: normalizedInterview.endAt || normalizedInterview.startAt,
-      status: "confirmed",
-      contactName: normalizedInterview.contactName,
-      method: normalizedInterview.method,
-      location: normalizedInterview.location,
-      notes: normalizedInterview.notes
-    }] : [],
+    scheduleItems,
     candidateRequest: {
       requested: requestsCandidateTimes,
       fromDate: "",
@@ -934,43 +996,54 @@ function normalizeAnalysisResult(result, snapshot) {
     },
     summary,
     hasConfirmedInterview,
-    latestConfirmedInterview: normalizedInterview
+    hasTentativeInterview,
+    latestConfirmedInterview: normalizedConfirmedInterview,
+    latestTentativeInterview: normalizedTentativeInterview
   };
 }
 
 function analysisPrompt(snapshot) {
   const instructions = {
     zh: [
-      "请分析下面完整的招聘对话，目标是帮助用户快速确认最新已经确定的面试安排。",
+      "请分析下面完整的招聘对话，目标是帮助用户整理已确定或需要为自己预留时间的面试安排。",
       "只根据对话中的明确内容判断，不要推测或编造日期、时间、联系人、方式、地点或链接。",
       "只有企业明确确认了具体面试日期和时间，hasConfirmedInterview 才能为 true。候选时间、询问可用时间、尚未确认的提议都不是已确定面试。",
+      "如果企业提供了一个或多个具体日期和时间，而候选人随后明确选择、接受或回复将参加其中一个具体时间，即使企业尚未再次回复，也设置 analysisType 为 tentative_interview、hasTentativeInterview 为 true，并把候选人选择的具体时间写入 latestTentativeInterview。这是候选人需要先为自己占用的仮予定。",
+      "候选人只表示时间灵活、只提供多个可用范围、尚未选择某个具体时间，不能判定为 tentative_interview。",
+      "如果企业后来明确确认该时间，confirmed_interview 优先于 tentative_interview。",
       "如果存在多次已确定面试，只返回对话中时间最新的一次。",
       "如果对方正在询问候选人的可用时间或要求提供多个候选面谈时间，并且尚未确定具体时间，则 analysisType 为 candidate_time_request，candidateTimeRequest.requested 为 true。",
       "如果对方提供 Timerex、Calendly 等预约链接，要求候选人自行登记或选择可用时间，但对话中尚未明确具体日期和时间，也必须判定为 candidate_time_request，而不是已确定面试。",
       "startAt 和 endAt 使用包含时区的 ISO 8601 日期时间；对话未明确结束时间时 endAt 返回空字符串。",
-      "summary、title、method、location、notes 使用中文。专有名称保持原文。没有已确定面试时，latestConfirmedInterview 的所有字符串字段返回空字符串。",
+      "summary、title、method、location、notes 使用中文。专有名称保持原文。没有已确定面试时，latestConfirmedInterview 的所有字符串字段返回空字符串；没有仮予定时，latestTentativeInterview 的所有字符串字段返回空字符串。",
       "只返回符合下面 JSON Schema 的 JSON object，不要输出 Markdown 或额外说明。"
     ],
     en: [
-      "Analyze the complete recruitment conversation below and identify the latest confirmed interview arrangement.",
+      "Analyze the complete recruitment conversation below and identify confirmed interviews as well as interview times the candidate needs to reserve tentatively.",
       "Use only explicit information from the conversation. Do not infer or invent dates, times, contacts, methods, locations, or links.",
       "Set hasConfirmedInterview to true only when the company has explicitly confirmed a specific interview date and time. Proposed times, availability questions, and unconfirmed suggestions are not confirmed interviews.",
+      "If the company offers one or more specific dates and times and the candidate then explicitly selects, accepts, or says they will attend one specific time, set analysisType to tentative_interview and hasTentativeInterview to true even if the company has not replied again. Put the selected time in latestTentativeInterview because the candidate needs to reserve it.",
+      "Do not classify flexible availability, multiple unselected ranges, or a reply that does not choose one specific time as tentative_interview.",
+      "If the company later explicitly confirms that time, confirmed_interview takes precedence over tentative_interview.",
       "If multiple interviews were confirmed, return only the chronologically latest one.",
       "If the company is asking for the candidate's availability or multiple proposed interview times and no exact time is confirmed, set analysisType to candidate_time_request and candidateTimeRequest.requested to true.",
       "If the company provides a scheduling link such as Timerex or Calendly and asks the candidate to register or choose an available time, treat it as candidate_time_request unless a specific date and time are explicitly confirmed in the conversation.",
       "Use ISO 8601 with a time zone for startAt and endAt. Return an empty endAt when the conversation does not specify an end time.",
-      "Write summary, title, method, location, and notes in English. Keep proper nouns in their original form. If no interview is confirmed, return empty strings for every field in latestConfirmedInterview.",
+      "Write summary, title, method, location, and notes in English. Keep proper nouns in their original form. Return empty strings in latestConfirmedInterview when there is no confirmed interview, and in latestTentativeInterview when there is no tentative interview.",
       "Return only a JSON object matching the JSON Schema below. Do not return Markdown or additional commentary."
     ],
     ja: [
-      "以下の採用に関する会話全文を分析し、直近で確定した面談予定を特定してください。",
+      "以下の採用に関する会話全文を分析し、確定した面談と、候補者が自分の予定として確保すべき面談日時を整理してください。",
       "会話内で明示されている情報だけを使用し、日付、時刻、担当者、実施方法、場所、リンクを推測・捏造しないでください。",
       "企業側が具体的な面談日時を明確に確定した場合に限り、hasConfirmedInterview を true にしてください。候補日時、都合の確認、未確定の提案は確定面談ではありません。",
+      "企業側が1つ以上の具体的な日時を提示し、その後に候補者がそのうち1つの具体的な日時を明確に選択・承諾・参加すると返信した場合、企業側から再返信がなくても analysisType を tentative_interview、hasTentativeInterview を true とし、選択した日時を latestTentativeInterview に入れてください。これは候補者側で時間を確保する仮予定です。",
+      "候補者が柔軟に調整できると述べただけの場合、複数の空き時間帯を提示しただけの場合、特定の1日時を選択していない場合は tentative_interview にしないでください。",
+      "企業側が後からその日時を明確に確定した場合は、tentative_interview より confirmed_interview を優先してください。",
       "確定した面談が複数ある場合は、日時が最も新しいものだけを返してください。",
       "企業側が候補者の空き時間や複数の面談候補日時の提示を求めており、具体的な日時が未確定の場合、analysisType を candidate_time_request、candidateTimeRequest.requested を true にしてください。",
       "Timerex、Calendly などの予約リンクから候補者自身に空き時間の登録・選択を求めているだけで、会話内に具体的な日時の確定がない場合も、確定面談ではなく candidate_time_request と判定してください。",
       "startAt と endAt はタイムゾーンを含む ISO 8601 形式にしてください。終了時刻が明示されていない場合、endAt は空文字列にしてください。",
-      "summary、title、method、location、notes は日本語で記述してください。固有名詞は原文のまま保持してください。確定面談がない場合、latestConfirmedInterview 内のすべての文字列フィールドを空文字列にしてください。",
+      "summary、title、method、location、notes は日本語で記述してください。固有名詞は原文のまま保持してください。確定面談がない場合は latestConfirmedInterview、仮予定がない場合は latestTentativeInterview のすべての文字列フィールドを空文字列にしてください。",
       "以下の JSON Schema に一致する JSON object だけを返し、Markdown や追加説明は出力しないでください。"
     ]
   }[currentLanguage()];
@@ -1085,6 +1158,29 @@ async function testAiConnection(ai, fetchImpl = fetch) {
   return { protocol: requestConfig.protocol, displayUrl: requestConfig.displayUrl };
 }
 
+function findScheduleItemForUpdate(scheduleItems, companyId, item) {
+  const targetTime = new Date(item.startAt).getTime();
+  const sameTypeItems = scheduleItems.filter(existing =>
+    existing.companyId === companyId &&
+    (existing.type || "interview") === (item.type || "interview")
+  );
+  const exact = sameTypeItems.find(existing => {
+    const existingTime = new Date(existing.startAt).getTime();
+    return Number.isFinite(targetTime) && Number.isFinite(existingTime)
+      ? existingTime === targetTime
+      : existing.startAt === item.startAt;
+  });
+  if (exact) return exact;
+
+  if (item.status === "confirmed" || item.status === "tentative") {
+    return [...sameTypeItems]
+      .filter(existing => existing.status === "tentative")
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))[0] || null;
+  }
+
+  return null;
+}
+
 async function requestAiAnalysis(snapshot) {
   const ai = state.settings.ai;
   if (!ai?.url || !ai.apiKey.trim() || !ai.model.trim()) {
@@ -1093,9 +1189,9 @@ async function requestAiAnalysis(snapshot) {
 
   const prompt = analysisPrompt(snapshot);
   const systemPrompt = {
-    zh: "你是招聘对话整理助手，只判断最新的已确定面试或对方是否要求候选面谈时间。所有说明文字使用中文。",
-    en: "You organize recruitment conversations. Identify either the latest confirmed interview or a request for candidate interview times. Write all descriptive text in English.",
-    ja: "あなたは採用メッセージ整理アシスタントです。最新の確定面談、または企業側からの面談候補日時の提示依頼を判定し、説明文はすべて日本語で記述してください。"
+    zh: "你是为候选人本人服务的招聘对话整理助手。识别已确定面试、候选人已经选择但企业尚未确认的仮予定，以及仍需候选人回复的时间请求。所有说明文字使用中文。",
+    en: "You organize recruitment conversations for the candidate. Identify confirmed interviews, tentative times explicitly selected by the candidate but not yet confirmed by the company, and requests still awaiting the candidate's reply. Write all descriptive text in English.",
+    ja: "あなたは候補者本人のための採用メッセージ整理アシスタントです。確定面談、候補者が選択済みで企業確認待ちの仮予定、候補者の返信待ちの日時提示依頼を判定し、説明文はすべて日本語で記述してください。"
   }[currentLanguage()];
   let response;
   const requestConfig = resolveAiRequestConfig(ai.url);
@@ -1193,20 +1289,20 @@ function addAnalysis(company, snapshot, allMessages, result) {
 
   for (const item of normalized.scheduleItems) {
     if (!item.startAt) continue;
-    const existing = state.scheduleItems.find(existing =>
-      existing.companyId === company.id &&
-      existing.startAt === item.startAt &&
-      existing.type === item.type
-    );
+    const existing = findScheduleItemForUpdate(state.scheduleItems, company.id, item);
     if (existing) {
       Object.assign(existing, {
         title: item.title,
+        startAt: item.startAt,
         endAt: item.endAt,
-        status: item.status,
+        status: existing.status === "confirmed" && item.status === "tentative"
+          ? "confirmed"
+          : item.status,
         contactName: item.contactName,
         method: item.method,
         location: item.location,
         notes: item.notes,
+        platform: snapshot.platform,
         sourceAnalysisId: analysis.id
       });
       continue;
@@ -1430,7 +1526,10 @@ function renderLatestInterview(analysis) {
 
   updatedElement.textContent = t("updatedAt", { time: formatDateTime(analysis.createdAt) });
   const result = analysis.result || {};
-  const interview = result.latestConfirmedInterview || {};
+  const isTentative = result.analysisType === "tentative_interview" || result.hasTentativeInterview === true;
+  const interview = isTentative
+    ? result.latestTentativeInterview || result.latestConfirmedInterview || {}
+    : result.latestConfirmedInterview || {};
 
   if (result.analysisType === "candidate_time_request" || result.candidateRequest?.requested) {
     resultElement.innerHTML = `
@@ -1441,7 +1540,7 @@ function renderLatestInterview(analysis) {
     return;
   }
 
-  if (!result.hasConfirmedInterview) {
+  if (!result.hasConfirmedInterview && !isTentative) {
     resultElement.innerHTML = `
       <div class="interview-title">${escapeHtml(t("noConfirmed"))}</div>
       <div class="interview-detail">${escapeHtml(result.summary || result.eventDescription || t("noConfirmedDesc"))}</div>
@@ -1451,7 +1550,10 @@ function renderLatestInterview(analysis) {
 
   const endText = interview.endAt ? ` ～ ${formatInterviewDateTime(interview.endAt)}` : "";
   resultElement.innerHTML = `
-    <div class="interview-title">${escapeHtml(interview.title || t("interview"))}</div>
+    <div class="interview-title-row">
+      <div class="interview-title">${escapeHtml(interview.title || t("interview"))}</div>
+      ${isTentative ? `<span class="badge warning">${escapeHtml(t("tentative"))}</span>` : ""}
+    </div>
     <div class="interview-time">${escapeHtml(formatInterviewDateTime(interview.startAt))}${escapeHtml(endText)}</div>
     <div class="interview-detail">
       ${interview.contactName ? `${escapeHtml(t("contact"))}：${escapeHtml(interview.contactName)}<br>` : ""}
@@ -1539,6 +1641,7 @@ function renderSchedule() {
     const location = item.location || savedInterview.location || "";
     const notes = item.notes || savedInterview.notes || "";
     const platform = item.platform || company?.source || "Findy";
+    const isTentative = item.status === "tentative";
     const startTime = new Date(item.startAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" });
     const endTime = item.endAt && item.endAt !== item.startAt
       ? new Date(item.endAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" })
@@ -1562,7 +1665,7 @@ function renderSchedule() {
                 ${platformLogoMarkup(platform)}
                 <div class="schedule-company">${escapeHtml(company?.name || "未命名公司")}</div>
               </div>
-              <span class="badge success">${escapeHtml(t("confirmed"))}</span>
+              <span class="badge ${isTentative ? "warning" : "success"}">${escapeHtml(t(isTentative ? "tentative" : "confirmed"))}</span>
             </div>
             <div class="schedule-title">${escapeHtml(item.title)}</div>
           </div>
@@ -2037,8 +2140,10 @@ if (typeof module !== "undefined") {
     createMockPreview,
     deleteAnalysisRecord,
     fetchJapaneseHolidayDates,
+    findScheduleItemForUpdate,
     loadMockPreview,
     normalizeImportedState,
+    normalizeAnalysisResult,
     normalizeSnapshotForAnalysis,
     parseConversationPageUrl,
     platformLogoMarkup,

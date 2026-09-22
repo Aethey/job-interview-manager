@@ -35,9 +35,9 @@
       "conversationKey": "bizreach:443477610",
       "name": "会社b",
       "contactName": "人事b",
-      "stage": "面談確定",
-      "status": "confirmed",
-      "nextAction": "カジュアル面談の準備",
+      "stage": "面談仮予定",
+      "status": "waiting_company",
+      "nextAction": "企業からの確定連絡を待つ",
       "needsUserAction": false,
       "lastUpdatedAt": "2026-09-18T13:10:00.000Z"
     },
@@ -98,7 +98,7 @@
       "senderType": "company",
       "senderName": "人事b",
       "datetime": "2026-09-18T11:00:00+09:00",
-      "text": "カジュアル面談を9月25日11時から実施します。"
+      "text": "カジュアル面談の候補は9月25日11時または9月26日14時です。"
     },
     {
       "id": "message-b-2",
@@ -107,7 +107,7 @@
       "senderType": "user",
       "senderName": "応募者",
       "datetime": "2026-09-18T11:10:00+09:00",
-      "text": "承知しました。"
+      "text": "9月25日11時を希望します。よろしくお願いいたします。"
     },
     {
       "id": "message-c-1",
@@ -168,22 +168,33 @@
       "result": {
         "companyName": "会社b",
         "contactName": "人事b",
-        "analysisType": "confirmed_interview",
-        "stage": "面談確定",
-        "status": "confirmed",
-        "nextAction": "カジュアル面談の準備",
+        "analysisType": "tentative_interview",
+        "stage": "面談仮予定",
+        "status": "waiting_company",
+        "nextAction": "企業からの確定連絡を待つ",
         "needsUserAction": false,
-        "summary": "会社bとのカジュアル面談が確定しています。",
-        "hasConfirmedInterview": true,
+        "summary": "会社bが提示した候補から9月25日11時を選択して返信済みで、企業からの確定連絡を待っています。",
+        "hasConfirmedInterview": false,
+        "hasTentativeInterview": true,
         "latestConfirmedInterview": {
+          "title": "",
+          "startAt": "",
+          "endAt": "",
+          "contactName": "",
+          "method": "",
+          "location": "",
+          "notes": ""
+        },
+        "latestTentativeInterview": {
           "title": "カジュアル面談",
           "startAt": "2026-09-25T11:00:00+09:00",
           "endAt": "2026-09-25T12:00:00+09:00",
           "contactName": "人事b",
           "method": "Google Meet",
           "location": "https://meet.example.com/company-b",
-          "notes": "服装自由"
-        }
+          "notes": "企業からの確定連絡待ち"
+        },
+        "candidateRequest": { "requested": false, "notes": "" }
       }
     },
     {
@@ -235,11 +246,11 @@
       "title": "カジュアル面談",
       "startAt": "2026-09-25T11:00:00+09:00",
       "endAt": "2026-09-25T12:00:00+09:00",
-      "status": "confirmed",
+      "status": "tentative",
       "contactName": "人事b",
       "method": "Google Meet",
       "location": "https://meet.example.com/company-b",
-      "notes": "服装自由",
+      "notes": "企業からの確定連絡待ち",
       "platform": "BizReach",
       "sourceAnalysisId": "analysis-b",
       "createdAt": "2026-09-18T13:10:00.000Z"

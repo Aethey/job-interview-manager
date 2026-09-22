@@ -8,7 +8,9 @@ const {
   createMockPreview,
   deleteAnalysisRecord,
   fetchJapaneseHolidayDates,
+  findScheduleItemForUpdate,
   normalizeImportedState,
+  normalizeAnalysisResult,
   normalizeSnapshotForAnalysis,
   parseConversationPageUrl,
   platformLogoMarkup,
@@ -29,6 +31,8 @@ test("mock JSON renders companies a, b, and c with a confirmed interview on tab 
   assert.equal(preview.state.analyses[0].result.latestConfirmedInterview.method, "オンライン");
   assert.equal(preview.state.settings.language, "ja");
   assert.equal(preview.state.scheduleItems.length, 3);
+  assert.equal(preview.state.analyses[1].result.analysisType, "tentative_interview");
+  assert.equal(preview.state.scheduleItems[1].status, "tentative");
 });
 
 test("candidate availability excludes weekends and Japanese public holidays", () => {
@@ -152,6 +156,56 @@ test("BizReach message URL uses its session ID as the stable conversation key", 
 test("platform marks use Findy and BizReach visual variants", () => {
   assert.match(platformLogoMarkup("Findy"), /platform-mark findy/);
   assert.match(platformLogoMarkup("BizReach"), /platform-mark bizreach/);
+});
+
+test("a candidate-selected specific slot becomes a tentative schedule item", () => {
+  const result = normalizeAnalysisResult({
+    companyName: "会社a",
+    contactName: "人事a",
+    summary: "候補者が9月25日11時を選択し、企業の最終確認を待っています。",
+    analysisType: "tentative_interview",
+    hasConfirmedInterview: false,
+    hasTentativeInterview: true,
+    latestConfirmedInterview: {
+      title: "", startAt: "", endAt: "", contactName: "", method: "", location: "", notes: ""
+    },
+    latestTentativeInterview: {
+      title: "カジュアル面談",
+      startAt: "2026-09-25T11:00:00+09:00",
+      endAt: "2026-09-25T12:00:00+09:00",
+      contactName: "人事a",
+      method: "オンライン",
+      location: "",
+      notes: "企業確認待ち"
+    },
+    candidateTimeRequest: { requested: false, notes: "" }
+  }, snapshot("会社a"));
+
+  assert.equal(result.analysisType, "tentative_interview");
+  assert.equal(result.hasConfirmedInterview, false);
+  assert.equal(result.hasTentativeInterview, true);
+  assert.equal(result.needsUserAction, false);
+  assert.equal(result.scheduleItems.length, 1);
+  assert.equal(result.scheduleItems[0].status, "tentative");
+  assert.equal(result.scheduleItems[0].startAt, "2026-09-25T11:00:00+09:00");
+});
+
+test("a later confirmation upgrades the existing tentative schedule instead of adding another item", () => {
+  const tentative = {
+    id: "schedule-1",
+    companyId: "company-1",
+    type: "interview",
+    status: "tentative",
+    startAt: "2026-09-25T11:00:00+09:00",
+    createdAt: "2026-09-20T00:00:00.000Z"
+  };
+  const match = findScheduleItemForUpdate([tentative], "company-1", {
+    type: "interview",
+    status: "confirmed",
+    startAt: "2026-09-25T02:00:00.000Z"
+  });
+
+  assert.equal(match, tentative);
 });
 
 test("an OpenAI-compatible v1 base URL resolves to the chat completions endpoint", () => {
