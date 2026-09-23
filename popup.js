@@ -2,6 +2,7 @@ const STORAGE_KEY = "jobInterviewManagerState";
 const CURRENT_SCHEMA_VERSION = 2;
 const DATA_EXPORT_FORMAT = "job-conversation-extractor-backup";
 const DATA_EXPORT_VERSION = 1;
+const ANALYSIS_TIMEOUT_MS = 90_000;
 const JAPANESE_HOLIDAY_API_BASE_URL = "https://api.jp-calendar.com/v1/holidays";
 const USE_MOCK_DATA = false;
 const LANGUAGE_LOCALES = { zh: "zh-CN", en: "en-US", ja: "ja-JP" };
@@ -24,11 +25,11 @@ const TRANSLATIONS = {
     dataSummary: "{messages} 条消息 · {analyses} 条分析 · {schedules} 项面试日程",
     interview: "面试", reading: "正在读取当前对话……", noMessages: "当前对话没有可分析的消息。",
     missingAi: "请到设置中填写 API URL、API Key 和模型后再次分析。", reanalyzing: "上次报告晚于最新消息，正在重新分析完整对话……",
-    analyzingFull: "正在分析当前完整对话（{count} 条消息）……", analyzeDone: "分析完成。", copyDone: "原始对话已复制到剪贴板。",
+    analyzingFull: "正在分析当前完整对话（{count} 条消息）……", analyzeDone: "分析完成。", analysisTimeout: "分析超过 90 秒，尚未取得结果。请重试。", copyDone: "原始对话已复制到剪贴板。",
     unsupported: "当前页面暂不支持。请打开 Findy 或 BizReach 的对话页面。", ready: "当前会话已准备好，可以开始分析。",
     aiFieldsRequired: "请填写 API URL、API Key 和模型名称。", testingConnection: "正在测试连接……", connectionOk: "连接成功。", connectionFailed: "连接失败：{error}", permissionDenied: "未授予该 API 地址的访问权限。", aiSaved: "AI 设置已保存。", settingsSaved: "设置已保存到本地。",
     clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
-    importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。"
+    importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。", jobLink: "职位信息", messageLink: "消息页面"
     ,candidateRequest: "待回复候选时间", nextTwoWeeks: "未来两周可用时间", allAvailable: "{start}–{end} 都可以", unavailable: "没有可用时间",
     availability: "可用时间设置", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用"
   },
@@ -50,11 +51,11 @@ const TRANSLATIONS = {
     dataSummary: "{messages} messages · {analyses} analyses · {schedules} interviews",
     interview: "Interview", reading: "Reading the current conversation…", noMessages: "There are no messages to analyze.",
     missingAi: "Set the API URL, API key, and model in Settings, then analyze again.", reanalyzing: "The previous report is newer than the latest message. Reanalyzing the full conversation…",
-    analyzingFull: "Analyzing the full conversation ({count} messages)…", analyzeDone: "Analysis complete.", copyDone: "Conversation copied to the clipboard.",
+    analyzingFull: "Analyzing the full conversation ({count} messages)…", analyzeDone: "Analysis complete.", analysisTimeout: "No analysis result after 90 seconds. Please retry.", copyDone: "Conversation copied to the clipboard.",
     unsupported: "This page is not supported. Open a Findy or BizReach conversation.", ready: "The current conversation is ready to analyze.",
     aiFieldsRequired: "Enter the API URL, API key, and model.", testingConnection: "Testing connection…", connectionOk: "Connection successful.", connectionFailed: "Connection failed: {error}", permissionDenied: "Access to this API address was not granted.", aiSaved: "AI settings saved.", settingsSaved: "Settings saved locally.",
     clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
-    importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported."
+    importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported.", jobLink: "Job details", messageLink: "Messages"
     ,candidateRequest: "Candidate times requested", nextTwoWeeks: "Availability for the next two weeks", allAvailable: "Any time from {start}–{end}", unavailable: "No available time",
     availability: "Availability", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available"
   },
@@ -76,11 +77,11 @@ const TRANSLATIONS = {
     dataSummary: "メッセージ {messages} 件 · 分析 {analyses} 件 · 面談日程 {schedules} 件",
     interview: "面談", reading: "現在の会話を読み込んでいます…", noMessages: "分析できるメッセージがありません。",
     missingAi: "設定で API URL、API キー、モデルを入力してから、もう一度分析してください。", reanalyzing: "前回のレポートが最新メッセージより新しいため、会話全文を再分析しています…",
-    analyzingFull: "現在の会話全文（{count} 件）を分析しています…", analyzeDone: "分析が完了しました。", copyDone: "元の会話をクリップボードにコピーしました。",
+    analyzingFull: "現在の会話全文（{count} 件）を分析しています…", analyzeDone: "分析が完了しました。", analysisTimeout: "90秒以内に分析結果を取得できませんでした。再試行してください。", copyDone: "元の会話をクリップボードにコピーしました。",
     unsupported: "このページは未対応です。Findy または BizReach の会話ページを開いてください。", ready: "現在の会話を分析できます。",
     aiFieldsRequired: "API URL、API キー、モデル名を入力してください。", testingConnection: "接続をテストしています…", connectionOk: "接続に成功しました。", connectionFailed: "接続に失敗しました：{error}", permissionDenied: "この API アドレスへのアクセスが許可されませんでした。", aiSaved: "AI 設定を保存しました。", settingsSaved: "設定をローカルに保存しました。",
     clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
-    importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。"
+    importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。", jobLink: "求人情報", messageLink: "メッセージ"
     ,candidateRequest: "候補日時の返信待ち", nextTwoWeeks: "今後2週間の空き時間", allAvailable: "{start}〜{end} はいつでも可", unavailable: "空き時間なし",
     availability: "空き時間設定", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き"
   }
@@ -203,6 +204,9 @@ let pageDetectionTimer = null;
 let japaneseHolidayDates = new Set();
 let holidayDataStatus = "idle";
 const requestedBackgroundJobs = new Set();
+const backgroundJobFailures = new Map();
+let analysisTimeoutTimer = null;
+let analysisPollTimer = null;
 
 function createEmptyState() {
   return {
@@ -319,6 +323,10 @@ async function loadState() {
     return clearedState;
   }
 
+  return normalizeStoredState(saved);
+}
+
+function normalizeStoredState(saved) {
   return {
     ...createEmptyState(),
     ...saved,
@@ -525,6 +533,44 @@ function platformLogoMarkup(platform) {
   return `<span class="platform-mark ${key}" aria-label="${label}"><span class="platform-logo" aria-hidden="true">${initial}</span><span class="platform-label">${label}</span></span>`;
 }
 
+function normalizeSourceLink(value, platform, kind) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") return "";
+    const isBizReach = String(platform || "").toLowerCase() === "bizreach";
+    const validHost = isBizReach
+      ? url.hostname === "www.bizreach.jp"
+      : url.hostname === "findy-code.io";
+    const validPath = isBizReach
+      ? kind === "job" ? /^\/jobs\/[^/]+\/?$/.test(url.pathname) : /^\/messages\/[^/]+\/?$/.test(url.pathname)
+      : kind === "job" ? /^\/companies\/[^/]+\/jobs\/[^/]+\/?$/.test(url.pathname) : /^\/matches\/[^/]+\/?$/.test(url.pathname);
+    return validHost && validPath ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function sourceLinksForCompany(company) {
+  const platform = company?.source || "";
+  const conversationKey = company?.conversationKey || "";
+  const identity = conversationIdentity(conversationKey);
+  const liveSnapshot = currentSnapshot && identity &&
+    conversationIdentity(currentSnapshot.conversationKey) === identity
+    ? currentSnapshot : null;
+  const fallbackMessageUrl = platform.toLowerCase() === "bizreach"
+    ? /^bizreach:([^/]+)$/.test(conversationKey)
+      ? `https://www.bizreach.jp/messages/${encodeURIComponent(conversationKey.slice(9))}/`
+      : ""
+    : conversationKey.split("::")[0];
+  return {
+    jobUrl: normalizeSourceLink(company?.jobUrl, platform, "job") ||
+      normalizeSourceLink(liveSnapshot?.jobUrl, platform, "job"),
+    messageUrl: normalizeSourceLink(company?.messageUrl, platform, "message") ||
+      normalizeSourceLink(liveSnapshot?.url, platform, "message") ||
+      normalizeSourceLink(fallbackMessageUrl, platform, "message")
+  };
+}
+
 async function extractConversationSnapshot(tabId) {
   const results = await chrome.scripting.executeScript({
     target: { tabId },
@@ -589,12 +635,15 @@ async function extractConversationSnapshot(tabId) {
           })
           .filter(Boolean);
         const conversationKey = `bizreach:${conversationId}`;
+        const attachedJobLink = document.querySelector('[class*="AttachedJob"][class*="card"] a[href^="/jobs/"]');
+        const jobUrl = attachedJobLink ? new URL(attachedJobLink.getAttribute("href"), currentUrl.origin).href : "";
 
         return {
           source: "BizReach",
           platform: "BizReach",
           conversationId,
           url: location.href,
+          jobUrl,
           baseConversationKey: conversationKey,
           conversationKey,
           companyName,
@@ -673,6 +722,8 @@ async function extractConversationSnapshot(tabId) {
         scopedHeadingName,
         titleCandidate
       ].find(isUsefulCompanyName) || "";
+      const jobLink = document.querySelector('a[class*="match-job-description"][href*="/jobs/"], a[href^="/companies/"][href*="/jobs/"]');
+      const jobUrl = jobLink ? new URL(jobLink.getAttribute("href"), currentUrl.origin).href : "";
 
       const seenContainers = new WeakSet();
       const seenMessages = new Set();
@@ -728,6 +779,7 @@ async function extractConversationSnapshot(tabId) {
         source: "Findy",
         platform: "Findy",
         url: location.href,
+        jobUrl,
         baseConversationKey,
         conversationKey: `${baseConversationKey}::${companyName || "unknown"}`,
         companyName,
@@ -779,8 +831,23 @@ function normalizeSnapshotForAnalysis(snapshot, companyNameInput, companyNameEdi
   return normalizeSnapshot(snapshot, companyNameEditedByUser ? companyNameInput : "");
 }
 
-function findCompanyByConversation(conversationKey) {
-  return state.companies.find(company => company.conversationKey === conversationKey) || null;
+function conversationIdentity(conversationKey) {
+  const value = String(conversationKey || "");
+  if (/^bizreach:[^:/]+$/.test(value)) return value;
+  try {
+    const url = new URL(value.split("::")[0]);
+    if (url.hostname !== "findy-code.io" || url.protocol !== "https:") return "";
+    const match = url.pathname.match(/^\/matches\/([^/]+)\/?$/);
+    return match ? `findy:${match[1]}` : "";
+  } catch {
+    return "";
+  }
+}
+
+function findCompanyByConversation(conversationKey, companies = state.companies) {
+  const identity = conversationIdentity(conversationKey);
+  return companies.find(company => identity && conversationIdentity(company.conversationKey) === identity) ||
+    companies.find(company => company.conversationKey === conversationKey) || null;
 }
 
 function upsertCompany(snapshot) {
@@ -791,6 +858,8 @@ function upsertCompany(snapshot) {
       id: createId("company"),
       source: snapshot.source,
       conversationKey: snapshot.conversationKey,
+      jobUrl: normalizeSourceLink(snapshot.jobUrl, snapshot.platform, "job"),
+      messageUrl: normalizeSourceLink(snapshot.url, snapshot.platform, "message"),
       name: snapshot.companyName,
       contactName: snapshot.contactName || "",
       stage: "待分析",
@@ -806,27 +875,50 @@ function upsertCompany(snapshot) {
     }
     if (snapshot.contactName) company.contactName = snapshot.contactName;
     if (snapshot.source) company.source = snapshot.source;
+    const jobUrl = normalizeSourceLink(snapshot.jobUrl, snapshot.platform, "job");
+    const messageUrl = normalizeSourceLink(snapshot.url, snapshot.platform, "message");
+    if (jobUrl) company.jobUrl = jobUrl;
+    if (messageUrl) company.messageUrl = messageUrl;
   }
 
   currentCompanyId = company.id;
   return company;
 }
 
-function saveSnapshotMessages(snapshot, company) {
-  for (const message of snapshot.messages) {
-    if (state.messages.some(saved => saved.id === message.id)) continue;
+function messageContentKey(message) {
+  return [
+    message.datetime || "",
+    message.senderType || "unknown",
+    message.senderName || "",
+    String(message.text || "").replace(/\s+/g, " ").trim()
+  ].join("\u241f");
+}
 
-    state.messages.push({
+function saveSnapshotMessages(snapshot, company, targetState = state) {
+  const savedMessages = [];
+  for (const message of snapshot.messages) {
+    const existing = targetState.messages.find(saved => saved.companyId === company.id && (
+      saved.id === message.id || messageContentKey(saved) === messageContentKey(message)
+    ));
+    if (existing) {
+      savedMessages.push(existing);
+      continue;
+    }
+
+    const savedMessage = {
       ...message,
       companyId: company.id,
       conversationKey: snapshot.conversationKey,
       source: snapshot.source,
       receivedAt: new Date().toISOString()
-    });
+    };
+    targetState.messages.push(savedMessage);
+    savedMessages.push(savedMessage);
   }
 
   company.lastMessageAt = snapshot.messages.at(-1)?.datetime || company.lastUpdatedAt;
   company.lastUpdatedAt = new Date().toISOString();
+  return savedMessages;
 }
 
 function latestAnalysisForCompany(companyId) {
@@ -1182,6 +1274,23 @@ function findScheduleItemForUpdate(scheduleItems, companyId, item) {
 }
 
 async function requestAiAnalysis(snapshot) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), ANALYSIS_TIMEOUT_MS);
+  try {
+    return await requestAiAnalysisWithSignal(snapshot, controller.signal);
+  } catch (error) {
+    if (controller.signal.aborted) {
+      const timeoutError = new Error("AI analysis timed out after 90 seconds.");
+      timeoutError.code = "timeout";
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function requestAiAnalysisWithSignal(snapshot, signal) {
   const ai = state.settings.ai;
   if (!ai?.url || !ai.apiKey.trim() || !ai.model.trim()) {
     throw new Error("请先在 Settings 设置 API Key。");
@@ -1200,6 +1309,7 @@ async function requestAiAnalysis(snapshot) {
   if (protocol === "anthropic-messages") {
     response = await fetch(requestConfig.url, {
       method: "POST",
+      signal,
       headers: {
         "Content-Type": "application/json",
         "x-api-key": ai.apiKey,
@@ -1216,6 +1326,7 @@ async function requestAiAnalysis(snapshot) {
   } else {
     response = await fetch(requestConfig.url, {
       method: "POST",
+      signal,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${ai.apiKey}`
@@ -1516,7 +1627,6 @@ function renderAvailability() {
 function renderLatestInterview(analysis) {
   const resultElement = document.getElementById("analysisResult");
   const updatedElement = document.getElementById("analysisUpdatedAt");
-  setAnalysisLoading(false);
 
   if (!analysis) {
     updatedElement.textContent = "";
@@ -1634,6 +1744,10 @@ function renderSchedule() {
       : "";
     lastDate = dateKey;
     const company = state.companies.find(candidate => candidate.id === item.companyId);
+    const { jobUrl, messageUrl } = sourceLinksForCompany(company);
+    const sourceLink = (url, label) => url
+      ? `<a class="secondary-button schedule-source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
+      : `<span class="secondary-button schedule-source-link unavailable" aria-disabled="true">${escapeHtml(label)}</span>`;
     const sourceAnalysis = state.analyses.find(analysis => analysis.id === item.sourceAnalysisId);
     const savedInterview = sourceAnalysis?.result?.latestConfirmedInterview || {};
     const contactName = item.contactName || savedInterview.contactName || "";
@@ -1668,6 +1782,10 @@ function renderSchedule() {
               <span class="badge ${isTentative ? "warning" : "success"}">${escapeHtml(t(isTentative ? "tentative" : "confirmed"))}</span>
             </div>
             <div class="schedule-title">${escapeHtml(item.title)}</div>
+            <div class="schedule-source-links">
+              ${sourceLink(jobUrl, t("jobLink"))}
+              ${sourceLink(messageUrl, t("messageLink"))}
+            </div>
           </div>
           ${(contactName || method || location || notes) ? `
             <div class="schedule-details">
@@ -1722,28 +1840,86 @@ function renderAll() {
 function requestBackgroundJob(jobId) {
   if (!jobId || requestedBackgroundJobs.has(jobId)) return;
   requestedBackgroundJobs.add(jobId);
-  chrome.runtime.sendMessage({ type: "runAnalysisJob", jobId }).catch(async error => {
-    requestedBackgroundJobs.delete(jobId);
-    state = await loadState();
-    if (state.analysisJob?.id !== jobId || state.analysisJob.status !== "analyzing") return;
-    state.analysisJob = {
-      ...state.analysisJob,
-      status: "error",
-      error: error.message || "Background analysis could not start.",
-      completedAt: new Date().toISOString()
-    };
-    await saveState();
-    renderAll();
-  });
+  chrome.runtime.sendMessage({ type: "runAnalysisJob", jobId })
+    .then(response => {
+      if (response?.status === "running") return;
+      requestedBackgroundJobs.delete(jobId);
+      const failureMessage = response?.status === "success"
+        ? "Analysis finished, but its result was not saved. Please retry."
+        : response?.error || "Background analysis did not complete. Please retry.";
+      return refreshBackgroundJob(jobId, failureMessage);
+    })
+    .catch(error => {
+      requestedBackgroundJobs.delete(jobId);
+      return refreshBackgroundJob(jobId, error.message || "Background analysis could not start.");
+    });
+}
+
+async function refreshBackgroundJob(jobId, failureMessage = "", quiet = false) {
+  const previousState = state;
+  try {
+    const storedState = await loadState();
+    if (state !== previousState) return;
+    if (quiet &&
+        storedState.analysisJob?.id === previousState.analysisJob?.id &&
+        storedState.analysisJob?.status === previousState.analysisJob?.status &&
+        storedState.analysisJob?.completedAt === previousState.analysisJob?.completedAt) {
+      if (analysisTimeoutTimer && state.analysisJob?.id === jobId) {
+        analysisPollTimer = setTimeout(() => refreshBackgroundJob(jobId, "", true), 1500);
+      }
+      return;
+    }
+    state = storedState;
+  } catch (error) {
+    failureMessage = error.message || failureMessage || "Could not read analysis state.";
+  }
+  if (state.analysisJob?.id === jobId && state.analysisJob.status === "analyzing" && failureMessage) {
+    backgroundJobFailures.set(jobId, failureMessage);
+  }
+  renderAll();
 }
 
 function renderBackgroundJobState() {
+  clearTimeout(analysisTimeoutTimer);
+  analysisTimeoutTimer = null;
+  clearTimeout(analysisPollTimer);
+  analysisPollTimer = null;
   const job = state.analysisJob;
-  if (!job || !currentSnapshot || job.conversationKey !== currentSnapshot.conversationKey) return false;
+  if (!job || !currentSnapshot) {
+    setAnalysisLoading(false);
+    return false;
+  }
+  const jobIdentity = conversationIdentity(job.conversationKey);
+  if (jobIdentity
+    ? jobIdentity !== conversationIdentity(currentSnapshot.conversationKey)
+    : job.conversationKey !== currentSnapshot.conversationKey) {
+    setAnalysisLoading(false);
+    return false;
+  }
 
   const status = document.getElementById("analyzeStatus");
   const button = document.getElementById("analyzeButton");
   if (job.status === "analyzing") {
+    const backgroundError = backgroundJobFailures.get(job.id);
+    if (backgroundError) {
+      setAnalysisLoading(false);
+      button.disabled = currentSnapshot.messages.length === 0;
+      setStatus(status, backgroundError, "error");
+      return true;
+    }
+    const savedDeadline = new Date(job.expiresAt).getTime();
+    const deadline = Number.isFinite(savedDeadline)
+      ? savedDeadline
+      : new Date(job.startedAt).getTime() + ANALYSIS_TIMEOUT_MS;
+    if (!Number.isFinite(deadline) || Date.now() >= deadline) {
+      requestedBackgroundJobs.delete(job.id);
+      setAnalysisLoading(false);
+      button.disabled = currentSnapshot.messages.length === 0;
+      setStatus(status, t("analysisTimeout"), "error");
+      return true;
+    }
+    analysisTimeoutTimer = setTimeout(() => renderAll(), deadline - Date.now());
+    analysisPollTimer = setTimeout(() => refreshBackgroundJob(job.id, "", true), 1500);
     setAnalysisLoading(true);
     button.disabled = true;
     setStatus(
@@ -1758,10 +1934,11 @@ function renderBackgroundJobState() {
   }
 
   requestedBackgroundJobs.delete(job.id);
+  backgroundJobFailures.delete(job.id);
   setAnalysisLoading(false);
   button.disabled = currentSnapshot.messages.length === 0;
   if (job.status === "error") {
-    setStatus(status, job.error || "AI request failed.", "error");
+    setStatus(status, job.errorCode === "timeout" ? t("analysisTimeout") : job.error || "AI request failed.", "error");
     return true;
   }
   if (job.status === "success") {
@@ -1826,6 +2003,7 @@ async function analyzeCurrentConversation() {
     conversationKey: currentSnapshot.conversationKey,
     messageCount: currentSnapshot.messages.length,
     startedAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + ANALYSIS_TIMEOUT_MS).toISOString(),
     reportIsNewer,
     snapshot: currentSnapshot
   };
@@ -1919,6 +2097,7 @@ function bindEvents() {
     try {
       await analyzeCurrentConversation();
     } catch (error) {
+      setAnalysisLoading(false);
       setStatus(document.getElementById("analyzeStatus"), error.message || "分析失败。", "error");
       document.getElementById("analyzeButton").disabled = false;
     }
@@ -1937,9 +2116,11 @@ function bindEvents() {
     }
   });
 
-  chrome.storage.onChanged.addListener(async (changes, areaName) => {
+  chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName !== "local" || !changes[STORAGE_KEY]) return;
-    state = await loadState();
+    const saved = changes[STORAGE_KEY].newValue;
+    if (!saved || saved.schemaVersion !== CURRENT_SCHEMA_VERSION) return;
+    state = normalizeStoredState(saved);
     renderAll();
   });
 
@@ -2138,17 +2319,23 @@ if (typeof module !== "undefined") {
     buildAvailabilityDays,
     createExportPayload,
     createMockPreview,
+    conversationIdentity,
     deleteAnalysisRecord,
+    extractConversationSnapshot,
     fetchJapaneseHolidayDates,
     findScheduleItemForUpdate,
+    findCompanyByConversation,
     loadMockPreview,
     normalizeImportedState,
     normalizeAnalysisResult,
     normalizeSnapshotForAnalysis,
+    normalizeSourceLink,
     parseConversationPageUrl,
     platformLogoMarkup,
     readJsonResponse,
     resolveAiRequestConfig,
+    saveSnapshotMessages,
+    sourceLinksForCompany,
     testAiConnection
   };
 }

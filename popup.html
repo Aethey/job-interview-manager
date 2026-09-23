@@ -535,6 +535,18 @@
       border-radius: 50%;
       background: var(--primary);
     }
+    .schedule-source-links { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+    .schedule-source-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      font-size: 10px;
+      text-decoration: none;
+    }
+    .schedule-source-link.unavailable { color: var(--muted); background: #f6f7f9; cursor: default; }
+    .schedule-source-link:not(.unavailable):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
     .schedule-details {
       display: grid;
       gap: 7px;

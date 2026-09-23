@@ -3,23 +3,26 @@ importScripts("popup.js");
 const runningAnalysisJobs = new Set();
 
 async function runAnalysisJob(jobId) {
-  if (!jobId || runningAnalysisJobs.has(jobId)) return;
+  if (!jobId) return { status: "error", error: "Missing analysis job ID." };
+  if (runningAnalysisJobs.has(jobId)) return { status: "running" };
   runningAnalysisJobs.add(jobId);
 
   try {
     state = await loadState();
     const job = state.analysisJob;
-    if (!job || job.id !== jobId || job.status !== "analyzing" || !job.snapshot) return;
+    if (!job || job.id !== jobId || job.status !== "analyzing") return { status: "ignored" };
+    if (!job.snapshot) throw new Error("Saved conversation is missing. Please analyze again.");
 
     const snapshot = job.snapshot;
     const result = await requestAiAnalysis(snapshot);
 
     state = await loadState();
-    if (state.analysisJob?.id !== jobId || state.analysisJob.status !== "analyzing") return;
+    if (state.analysisJob?.id !== jobId || state.analysisJob.status !== "analyzing") return { status: "ignored" };
 
     const company = upsertCompany(snapshot);
-    saveSnapshotMessages(snapshot, company);
-    const analysis = addAnalysis(company, snapshot, snapshot.messages, result);
+    const savedMessages = saveSnapshotMessages(snapshot, company);
+    const analysis = addAnalysis(company, snapshot, savedMessages, result);
+    analysis.jobId = jobId;
     state.analysisJob = {
       id: jobId,
       status: "success",
@@ -30,20 +33,24 @@ async function runAnalysisJob(jobId) {
       analysisId: analysis.id
     };
     await saveState();
+    return { status: "success", analysisId: analysis.id };
   } catch (error) {
     console.error("Background analysis failed.", error);
-    state = await loadState();
-    if (state.analysisJob?.id !== jobId) return;
-    state.analysisJob = {
-      id: jobId,
-      status: "error",
-      conversationKey: state.analysisJob.conversationKey,
-      messageCount: state.analysisJob.messageCount,
-      startedAt: state.analysisJob.startedAt,
-      completedAt: new Date().toISOString(),
-      error: error.message || "AI request failed."
-    };
-    await saveState();
+    try {
+      state = await loadState();
+      if (state.analysisJob?.id !== jobId || state.analysisJob.status !== "analyzing") return { status: "ignored" };
+      state.analysisJob = {
+        ...state.analysisJob,
+        status: "error",
+        completedAt: new Date().toISOString(),
+        errorCode: error.code || "request_failed",
+        error: error.message || "AI request failed."
+      };
+      await saveState();
+    } catch (storageError) {
+      console.error("Could not save analysis error.", storageError);
+    }
+    return { status: "error", error: error.message || "AI request failed." };
   } finally {
     runningAnalysisJobs.delete(jobId);
   }
@@ -51,7 +58,8 @@ async function runAnalysisJob(jobId) {
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type !== "runAnalysisJob") return false;
-  runAnalysisJob(message.jobId);
-  sendResponse({ accepted: true });
-  return false;
+  runAnalysisJob(message.jobId)
+    .then(sendResponse)
+    .catch(error => sendResponse({ status: "error", error: error.message || "Background analysis failed." }));
+  return true;
 });

@@ -6,16 +6,22 @@ const {
   buildAvailabilityDays,
   createExportPayload,
   createMockPreview,
+  conversationIdentity,
   deleteAnalysisRecord,
+  extractConversationSnapshot,
   fetchJapaneseHolidayDates,
   findScheduleItemForUpdate,
+  findCompanyByConversation,
   normalizeImportedState,
   normalizeAnalysisResult,
   normalizeSnapshotForAnalysis,
+  normalizeSourceLink,
   parseConversationPageUrl,
   platformLogoMarkup,
   readJsonResponse,
   resolveAiRequestConfig,
+  saveSnapshotMessages,
+  sourceLinksForCompany,
   testAiConnection
 } = require("./popup.js");
 
@@ -153,6 +159,65 @@ test("BizReach message URL uses its session ID as the stable conversation key", 
   assert.equal(result.conversationKey, "bizreach:443477610");
 });
 
+test("Findy and BizReach job links are extracted from their conversation pages", async () => {
+  const previous = { chrome: global.chrome, document: global.document, location: global.location };
+  global.chrome = { scripting: { executeScript: async ({ func }) => [{ result: func() }] } };
+  try {
+    for (const fixture of [
+      {
+        pageUrl: "https://findy-code.io/matches/asSk_5UqbrNgF?page=1",
+        href: "/companies/2023/jobs/t5my06Ul8cZNF",
+        selector: "match-job-description",
+        expected: "https://findy-code.io/companies/2023/jobs/t5my06Ul8cZNF"
+      },
+      {
+        pageUrl: "https://www.bizreach.jp/messages/443281185/",
+        href: "/jobs/6052157/",
+        selector: "AttachedJob",
+        expected: "https://www.bizreach.jp/jobs/6052157/"
+      }
+    ]) {
+      global.location = { href: fixture.pageUrl };
+      const link = { href: new URL(fixture.href, fixture.pageUrl).href, getAttribute: () => fixture.href };
+      global.document = {
+        title: "Findy",
+        querySelector: selector => selector.includes(fixture.selector) ? link : null,
+        querySelectorAll: selector => selector === "a[href]" ? [link] : []
+      };
+      const result = await extractConversationSnapshot(1);
+      assert.equal(result.jobUrl, fixture.expected);
+      assert.equal(result.url, fixture.pageUrl);
+    }
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete global[key];
+      else global[key] = value;
+    }
+  }
+});
+
+test("schedule links resolve saved jobs and legacy conversation IDs without unsafe URLs", () => {
+  assert.deepEqual(sourceLinksForCompany({
+    source: "Findy",
+    conversationKey: "https://findy-code.io/matches/asSk_5UqbrNgF?page=1::会社a",
+    jobUrl: "https://findy-code.io/companies/2023/jobs/t5my06Ul8cZNF"
+  }), {
+    jobUrl: "https://findy-code.io/companies/2023/jobs/t5my06Ul8cZNF",
+    messageUrl: "https://findy-code.io/matches/asSk_5UqbrNgF?page=1"
+  });
+  assert.deepEqual(sourceLinksForCompany({
+    source: "BizReach",
+    conversationKey: "bizreach:443281185",
+    jobUrl: "https://www.bizreach.jp/jobs/6052157/"
+  }), {
+    jobUrl: "https://www.bizreach.jp/jobs/6052157/",
+    messageUrl: "https://www.bizreach.jp/messages/443281185/"
+  });
+  assert.equal(normalizeSourceLink("javascript:alert(1)", "Findy", "job"), "");
+  assert.equal(normalizeSourceLink("https://findy-code.io.evil.test/companies/2023/jobs/x", "Findy", "job"), "");
+  assert.equal(normalizeSourceLink("https://www.bizreach.jp/messages/123/", "BizReach", "job"), "");
+});
+
 test("platform marks use Findy and BizReach visual variants", () => {
   assert.match(platformLogoMarkup("Findy"), /platform-mark findy/);
   assert.match(platformLogoMarkup("BizReach"), /platform-mark bizreach/);
@@ -206,6 +271,42 @@ test("a later confirmation upgrades the existing tentative schedule instead of a
   });
 
   assert.equal(match, tentative);
+});
+
+test("Findy page query and displayed company name do not create another company for one match", () => {
+  const companies = [
+    { id: "original", conversationKey: "https://findy-code.io/matches/asSk_5UqbrNgF?page=1::旧名称" },
+    { id: "duplicate", conversationKey: "https://findy-code.io/matches/asSk_5UqbrNgF?page=2::新名称" }
+  ];
+  const currentKey = "https://findy-code.io/matches/asSk_5UqbrNgF?page=2::新名称";
+  assert.equal(conversationIdentity(companies[0].conversationKey), "findy:asSk_5UqbrNgF");
+  assert.equal(findCompanyByConversation(currentKey, companies).id, "original");
+  assert.equal(findCompanyByConversation("https://findy-code.io/matches/another?page=1::新名称", companies), null);
+  const schedule = { id: "original-schedule", companyId: "original", type: "interview", status: "confirmed", startAt: "2026-09-25T15:30:00+09:00" };
+  assert.equal(findScheduleItemForUpdate([schedule], "original", {
+    type: "interview", status: "confirmed", startAt: "2026-09-25T06:30:00.000Z"
+  }), schedule);
+});
+
+test("reanalysis reuses stored messages when only the Findy page number changes", () => {
+  const company = { id: "original", lastUpdatedAt: "2026-09-18T00:00:00.000Z" };
+  const oldMessage = {
+    id: "original-message",
+    companyId: "original",
+    datetime: "2026-09-17T09:39:02+09:00",
+    senderType: "company",
+    senderName: "担当者",
+    text: "面談は 15:30 です。"
+  };
+  const targetState = { messages: [oldMessage] };
+  const saved = saveSnapshotMessages({
+    conversationKey: "https://findy-code.io/matches/asSk_5UqbrNgF?page=2::会社",
+    source: "Findy",
+    messages: [{ ...oldMessage, id: "new-page-message", companyId: undefined }]
+  }, company, targetState);
+
+  assert.equal(targetState.messages.length, 1);
+  assert.equal(saved[0].id, "original-message");
 });
 
 test("an OpenAI-compatible v1 base URL resolves to the chat completions endpoint", () => {
