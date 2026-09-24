@@ -74,7 +74,7 @@
 
     .tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 4px;
       padding: 4px;
       margin-bottom: 14px;
@@ -434,6 +434,41 @@
       color: var(--muted);
     }
     .availability-slot-note { font-size: 9px; font-weight: 700; opacity: 0.82; }
+    .availability-intro { margin: 8px 0 12px; line-height: 1.5; }
+    .availability-option-day {
+      margin-top: 8px;
+      border: 1px solid #dfe6f1;
+      border-radius: 11px;
+      background: #fff;
+    }
+    .availability-option-day > summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 750;
+      list-style: none;
+    }
+    .availability-option-day > summary::-webkit-details-marker { display: none; }
+    .availability-option-day > summary::after { content: "⌄"; color: var(--muted); }
+    .availability-option-day[open] > summary::after { transform: rotate(180deg); }
+    .availability-option-list { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 12px 12px; }
+    .availability-choice {
+      min-height: 32px;
+      padding: 6px 9px;
+      border: 1px solid #d9e6ff;
+      border-radius: 8px;
+      background: #f2f6ff;
+      color: #1f62dc;
+      font-size: 11px;
+      font-weight: 750;
+    }
+    .availability-choice[aria-pressed="true"] { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .availability-selection { display: grid; gap: 6px; margin: 10px 0 12px; font-size: 12px; }
+    .availability-selection-item { padding: 8px 10px; border-radius: 8px; background: var(--primary-soft); color: var(--text); }
 
     .settings-section { padding: 0; overflow: hidden; }
     .settings-section > summary {
@@ -472,11 +507,30 @@
 
     .schedule-date:first-child { margin-top: 0; }
     .schedule-item {
+      position: relative;
       padding: 0;
       overflow: hidden;
       border-color: #dfe6f1;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(27, 45, 78, 0.045);
+    }
+    .schedule-finished-stamp {
+      position: absolute;
+      top: 72px;
+      right: 22px;
+      z-index: 2;
+      padding: 4px 9px;
+      border: 3px double rgba(170, 65, 65, 0.8);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.72);
+      color: rgba(170, 65, 65, 0.85);
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      white-space: nowrap;
+      transform: rotate(-12deg);
+      pointer-events: none;
     }
     .schedule-item-header {
       display: flex;
@@ -600,6 +654,7 @@
     <nav class="tabs" aria-label="主导航">
       <button class="tab active" data-view="analyze" data-i18n="analyzeTab">Analyze</button>
       <button class="tab" data-view="schedule" data-i18n="scheduleTab">面试日程</button>
+      <button class="tab" data-view="availability" data-i18n="availabilityTab">可用日程</button>
       <button class="tab" data-view="settings" data-i18n="settingsTab">Settings</button>
     </nav>
 
@@ -653,6 +708,23 @@
       </div>
     </section>
 
+    <section id="view-availability" class="view">
+      <div class="card">
+        <div class="card-title"><span data-i18n="availabilityPageTitle">可选择的时间</span><span id="availabilityDayCount" class="muted small"></span></div>
+        <p class="muted small availability-intro" data-i18n="availabilityIntro">根据设置和已保存的面试日程，选择未来两周的候选时间。</p>
+        <button id="refreshAvailabilityButton" class="secondary-button wide-button" data-i18n="refreshAvailability">刷新可用时间</button>
+        <div id="availabilityRefreshStatus" class="status-message" role="status"></div>
+        <div id="availabilityNotice"></div>
+        <div id="availabilityOptions"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span data-i18n="selectedAvailability">已选候选时间</span><span id="availabilitySelectedCount" class="muted small"></span></div>
+        <div id="availabilitySelection" class="availability-selection"></div>
+        <button id="copyAvailabilityButton" class="primary-button wide-button" data-i18n="copySelectedAvailability" disabled>复制已选时间</button>
+        <div id="availabilityStatus" class="status-message"></div>
+      </div>
+    </section>
+
     <section id="view-settings" class="view">
       <details class="card settings-section" data-settings-section="language" open>
         <summary data-i18n="language">语言</summary>
@@ -696,6 +768,10 @@
           <div class="grid-2">
             <div class="field"><label for="availableFrom" data-i18n="availableFrom">每天开始</label><input id="availableFrom" type="time"></div>
             <div class="field"><label for="availableTo" data-i18n="availableTo">每天结束</label><input id="availableTo" type="time"></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label for="durationMinutes" data-i18n="duration">面谈时长</label><input id="durationMinutes" type="number" min="15" max="240" step="15"></div>
+            <div class="field"><label for="candidateCount" data-i18n="candidateCount">候选数量</label><input id="candidateCount" type="number" min="1" max="10" step="1"></div>
           </div>
           <div class="field"><label for="defaultBuffer" data-i18n="buffer">面试时间前后余量（分钟）</label><input id="defaultBuffer" type="number" min="0" step="15"></div>
           <button id="saveSettingsButton" class="primary-button wide-button" data-i18n="saveSettings">保存设置</button>

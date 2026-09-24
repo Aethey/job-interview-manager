@@ -9,7 +9,7 @@ const LANGUAGE_LOCALES = { zh: "zh-CN", en: "en-US", ja: "ja-JP" };
 const TRANSLATIONS = {
   zh: {
     appTitle: "转职面谈管理", appSubtitle: "少整理一点，把注意力留给沟通",
-    analyzeTab: "分析", scheduleTab: "面试日程", settingsTab: "设置",
+    analyzeTab: "分析", scheduleTab: "面试日程", availabilityTab: "可用日程", settingsTab: "设置",
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
     latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
     scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
@@ -31,11 +31,12 @@ const TRANSLATIONS = {
     clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
     importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。", jobLink: "职位信息", messageLink: "消息页面"
     ,candidateRequest: "待回复候选时间", nextTwoWeeks: "未来两周可用时间", allAvailable: "{start}–{end} 都可以", unavailable: "没有可用时间",
-    availability: "可用时间设置", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用"
+    availability: "可用时间设置", availabilityPageTitle: "可选择的时间", availabilityIntro: "根据设置和已保存的面试日程，选择未来两周的候选时间。", selectedAvailability: "已选候选时间", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "复制已选时间", noSelectedAvailability: "尚未选择时间。", noSlotsAvailable: "未来两周没有符合设置的可用时间。", availableSlotsCount: "{count} 个可选时间", selectLimit: "最多选择 {count} 个时间。", copiedAvailability: "已复制候选时间。", invalidAvailabilitySettings: "请检查每天的起止时间、面谈时长、候选数量和缓冲时间。", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用",
+    refreshAvailability: "刷新可用时间", availabilityRefreshed: "已从本地数据读取 {count} 项面试日程，并重新计算可用时间（{time}）。"
   },
   en: {
     appTitle: "Interview Manager", appSubtitle: "Spend less time organizing and more time communicating",
-    analyzeTab: "Analyze", scheduleTab: "Interviews", settingsTab: "Settings",
+    analyzeTab: "Analyze", scheduleTab: "Interviews", availabilityTab: "Availability", settingsTab: "Settings",
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
     latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
     scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
@@ -57,11 +58,12 @@ const TRANSLATIONS = {
     clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
     importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported.", jobLink: "Job details", messageLink: "Messages"
     ,candidateRequest: "Candidate times requested", nextTwoWeeks: "Availability for the next two weeks", allAvailable: "Any time from {start}–{end}", unavailable: "No available time",
-    availability: "Availability", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available"
+    availability: "Availability", availabilityPageTitle: "Available times", availabilityIntro: "Choose times in the next two weeks based on your settings and saved interviews.", selectedAvailability: "Selected times", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "Copy selected times", noSelectedAvailability: "No times selected.", noSlotsAvailable: "No times match your settings in the next two weeks.", availableSlotsCount: "{count} available times", selectLimit: "Choose up to {count} times.", copiedAvailability: "Selected times copied.", invalidAvailabilitySettings: "Check your daily hours, interview duration, candidate count, and buffer.", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available",
+    refreshAvailability: "Refresh available times", availabilityRefreshed: "Read {count} saved interviews and recalculated availability ({time})."
   },
   ja: {
     appTitle: "転職面談管理", appSubtitle: "整理の手間を減らし、連絡に集中",
-    analyzeTab: "分析", scheduleTab: "面談日程", settingsTab: "設定",
+    analyzeTab: "分析", scheduleTab: "面談日程", availabilityTab: "空き時間", settingsTab: "設定",
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
     latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
     scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
@@ -83,7 +85,8 @@ const TRANSLATIONS = {
     clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
     importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。", jobLink: "求人情報", messageLink: "メッセージ"
     ,candidateRequest: "候補日時の返信待ち", nextTwoWeeks: "今後2週間の空き時間", allAvailable: "{start}〜{end} はいつでも可", unavailable: "空き時間なし",
-    availability: "空き時間設定", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き"
+    availability: "空き時間設定", availabilityPageTitle: "選択できる時間", availabilityIntro: "設定と保存済みの面談日程から、今後2週間の候補時間を選べます。", selectedAvailability: "選択した候補時間", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "選択した時間をコピー", noSelectedAvailability: "時間が選択されていません。", noSlotsAvailable: "今後2週間に設定に合う空き時間はありません。", availableSlotsCount: "{count} 件の候補時間", selectLimit: "最大 {count} 件まで選択できます。", copiedAvailability: "候補時間をコピーしました。", invalidAvailabilitySettings: "一日の時間帯、面談時間、候補数、前後の余裕時間を確認してください。", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き",
+    refreshAvailability: "空き時間を更新", availabilityRefreshed: "保存済みの面談 {count} 件を読み込み、空き時間を再計算しました（{time}）。"
   }
 };
 
@@ -207,6 +210,8 @@ const requestedBackgroundJobs = new Set();
 const backgroundJobFailures = new Map();
 let analysisTimeoutTimer = null;
 let analysisPollTimer = null;
+const selectedAvailabilitySlots = new Set();
+let availableSlotLookup = new Map();
 
 function createEmptyState() {
   return {
@@ -1521,6 +1526,7 @@ function buildAvailabilityDays(
   const configuredEnd = clockToMinutes(settings.availableTo, 19 * 60);
   const endMinutes = configuredEnd > startMinutes ? configuredEnd : 19 * 60;
   const bufferMinutes = Math.max(0, Number(settings.bufferMinutes) || 0);
+  const durationMinutes = Math.max(15, Number(settings.durationMinutes) || 60);
   const today = new Date(referenceDate);
   today.setHours(0, 0, 0, 0);
 
@@ -1531,18 +1537,22 @@ function buildAvailabilityDays(
     nextDate.setDate(date.getDate() + 1);
 
     const blocked = scheduleItems
-      .filter(item => {
-        const start = new Date(item.startAt);
-        return !Number.isNaN(start.getTime()) && start >= date && start < nextDate;
-      })
       .map(item => {
         const start = new Date(item.startAt);
-        const minute = start.getHours() * 60 + start.getMinutes();
+        if (Number.isNaN(start.getTime())) return null;
+        const savedEnd = new Date(item.endAt);
+        const end = Number.isNaN(savedEnd.getTime()) || savedEnd <= start
+          ? new Date(start.getTime() + durationMinutes * 60_000)
+          : savedEnd;
+        const blockedStart = start.getTime() - bufferMinutes * 60_000;
+        const blockedEnd = end.getTime() + bufferMinutes * 60_000;
+        if (blockedStart >= nextDate.getTime() || blockedEnd <= date.getTime()) return null;
         return [
-          Math.max(startMinutes, minute - bufferMinutes),
-          Math.min(endMinutes, minute + bufferMinutes)
+          Math.max(startMinutes, Math.floor((blockedStart - date.getTime()) / 60_000)),
+          Math.min(endMinutes, Math.ceil((blockedEnd - date.getTime()) / 60_000))
         ];
       })
+      .filter(Boolean)
       .filter(([start, end]) => start < end)
       .sort((a, b) => a[0] - b[0]);
 
@@ -1567,6 +1577,97 @@ function buildAvailabilityDays(
     day.date.getDay() !== 6 &&
     !holidayDates.has(localDateKey(day.date))
   ));
+}
+
+function buildSelectableAvailabilityDays(
+  availabilityDays = buildAvailabilityDays(),
+  settings = state.settings,
+  referenceDate = new Date()
+) {
+  const durationMinutes = Math.max(15, Number(settings.durationMinutes) || 60);
+  return availabilityDays.map(day => {
+    const slots = [];
+    for (const [windowStart, windowEnd] of day.available) {
+      for (let minute = Math.ceil(windowStart / 30) * 30;
+        minute + durationMinutes <= windowEnd;
+        minute += 30) {
+        const startAt = new Date(day.date);
+        startAt.setHours(Math.floor(minute / 60), minute % 60, 0, 0);
+        if (startAt <= referenceDate) continue;
+        const endAt = new Date(startAt.getTime() + durationMinutes * 60_000);
+        slots.push({
+          id: startAt.toISOString(),
+          startAt,
+          endAt,
+          label: `${minutesToClock(minute)}–${minutesToClock(minute + durationMinutes)}`
+        });
+      }
+    }
+    return { date: day.date, slots };
+  }).filter(day => day.slots.length > 0);
+}
+
+function renderAvailableSchedule() {
+  const optionsElement = document.getElementById("availabilityOptions");
+  const noticeElement = document.getElementById("availabilityNotice");
+  const selectionElement = document.getElementById("availabilitySelection");
+  const copyButton = document.getElementById("copyAvailabilityButton");
+  const limit = Math.max(1, Math.min(10, Number(state.settings.candidateCount) || 3));
+  while (selectedAvailabilitySlots.size > limit) {
+    selectedAvailabilitySlots.delete([...selectedAvailabilitySlots].at(-1));
+  }
+  const openDays = new Set([...optionsElement.querySelectorAll("details[open]")]
+    .map(element => element.dataset.dayKey));
+  const hadDayOptions = Boolean(optionsElement.querySelector("details"));
+
+  if (holidayDataStatus === "idle" || holidayDataStatus === "loading") {
+    noticeElement.innerHTML = `<div class="muted small">${escapeHtml(t("holidaysLoading"))}</div>`;
+    optionsElement.innerHTML = "";
+    availableSlotLookup = new Map();
+  } else {
+    noticeElement.innerHTML = holidayDataStatus === "error"
+      ? `<div class="status-message warning">${escapeHtml(t("holidaysUnavailable"))}</div>`
+      : "";
+    const days = buildSelectableAvailabilityDays();
+    availableSlotLookup = new Map(days.flatMap(day => day.slots.map(slot => [slot.id, slot])));
+    for (const id of selectedAvailabilitySlots) {
+      if (!availableSlotLookup.has(id)) selectedAvailabilitySlots.delete(id);
+    }
+    document.getElementById("availabilityDayCount").textContent = t("availableDayCount", { count: days.length });
+    const dateFormatter = new Intl.DateTimeFormat(LANGUAGE_LOCALES[currentLanguage()], {
+      month: "numeric", day: "numeric", weekday: "short"
+    });
+    optionsElement.innerHTML = days.length
+      ? days.map((day, index) => {
+        const dayKey = localDateKey(day.date);
+        const isOpen = openDays.has(dayKey) || (!hadDayOptions && index === 0);
+        return `<details class="availability-option-day" data-day-key="${dayKey}" ${isOpen ? "open" : ""}>
+          <summary><span>${escapeHtml(dateFormatter.format(day.date))}</span><span class="muted small">${escapeHtml(t("availableSlotsCount", { count: day.slots.length }))}</span></summary>
+          <div class="availability-option-list">${day.slots.map(slot => `
+            <button class="availability-choice" type="button" data-slot-id="${escapeHtml(slot.id)}" aria-pressed="${selectedAvailabilitySlots.has(slot.id)}">${escapeHtml(slot.label)}</button>
+          `).join("")}</div>
+        </details>`;
+      }).join("")
+      : `<div class="empty">${escapeHtml(t("noSlotsAvailable"))}</div>`;
+  }
+
+  if (holidayDataStatus === "idle" || holidayDataStatus === "loading") {
+    document.getElementById("availabilityDayCount").textContent = "";
+  }
+  const selected = [...selectedAvailabilitySlots]
+    .map(id => availableSlotLookup.get(id))
+    .filter(Boolean)
+    .sort((a, b) => a.startAt - b.startAt);
+  document.getElementById("availabilitySelectedCount").textContent = t("selectedAvailabilityCount", {
+    selected: selected.length, limit
+  });
+  const selectedDateFormatter = new Intl.DateTimeFormat(LANGUAGE_LOCALES[currentLanguage()], {
+    year: "numeric", month: "numeric", day: "numeric", weekday: "short"
+  });
+  selectionElement.innerHTML = selected.length
+    ? selected.map(slot => `<div class="availability-selection-item">${escapeHtml(`${selectedDateFormatter.format(slot.startAt)} ${slot.label}`)}</div>`).join("")
+    : `<div class="muted small">${escapeHtml(t("noSelectedAvailability"))}</div>`;
+  copyButton.disabled = selected.length === 0;
 }
 
 function renderAvailability() {
@@ -1726,6 +1827,8 @@ function rawConversationText(snapshot) {
 function renderSchedule() {
   const list = document.getElementById("scheduleList");
   const count = document.getElementById("scheduleCount");
+  const now = Date.now();
+  const defaultDurationMs = Math.max(15, Number(state.settings.durationMinutes) || 60) * 60_000;
   const items = [...state.scheduleItems]
     .filter(item => item.startAt)
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt));
@@ -1756,6 +1859,12 @@ function renderSchedule() {
     const notes = item.notes || savedInterview.notes || "";
     const platform = item.platform || company?.source || "Findy";
     const isTentative = item.status === "tentative";
+    const startAt = new Date(item.startAt).getTime();
+    const savedEndAt = new Date(item.endAt).getTime();
+    const effectiveEndAt = Number.isFinite(savedEndAt) && savedEndAt > startAt
+      ? savedEndAt
+      : startAt + defaultDurationMs;
+    const isFinished = item.status === "confirmed" && Number.isFinite(startAt) && effectiveEndAt <= now;
     const startTime = new Date(item.startAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" });
     const endTime = item.endAt && item.endAt !== item.startAt
       ? new Date(item.endAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" })
@@ -1772,6 +1881,7 @@ function renderSchedule() {
             <button class="danger-button schedule-action delete-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
           </div>
         </div>
+        ${isFinished ? `<span class="schedule-finished-stamp" role="img" aria-label="面談終了済">終了済</span>` : ""}
         <div class="schedule-item-body">
           <div class="schedule-summary">
             <div class="schedule-company-row">
@@ -1821,6 +1931,8 @@ function renderSettings() {
   document.getElementById("language").value = currentLanguage();
   document.getElementById("availableFrom").value = state.settings.availableFrom;
   document.getElementById("availableTo").value = state.settings.availableTo;
+  document.getElementById("durationMinutes").value = state.settings.durationMinutes;
+  document.getElementById("candidateCount").value = state.settings.candidateCount;
   document.getElementById("defaultBuffer").value = state.settings.bufferMinutes;
   document.getElementById("dataSummary").textContent = t("dataSummary", {
     messages: state.messages.length,
@@ -1833,6 +1945,7 @@ function renderAll() {
   applyTranslations();
   renderAnalyze();
   renderSchedule();
+  renderAvailableSchedule();
   renderSettings();
   return renderBackgroundJobState();
 }
@@ -2024,6 +2137,8 @@ function switchView(viewName) {
   document.querySelectorAll(".view").forEach(view => {
     view.classList.toggle("active", view.id === `view-${viewName}`);
   });
+  if (viewName === "schedule") renderSchedule();
+  if (viewName === "availability") renderAvailableSchedule();
 }
 
 async function ensureApiOriginPermission(endpoint) {
@@ -2082,6 +2197,68 @@ function scheduleCurrentPageDetection(delay = 0) {
 function bindEvents() {
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => switchView(tab.dataset.view));
+  });
+
+  document.getElementById("refreshAvailabilityButton").addEventListener("click", async () => {
+    const button = document.getElementById("refreshAvailabilityButton");
+    const status = document.getElementById("availabilityRefreshStatus");
+    button.disabled = true;
+    try {
+      state = await loadState();
+      applyTranslations();
+      renderSchedule();
+      renderAvailableSchedule();
+      renderSettings();
+      setStatus(status, t("availabilityRefreshed", {
+        count: state.scheduleItems.filter(item => item.startAt).length,
+        time: formatDateTime(new Date().toISOString())
+      }), "success");
+    } catch (error) {
+      setStatus(status, error.message || String(error), "error");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  document.getElementById("availabilityOptions").addEventListener("click", event => {
+    const button = event.target.closest(".availability-choice");
+    if (!button || !availableSlotLookup.has(button.dataset.slotId)) return;
+    const id = button.dataset.slotId;
+    const limit = Math.max(1, Math.min(10, Number(state.settings.candidateCount) || 3));
+    const status = document.getElementById("availabilityStatus");
+    if (selectedAvailabilitySlots.has(id)) {
+      selectedAvailabilitySlots.delete(id);
+    } else if (selectedAvailabilitySlots.size >= limit) {
+      setStatus(status, t("selectLimit", { count: limit }), "warning");
+      return;
+    } else {
+      selectedAvailabilitySlots.add(id);
+    }
+    renderAvailableSchedule();
+    setStatus(status, "");
+  });
+
+  document.getElementById("copyAvailabilityButton").addEventListener("click", async () => {
+    renderAvailableSchedule();
+    const selected = [...selectedAvailabilitySlots]
+      .map(id => availableSlotLookup.get(id))
+      .filter(Boolean)
+      .sort((a, b) => a.startAt - b.startAt);
+    const status = document.getElementById("availabilityStatus");
+    if (!selected.length) {
+      setStatus(status, t("noSelectedAvailability"), "warning");
+      return;
+    }
+    const dateFormatter = new Intl.DateTimeFormat(LANGUAGE_LOCALES[currentLanguage()], {
+      year: "numeric", month: "numeric", day: "numeric", weekday: "short"
+    });
+    const text = selected.map(slot => `${dateFormatter.format(slot.startAt)} ${slot.label}`).join("\n");
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus(status, t("copiedAvailability"), "success");
+    } catch (error) {
+      setStatus(status, error.message || String(error), "error");
+    }
   });
 
   document.querySelectorAll("[data-settings-section]").forEach(section => {
@@ -2191,15 +2368,37 @@ function bindEvents() {
   });
 
   document.getElementById("saveSettingsButton").addEventListener("click", async () => {
+    const availableFrom = document.getElementById("availableFrom").value;
+    const availableTo = document.getElementById("availableTo").value;
+    const durationMinutes = Number(document.getElementById("durationMinutes").value);
+    const candidateCount = Number(document.getElementById("candidateCount").value);
+    const bufferMinutes = Number(document.getElementById("defaultBuffer").value);
+    const status = document.getElementById("settingsStatus");
+    if (clockToMinutes(availableFrom, -1) < 0 ||
+        clockToMinutes(availableTo, -1) <= clockToMinutes(availableFrom, -1) ||
+        !Number.isInteger(durationMinutes) || durationMinutes < 15 || durationMinutes > 240 ||
+        !Number.isInteger(candidateCount) || candidateCount < 1 || candidateCount > 10 ||
+        !Number.isInteger(bufferMinutes) || bufferMinutes < 0) {
+      setStatus(status, t("invalidAvailabilitySettings"), "error");
+      return;
+    }
+    const previousSettings = state.settings;
     state.settings = {
       ...state.settings,
-      availableFrom: document.getElementById("availableFrom").value || createDefaultSettings().availableFrom,
-      availableTo: document.getElementById("availableTo").value || createDefaultSettings().availableTo,
-      bufferMinutes: Math.max(0, Number(document.getElementById("defaultBuffer").value) || createDefaultSettings().bufferMinutes)
+      availableFrom,
+      availableTo,
+      durationMinutes,
+      candidateCount,
+      bufferMinutes
     };
-    await saveState();
-    renderSettings();
-    setStatus(document.getElementById("settingsStatus"), t("settingsSaved"), "success");
+    try {
+      await saveState();
+      renderAll();
+      setStatus(status, t("settingsSaved"), "success");
+    } catch (error) {
+      state.settings = previousSettings;
+      setStatus(status, error.message || String(error), "error");
+    }
   });
 
   document.getElementById("exportDataButton").addEventListener("click", () => {
@@ -2222,6 +2421,7 @@ function bindEvents() {
       if (!confirm(t("importConfirm"))) return;
       state = importedState;
       await saveState();
+      selectedAvailabilitySlots.clear();
       currentCompanyId = null;
       applySettingsSectionState();
       renderAll();
@@ -2238,6 +2438,7 @@ function bindEvents() {
     state = createEmptyState();
     state.settings = settings;
     await saveState();
+    selectedAvailabilitySlots.clear();
     currentCompanyId = null;
     renderAll();
     setStatus(document.getElementById("dataStatus"), t("dataCleared"), "success");
