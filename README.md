@@ -11,6 +11,7 @@ Findy と BizReach の採用担当者との会話を AI で整理し、確定し
 
 | 日付 | 種別 | 内容 |
 | --- | --- | --- |
+| 2026-09-24 | ![Added](https://img.shields.io/badge/Added-3fb950) | 「空き時間」タブを追加し、候補時間を選んでコピーできるようにした |
 | 2026-09-23 | ![Added](https://img.shields.io/badge/Added-3fb950) | 面談日程から求人ページと会話ページを開けるようにした |
 | 2026-09-23 | ![Fixed](https://img.shields.io/badge/Fixed-388bfd) | 分析失敗の表示と、同じ会話のメッセージ重複保存を修正 |
 | 2026-09-21 | ![Added](https://img.shields.io/badge/Added-3fb950) | BizReach の会話ページに対応 |
