@@ -39,8 +39,8 @@ Findy と BizReach の採用担当者との会話を AI で整理し、確定し
     <td align="center"><strong>候補日時の返信待ち</strong></td>
   </tr>
   <tr>
-    <td><img src="./images/tab1type1.png" alt="確定した面談の分析結果" width="360" height="605"></td>
-    <td><img src="./images/tab1type2.png" alt="候補日時と空き時間の分析結果" width="360" height="605"></td>
+    <td><img src="./images/tab1.png" alt="確定した面談の分析結果" width="360" height="605"></td>
+    <td><img src="./images/tab2.png" alt="候補日時と空き時間の分析結果" width="360" height="605"></td>
   </tr>
 </table>
 
@@ -52,8 +52,8 @@ Findy と BizReach の採用担当者との会話を AI で整理し、確定し
     <td align="center"><strong>設定</strong></td>
   </tr>
   <tr>
-    <td><img src="./images/tab2.png" alt="面談日程の一覧" width="360" height="605"></td>
-    <td><img src="./images/tab3.png" alt="言語、AI、空き時間の設定" width="360" height="605"></td>
+    <td><img src="./images/tab3.png" alt="面談日程の一覧" width="360" height="605"></td>
+    <td><img src="./images/tab4.png" alt="言語、AI、空き時間の設定" width="360" height="605"></td>
   </tr>
 </table>
 

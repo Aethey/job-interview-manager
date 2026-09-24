@@ -13,10 +13,10 @@ const TRANSLATIONS = {
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
     latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
     scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
-    title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言",
+    title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言", privacyMode: "隐私模式",
     protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
-    saveSettings: "保存设置", data: "数据", importData: "导入数据", exportData: "导出数据", clearData: "清空本地数据",
+    saveSettings: "保存设置", privacyNotSaved: "隐私模式已在当前窗口生效，但未能保存设置。", data: "数据", importData: "导入数据", exportData: "导出数据", clearData: "清空本地数据",
     dataFooter: "API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。",
     unreadable: "当前页面不可读取", openFindy: "请打开 Findy 或 BizReach 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
     updatedAt: "更新于 {time}", noConfirmed: "当前没有已确定的面试", noConfirmedDesc: "对话中没有明确确认的面试时间。",
@@ -40,10 +40,10 @@ const TRANSLATIONS = {
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
     latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
     scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
-    title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language",
+    title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language", privacyMode: "Privacy mode",
     protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
-    saveSettings: "Save settings", data: "Data", importData: "Import data", exportData: "Export data", clearData: "Clear local data",
+    saveSettings: "Save settings", privacyNotSaved: "Privacy mode is active in this window, but the setting could not be saved.", data: "Data", importData: "Import data", exportData: "Export data", clearData: "Clear local data",
     dataFooter: "The API key, messages, analysis results, and interview schedule are stored locally in this browser extension.",
     unreadable: "This page cannot be read", openFindy: "Open a Findy or BizReach conversation and reopen the extension.", messageCount: "{count} messages",
     updatedAt: "Updated {time}", noConfirmed: "No confirmed interview", noConfirmedDesc: "The conversation does not contain a clearly confirmed interview time.",
@@ -67,10 +67,10 @@ const TRANSLATIONS = {
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
     latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
     scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
-    title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語",
+    title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語", privacyMode: "プライバシーモード",
     protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
-    saveSettings: "設定を保存", data: "データ", importData: "データを読み込む", exportData: "データを書き出す", clearData: "ローカルデータを消去",
+    saveSettings: "設定を保存", privacyNotSaved: "この画面ではプライバシーモードが有効ですが、設定を保存できませんでした。", data: "データ", importData: "データを読み込む", exportData: "データを書き出す", clearData: "ローカルデータを消去",
     dataFooter: "API キー、メッセージ、分析結果、面談日程は、このブラウザ拡張機能のローカルストレージに保存されます。",
     unreadable: "現在のページを読み取れません", openFindy: "Findy または BizReach の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
     updatedAt: "更新：{time}", noConfirmed: "確定済みの面談はありません", noConfirmedDesc: "会話内に明確に確定した面談日時がありません。",
@@ -93,6 +93,7 @@ const TRANSLATIONS = {
 function createDefaultSettings() {
   return {
     language: "zh",
+    privacyMode: false,
     availabilityVersion: 1,
     openSettingsSections: ["language", "ai", "availability"],
     ai: {
@@ -119,6 +120,10 @@ function t(key, values = {}) {
     text = text.replaceAll(`{${name}}`, String(value));
   }
   return text;
+}
+
+function privacyText(value) {
+  return state.settings.privacyMode && value ? "****" : value;
 }
 
 function applyTranslations() {
@@ -1796,7 +1801,7 @@ function renderAnalyze() {
 
   sourcePlatform.innerHTML = platformLogoMarkup(currentSnapshot.platform || currentSnapshot.source);
   sourcePlatform.classList.remove("hidden");
-  sourceName.textContent = currentSnapshot.companyName || "未识别公司";
+  sourceName.textContent = privacyText(currentSnapshot.companyName || "未识别公司");
   sourceInfo.textContent = t("messageCount", { count: currentSnapshot.messages.length });
   analyzeButton.disabled = currentSnapshot.messages.length === 0;
   copyRawButton.disabled = currentSnapshot.messages.length === 0;
@@ -1849,8 +1854,8 @@ function renderSchedule() {
     const company = state.companies.find(candidate => candidate.id === item.companyId);
     const { jobUrl, messageUrl } = sourceLinksForCompany(company);
     const sourceLink = (url, label) => url
-      ? `<a class="secondary-button schedule-source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
-      : `<span class="secondary-button schedule-source-link unavailable" aria-disabled="true">${escapeHtml(label)}</span>`;
+      ? `<a class="secondary-button schedule-source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(privacyText(label))}</a>`
+      : `<span class="secondary-button schedule-source-link unavailable" aria-disabled="true">${escapeHtml(privacyText(label))}</span>`;
     const sourceAnalysis = state.analyses.find(analysis => analysis.id === item.sourceAnalysisId);
     const savedInterview = sourceAnalysis?.result?.latestConfirmedInterview || {};
     const contactName = item.contactName || savedInterview.contactName || "";
@@ -1887,7 +1892,7 @@ function renderSchedule() {
             <div class="schedule-company-row">
               <div class="schedule-company-main">
                 ${platformLogoMarkup(platform)}
-                <div class="schedule-company">${escapeHtml(company?.name || "未命名公司")}</div>
+                <div class="schedule-company">${escapeHtml(privacyText(company?.name || "未命名公司"))}</div>
               </div>
               <span class="badge ${isTentative ? "warning" : "success"}">${escapeHtml(t(isTentative ? "tentative" : "confirmed"))}</span>
             </div>
@@ -1899,10 +1904,10 @@ function renderSchedule() {
           </div>
           ${(contactName || method || location || notes) ? `
             <div class="schedule-details">
-              ${contactName ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("contact"))}</span><span class="schedule-detail-value">${escapeHtml(contactName)}</span></div>` : ""}
+              ${contactName ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("contact"))}</span><span class="schedule-detail-value">${escapeHtml(privacyText(contactName))}</span></div>` : ""}
               ${method ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("method"))}</span><span class="schedule-detail-value">${escapeHtml(method)}</span></div>` : ""}
-              ${location ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("location"))}</span><span class="schedule-detail-value">${escapeHtml(location)}</span></div>` : ""}
-              ${notes ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("notes"))}</span><span class="schedule-detail-value">${escapeHtml(notes)}</span></div>` : ""}
+              ${location ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("location"))}</span><span class="schedule-detail-value">${escapeHtml(privacyText(location))}</span></div>` : ""}
+              ${notes ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("notes"))}</span><span class="schedule-detail-value">${escapeHtml(privacyText(notes))}</span></div>` : ""}
             </div>` : ""}
         </div>
       </div>`;
@@ -1925,6 +1930,7 @@ function hideScheduleEditor() {
 }
 
 function renderSettings() {
+  document.getElementById("privacyMode").setAttribute("aria-checked", String(Boolean(state.settings.privacyMode)));
   document.getElementById("apiUrl").value = state.settings.ai?.url || "";
   document.getElementById("apiKey").value = state.settings.ai?.apiKey || "";
   document.getElementById("model").value = state.settings.ai?.model || "";
@@ -2299,6 +2305,20 @@ function bindEvents() {
     if (!saved || saved.schemaVersion !== CURRENT_SCHEMA_VERSION) return;
     state = normalizeStoredState(saved);
     renderAll();
+  });
+
+  document.getElementById("privacyMode").addEventListener("click", async event => {
+    state.settings.privacyMode = !state.settings.privacyMode;
+    event.currentTarget.setAttribute("aria-checked", String(state.settings.privacyMode));
+    renderAnalyze();
+    renderSchedule();
+    const status = document.getElementById("privacyStatus");
+    try {
+      await saveState();
+      setStatus(status, t("settingsSaved"), "success");
+    } catch (error) {
+      setStatus(status, t("privacyNotSaved"), "error");
+    }
   });
 
   document.getElementById("language").addEventListener("change", async event => {
