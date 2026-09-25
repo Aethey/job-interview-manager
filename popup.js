@@ -1832,6 +1832,8 @@ function rawConversationText(snapshot) {
 function renderSchedule() {
   const list = document.getElementById("scheduleList");
   const count = document.getElementById("scheduleCount");
+  const openItems = new Set([...list.querySelectorAll(".schedule-item[open]")]
+    .map(element => element.dataset.scheduleId));
   const now = Date.now();
   const defaultDurationMs = Math.max(15, Number(state.settings.durationMinutes) || 60) * 60_000;
   const items = [...state.scheduleItems]
@@ -1875,28 +1877,25 @@ function renderSchedule() {
       ? new Date(item.endAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" })
       : "";
     return `${heading}
-      <div class="schedule-item">
-        <div class="schedule-item-header">
+      <details class="schedule-item" data-schedule-id="${escapeHtml(item.id)}" ${openItems.has(String(item.id)) ? "open" : ""}>
+        <summary class="schedule-item-header">
+          <div class="schedule-company-main">
+            ${platformLogoMarkup(platform)}
+            <div class="schedule-company">${escapeHtml(privacyText(company?.name || "未命名公司"))}</div>
+          </div>
           <div class="schedule-time">
             <span class="schedule-time-start">${escapeHtml(startTime)}</span>
             ${endTime ? `<span class="schedule-time-separator">→</span><span class="schedule-time-end">${escapeHtml(endTime)}</span>` : ""}
           </div>
-          <div class="schedule-actions">
-            <button class="secondary-button schedule-action edit-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("edit"))}</button>
-            <button class="danger-button schedule-action delete-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
-          </div>
-        </div>
+          ${isFinished ? `<span class="schedule-finished-stamp compact" role="img" aria-label="面談終了済">終了済</span>` : ""}
+        </summary>
         ${isFinished ? `<span class="schedule-finished-stamp" role="img" aria-label="面談終了済">終了済</span>` : ""}
         <div class="schedule-item-body">
           <div class="schedule-summary">
-            <div class="schedule-company-row">
-              <div class="schedule-company-main">
-                ${platformLogoMarkup(platform)}
-                <div class="schedule-company">${escapeHtml(privacyText(company?.name || "未命名公司"))}</div>
-              </div>
+            <div class="schedule-summary-head">
+              <div class="schedule-title">${escapeHtml(item.title)}</div>
               <span class="badge ${isTentative ? "warning" : "success"}">${escapeHtml(t(isTentative ? "tentative" : "confirmed"))}</span>
             </div>
-            <div class="schedule-title">${escapeHtml(item.title)}</div>
             <div class="schedule-source-links">
               ${sourceLink(jobUrl, t("jobLink"))}
               ${sourceLink(messageUrl, t("messageLink"))}
@@ -1909,8 +1908,12 @@ function renderSchedule() {
               ${location ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("location"))}</span><span class="schedule-detail-value">${escapeHtml(privacyText(location))}</span></div>` : ""}
               ${notes ? `<div class="schedule-detail"><span class="schedule-detail-label">${escapeHtml(t("notes"))}</span><span class="schedule-detail-value">${escapeHtml(privacyText(notes))}</span></div>` : ""}
             </div>` : ""}
+          <div class="schedule-actions">
+            <button class="secondary-button schedule-action edit-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("edit"))}</button>
+            <button class="danger-button schedule-action delete-schedule" data-schedule-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
+          </div>
         </div>
-      </div>`;
+      </details>`;
   }).join("");
 }
 
