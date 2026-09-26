@@ -12,7 +12,7 @@ const TRANSLATIONS = {
     analyzeTab: "分析", scheduleTab: "面试日程", availabilityTab: "可用日程", settingsTab: "设置",
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
     latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
-    scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", editSchedule: "编辑时间安排", cancel: "取消",
+    scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", scheduleUpcomingEmpty: "没有未结束的面谈。", showAllSchedules: "显示全部", hidePastSchedules: "隐藏已结束", listView: "列表", calendarView: "日历", hasInterviewDay: "有面谈", freeDay: "无面谈", holidayDay: "周末 / 节假日", calendarDayHint: "点击日期查看当天的面谈。", calendarHolidayLoading: "正在获取节假日……", calendarHolidayUnavailable: "节假日暂时无法获取，灰色日期可能不完整。", previousMonth: "上个月", nextMonth: "下个月", calendarInterviewCount: "{count} 项面谈", editSchedule: "编辑时间安排", cancel: "取消",
     title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言", privacyMode: "隐私模式",
     protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
@@ -39,7 +39,7 @@ const TRANSLATIONS = {
     analyzeTab: "Analyze", scheduleTab: "Interviews", availabilityTab: "Availability", settingsTab: "Settings",
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
     latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
-    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", editSchedule: "Edit interview", cancel: "Cancel",
+    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", scheduleUpcomingEmpty: "No upcoming interviews.", showAllSchedules: "Show all", hidePastSchedules: "Hide past", listView: "List", calendarView: "Calendar", hasInterviewDay: "Interview", freeDay: "No interview", holidayDay: "Weekend / holiday", calendarDayHint: "Select a date to view its interviews.", calendarHolidayLoading: "Loading holidays…", calendarHolidayUnavailable: "Holidays could not be loaded; some gray dates may be missing.", previousMonth: "Previous month", nextMonth: "Next month", calendarInterviewCount: "{count} interviews", editSchedule: "Edit interview", cancel: "Cancel",
     title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language", privacyMode: "Privacy mode",
     protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
@@ -66,7 +66,7 @@ const TRANSLATIONS = {
     analyzeTab: "分析", scheduleTab: "面談日程", availabilityTab: "空き時間", settingsTab: "設定",
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
     latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
-    scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", editSchedule: "日程を編集", cancel: "キャンセル",
+    scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", scheduleUpcomingEmpty: "これからの面談はありません。", showAllSchedules: "すべて表示", hidePastSchedules: "終了分を隠す", listView: "一覧", calendarView: "カレンダー", hasInterviewDay: "面談あり", freeDay: "面談なし", holidayDay: "週末・祝日", calendarDayHint: "日付を選ぶと面談を確認できます。", calendarHolidayLoading: "祝日を取得しています…", calendarHolidayUnavailable: "祝日を取得できませんでした。灰色の日付が一部表示されない可能性があります。", previousMonth: "前月", nextMonth: "翌月", calendarInterviewCount: "面談 {count} 件", editSchedule: "日程を編集", cancel: "キャンセル",
     title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語", privacyMode: "プライバシーモード",
     protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
@@ -217,6 +217,12 @@ let analysisTimeoutTimer = null;
 let analysisPollTimer = null;
 const selectedAvailabilitySlots = new Set();
 let availableSlotLookup = new Map();
+let showPastSchedules = false;
+let scheduleViewMode = "list";
+let calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let selectedCalendarDateKey = null;
+const calendarHolidayCache = new Map();
+const calendarHolidayPending = new Set();
 
 function createEmptyState() {
   return {
@@ -1832,17 +1838,33 @@ function rawConversationText(snapshot) {
 function renderSchedule() {
   const list = document.getElementById("scheduleList");
   const count = document.getElementById("scheduleCount");
+  const toggleButton = document.getElementById("togglePastSchedules");
   const openItems = new Set([...list.querySelectorAll(".schedule-item[open]")]
     .map(element => element.dataset.scheduleId));
   const now = Date.now();
   const defaultDurationMs = Math.max(15, Number(state.settings.durationMinutes) || 60) * 60_000;
-  const items = [...state.scheduleItems]
+  const isPast = item => {
+    const startAt = new Date(item.startAt).getTime();
+    if (!Number.isFinite(startAt)) return false;
+    const savedEndAt = new Date(item.endAt).getTime();
+    const effectiveEndAt = Number.isFinite(savedEndAt) && savedEndAt > startAt
+      ? savedEndAt
+      : startAt + defaultDurationMs;
+    return effectiveEndAt <= now;
+  };
+  const allItems = [...state.scheduleItems]
     .filter(item => item.startAt)
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt));
+  const pastCount = allItems.filter(isPast).length;
+  if (!pastCount) showPastSchedules = false;
+  const items = showPastSchedules ? allItems : allItems.filter(item => !isPast(item));
+  toggleButton.parentElement.classList.toggle("hidden", pastCount === 0);
+  toggleButton.textContent = t(showPastSchedules ? "hidePastSchedules" : "showAllSchedules");
+  toggleButton.setAttribute("aria-pressed", String(showPastSchedules));
   count.textContent = t("scheduleCount", { count: items.length });
 
   if (items.length === 0) {
-    list.innerHTML = `<div class="empty">${escapeHtml(t("scheduleEmpty"))}</div>`;
+    list.innerHTML = `<div class="empty">${escapeHtml(t(allItems.length ? "scheduleUpcomingEmpty" : "scheduleEmpty"))}</div>`;
     return;
   }
 
@@ -1866,12 +1888,7 @@ function renderSchedule() {
     const notes = item.notes || savedInterview.notes || "";
     const platform = item.platform || company?.source || "Findy";
     const isTentative = item.status === "tentative";
-    const startAt = new Date(item.startAt).getTime();
-    const savedEndAt = new Date(item.endAt).getTime();
-    const effectiveEndAt = Number.isFinite(savedEndAt) && savedEndAt > startAt
-      ? savedEndAt
-      : startAt + defaultDurationMs;
-    const isFinished = item.status === "confirmed" && Number.isFinite(startAt) && effectiveEndAt <= now;
+    const isFinished = item.status === "confirmed" && isPast(item);
     const startTime = new Date(item.startAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" });
     const endTime = item.endAt && item.endAt !== item.startAt
       ? new Date(item.endAt).toLocaleTimeString(LANGUAGE_LOCALES[currentLanguage()], { hour: "2-digit", minute: "2-digit" })
@@ -1917,6 +1934,124 @@ function renderSchedule() {
   }).join("");
 }
 
+function calendarHolidaysForYear(year) {
+  if (calendarHolidayCache.has(year)) return calendarHolidayCache.get(year);
+  if (availabilityYears().includes(year)) {
+    if (holidayDataStatus === "loaded") {
+      const dates = new Set([...japaneseHolidayDates].filter(date => date.startsWith(`${year}-`)));
+      calendarHolidayCache.set(year, dates);
+      return dates;
+    }
+    if (holidayDataStatus === "idle" || holidayDataStatus === "loading") return undefined;
+  }
+  if (!calendarHolidayPending.has(year)) {
+    calendarHolidayPending.add(year);
+    let timeoutId;
+    Promise.race([
+      fetchJapaneseHolidayDates(new Date(year, 0, 1)),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error("Japanese holiday request timed out.")), 5000);
+      })
+    ]).then(dates => {
+      calendarHolidayCache.set(year, dates);
+    }).catch(error => {
+      console.warn("Calendar holidays could not be loaded.", error);
+      calendarHolidayCache.set(year, null);
+    }).finally(() => {
+      clearTimeout(timeoutId);
+      calendarHolidayPending.delete(year);
+      if (scheduleViewMode === "calendar" && calendarMonth.getFullYear() === year) renderScheduleCalendar();
+    });
+  }
+  return undefined;
+}
+
+function renderScheduleCalendar() {
+  const isCalendar = scheduleViewMode === "calendar";
+  document.getElementById("scheduleListPanel").classList.toggle("hidden", isCalendar);
+  document.getElementById("scheduleCalendarPanel").classList.toggle("hidden", !isCalendar);
+  document.getElementById("scheduleListViewButton").setAttribute("aria-pressed", String(!isCalendar));
+  document.getElementById("scheduleCalendarViewButton").setAttribute("aria-pressed", String(isCalendar));
+  if (!isCalendar) return;
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  const locale = LANGUAGE_LOCALES[currentLanguage()];
+  const monthPrefix = `${year}-${String(month + 1).padStart(2, "0")}-`;
+  const interviewsByDate = new Map();
+  for (const item of state.scheduleItems) {
+    if (!item.startAt) continue;
+    const start = new Date(item.startAt);
+    if (Number.isNaN(start.getTime())) continue;
+    const dateKey = localDateKey(start);
+    if (!dateKey.startsWith(monthPrefix)) continue;
+    if (!interviewsByDate.has(dateKey)) interviewsByDate.set(dateKey, []);
+    interviewsByDate.get(dateKey).push(item);
+  }
+  const holidayDates = calendarHolidaysForYear(year);
+  const notice = document.getElementById("calendarHolidayNotice");
+  setStatus(notice, holidayDates === undefined
+    ? t("calendarHolidayLoading")
+    : holidayDates === null ? t("calendarHolidayUnavailable") : "",
+  holidayDates === null ? "warning" : "");
+
+  document.getElementById("calendarMonthLabel").textContent = new Intl.DateTimeFormat(locale, {
+    year: "numeric", month: "long"
+  }).format(calendarMonth);
+  document.getElementById("calendarPreviousMonth").setAttribute("aria-label", t("previousMonth"));
+  document.getElementById("calendarNextMonth").setAttribute("aria-label", t("nextMonth"));
+  document.getElementById("scheduleCount").textContent = t("scheduleCount", {
+    count: [...interviewsByDate.values()].reduce((total, items) => total + items.length, 0)
+  });
+
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    year: "numeric", month: "long", day: "numeric", weekday: "short"
+  });
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const cellCount = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+  const todayKey = localDateKey(new Date());
+  const weekdayCells = Array.from({ length: 7 }, (_, index) =>
+    `<div class="calendar-weekday">${escapeHtml(weekdayFormatter.format(new Date(2024, 0, 7 + index)))}</div>`);
+  const dayCells = Array.from({ length: cellCount }, (_, index) => {
+    const day = index - firstWeekday + 1;
+    if (day < 1 || day > daysInMonth) return `<span class="calendar-empty-day" aria-hidden="true"></span>`;
+    const date = new Date(year, month, day);
+    const dateKey = localDateKey(date);
+    const interviewCount = interviewsByDate.get(dateKey)?.length || 0;
+    const isHoliday = date.getDay() === 0 || date.getDay() === 6 || (holidayDates?.has(dateKey) ?? false);
+    const classes = ["calendar-day", interviewCount ? "has-interview" : "free"];
+    if (isHoliday) classes.push("holiday");
+    if (dateKey === todayKey) classes.push("today");
+    if (dateKey === selectedCalendarDateKey) classes.push("selected");
+    const label = [dateFormatter.format(date),
+      t(interviewCount ? "calendarInterviewCount" : "freeDay", { count: interviewCount }),
+      isHoliday ? t("holidayDay") : ""].filter(Boolean).join(" · ");
+    return `<button class="${classes.join(" ")}" type="button" data-date-key="${dateKey}" aria-label="${escapeHtml(label)}" aria-pressed="${dateKey === selectedCalendarDateKey}">
+      <span>${day}</span>${interviewCount ? `<span class="calendar-day-count">${interviewCount}</span>` : ""}
+    </button>`;
+  });
+  document.getElementById("calendarGrid").innerHTML = [...weekdayCells, ...dayCells].join("");
+
+  const detail = document.getElementById("calendarDayDetail");
+  if (!selectedCalendarDateKey?.startsWith(monthPrefix)) {
+    detail.textContent = t("calendarDayHint");
+    return;
+  }
+  const selectedDate = new Date(`${selectedCalendarDateKey}T00:00:00`);
+  const selectedItems = interviewsByDate.get(selectedCalendarDateKey) || [];
+  const selectedIsHoliday = selectedDate.getDay() === 0 || selectedDate.getDay() === 6 || (holidayDates?.has(selectedCalendarDateKey) ?? false);
+  detail.innerHTML = `<div class="calendar-day-detail-title">${escapeHtml(dateFormatter.format(selectedDate))}${selectedIsHoliday ? ` · ${escapeHtml(t("holidayDay"))}` : ""}</div>
+    ${selectedItems.length ? selectedItems.map(item => {
+      const company = state.companies.find(candidate => candidate.id === item.companyId);
+      const start = new Date(item.startAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+      const end = item.endAt && item.endAt !== item.startAt
+        ? new Date(item.endAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" }) : "";
+      return `<div class="calendar-day-detail-item">${escapeHtml(privacyText(company?.name || t("interview")))} · ${escapeHtml(start)}${end ? `–${escapeHtml(end)}` : ""}</div>`;
+    }).join("") : `<div class="muted">${escapeHtml(t("freeDay"))}</div>`}`;
+}
+
 function showScheduleEditor(scheduleId) {
   const item = state.scheduleItems.find(candidate => candidate.id === scheduleId);
   if (!item) return;
@@ -1954,6 +2089,7 @@ function renderAll() {
   applyTranslations();
   renderAnalyze();
   renderSchedule();
+  renderScheduleCalendar();
   renderAvailableSchedule();
   renderSettings();
   return renderBackgroundJobState();
@@ -2146,7 +2282,10 @@ function switchView(viewName) {
   document.querySelectorAll(".view").forEach(view => {
     view.classList.toggle("active", view.id === `view-${viewName}`);
   });
-  if (viewName === "schedule") renderSchedule();
+  if (viewName === "schedule") {
+    renderSchedule();
+    renderScheduleCalendar();
+  }
   if (viewName === "availability") renderAvailableSchedule();
 }
 
@@ -2208,6 +2347,32 @@ function bindEvents() {
     tab.addEventListener("click", () => switchView(tab.dataset.view));
   });
 
+  document.getElementById("scheduleListViewButton").addEventListener("click", () => {
+    scheduleViewMode = "list";
+    renderSchedule();
+    renderScheduleCalendar();
+  });
+  document.getElementById("scheduleCalendarViewButton").addEventListener("click", () => {
+    scheduleViewMode = "calendar";
+    renderScheduleCalendar();
+  });
+  document.getElementById("calendarPreviousMonth").addEventListener("click", () => {
+    calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+    selectedCalendarDateKey = null;
+    renderScheduleCalendar();
+  });
+  document.getElementById("calendarNextMonth").addEventListener("click", () => {
+    calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+    selectedCalendarDateKey = null;
+    renderScheduleCalendar();
+  });
+  document.getElementById("calendarGrid").addEventListener("click", event => {
+    const button = event.target.closest("button[data-date-key]");
+    if (!button) return;
+    selectedCalendarDateKey = button.dataset.dateKey;
+    renderScheduleCalendar();
+  });
+
   document.getElementById("refreshAvailabilityButton").addEventListener("click", async () => {
     const button = document.getElementById("refreshAvailabilityButton");
     const status = document.getElementById("availabilityRefreshStatus");
@@ -2216,6 +2381,7 @@ function bindEvents() {
       state = await loadState();
       applyTranslations();
       renderSchedule();
+      renderScheduleCalendar();
       renderAvailableSchedule();
       renderSettings();
       setStatus(status, t("availabilityRefreshed", {
@@ -2315,6 +2481,7 @@ function bindEvents() {
     event.currentTarget.setAttribute("aria-checked", String(state.settings.privacyMode));
     renderAnalyze();
     renderSchedule();
+    renderScheduleCalendar();
     const status = document.getElementById("privacyStatus");
     try {
       await saveState();
@@ -2465,6 +2632,11 @@ function bindEvents() {
     currentCompanyId = null;
     renderAll();
     setStatus(document.getElementById("dataStatus"), t("dataCleared"), "success");
+  });
+
+  document.getElementById("togglePastSchedules").addEventListener("click", () => {
+    showPastSchedules = !showPastSchedules;
+    renderSchedule();
   });
 
   document.getElementById("scheduleList").addEventListener("click", async event => {

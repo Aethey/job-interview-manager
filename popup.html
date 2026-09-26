@@ -540,6 +540,33 @@
     }
 
     .schedule-date:first-child { margin-top: 0; }
+    .schedule-view-toggle { display: flex; gap: 6px; margin-bottom: 12px; }
+    .schedule-view-toggle button { flex: 1; min-height: 30px; padding: 5px 8px; font-size: 11px; }
+    .schedule-view-toggle button[aria-pressed="true"] { border-color: #aac4f7; background: var(--primary-soft); color: var(--primary); }
+    .schedule-list-controls { display: flex; justify-content: flex-end; margin-bottom: 9px; }
+    .schedule-visibility-button { min-height: 28px; padding: 4px 9px; font-size: 10px; }
+    .calendar-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .calendar-toolbar strong { font-size: 13px; }
+    .calendar-nav { width: 30px; min-height: 30px; padding: 2px; font-size: 20px; }
+    .calendar-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; color: var(--muted); font-size: 10px; }
+    .calendar-legend span { display: inline-flex; align-items: center; gap: 4px; }
+    .calendar-legend i { width: 9px; height: 9px; border-radius: 3px; }
+    .calendar-legend .has-interview { background: #a7c4fb; }
+    .calendar-legend .free { background: #c9e9d5; }
+    .calendar-legend .holiday { background: #cbd1da; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+    .calendar-weekday { padding: 4px 0; color: var(--muted); font-size: 10px; font-weight: 700; text-align: center; }
+    .calendar-day { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 46px; padding: 3px; border: 1px solid #c9e9d5; border-radius: 8px; background: #eef8f1; color: #3a7355; font-size: 11px; font-weight: 750; }
+    .calendar-day.has-interview { border-color: #a7c4fb; background: #eaf2ff; color: #1f62dc; }
+    .calendar-day.holiday { border-color: #cbd1da; background: #eef0f3; color: #687487; }
+    .calendar-day.today { box-shadow: inset 0 0 0 2px var(--primary); }
+    .calendar-day.selected { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .calendar-day-count { min-width: 16px; padding: 1px 4px; border-radius: 999px; background: var(--primary); color: #fff; font-size: 9px; line-height: 1.2; }
+    .calendar-empty-day { min-height: 46px; }
+    .calendar-day-detail { margin-top: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 9px; font-size: 11px; }
+    .calendar-day-detail-title { margin-bottom: 7px; font-weight: 750; }
+    .calendar-day-detail-item { padding: 5px 0; border-top: 1px solid var(--line); }
+    .calendar-day-detail-item:first-of-type { border-top: 0; }
     .schedule-item {
       position: relative;
       padding: 0;
@@ -746,7 +773,29 @@
     <section id="view-schedule" class="view">
       <div class="card">
         <div class="card-title"><span data-i18n="scheduleTitle">面试日程</span><span id="scheduleCount" class="muted small"></span></div>
-        <div id="scheduleList"><div class="empty" data-i18n="scheduleEmpty">还没有确定或暂定的面试。</div></div>
+        <div class="schedule-view-toggle">
+          <button id="scheduleListViewButton" class="secondary-button" type="button" aria-pressed="true" data-i18n="listView">列表</button>
+          <button id="scheduleCalendarViewButton" class="secondary-button" type="button" aria-pressed="false" data-i18n="calendarView">日历</button>
+        </div>
+        <div id="scheduleListPanel">
+          <div class="schedule-list-controls hidden"><button id="togglePastSchedules" class="secondary-button schedule-visibility-button" type="button" aria-pressed="false"></button></div>
+          <div id="scheduleList"><div class="empty" data-i18n="scheduleEmpty">还没有确定或暂定的面试。</div></div>
+        </div>
+        <div id="scheduleCalendarPanel" class="hidden">
+          <div class="calendar-toolbar">
+            <button id="calendarPreviousMonth" class="secondary-button calendar-nav" type="button">‹</button>
+            <strong id="calendarMonthLabel"></strong>
+            <button id="calendarNextMonth" class="secondary-button calendar-nav" type="button">›</button>
+          </div>
+          <div class="calendar-legend">
+            <span><i class="has-interview"></i><span data-i18n="hasInterviewDay">有面谈</span></span>
+            <span><i class="free"></i><span data-i18n="freeDay">无面谈</span></span>
+            <span><i class="holiday"></i><span data-i18n="holidayDay">周末 / 节假日</span></span>
+          </div>
+          <div id="calendarHolidayNotice" class="status-message"></div>
+          <div id="calendarGrid" class="calendar-grid"></div>
+          <div id="calendarDayDetail" class="calendar-day-detail"></div>
+        </div>
       </div>
       <div id="scheduleEditorCard" class="card hidden">
         <div class="card-title"><span data-i18n="editSchedule">编辑时间安排</span><button id="cancelScheduleEdit" class="secondary-button" data-i18n="cancel">取消</button></div>
