@@ -441,6 +441,7 @@
       border-radius: 11px;
       background: #fff;
     }
+    .availability-option-day.no-interview { border-color: #b8e3ce; background: #f3fbf6; }
     .availability-option-day > summary {
       display: flex;
       justify-content: space-between;
@@ -455,6 +456,8 @@
     .availability-option-day > summary::-webkit-details-marker { display: none; }
     .availability-option-day > summary::after { content: "⌄"; color: var(--muted); }
     .availability-option-day[open] > summary::after { transform: rotate(180deg); }
+    .availability-day-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0; }
+    .availability-no-interview { display: inline-flex; align-items: center; gap: 3px; padding: 3px 6px; border-radius: 999px; background: #ddf4e7; color: #14784f; font-size: 10px; font-weight: 750; white-space: nowrap; }
     .availability-option-list { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 12px 12px; }
     .availability-choice {
       min-height: 32px;

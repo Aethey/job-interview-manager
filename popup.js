@@ -13,7 +13,7 @@ const TRANSLATIONS = {
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
     latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
     scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", scheduleUpcomingEmpty: "没有未结束的面谈。", showAllSchedules: "显示全部", hidePastSchedules: "隐藏已结束", listView: "列表", calendarView: "日历", hasInterviewDay: "有面谈", freeDay: "无面谈", holidayDay: "周末 / 节假日", calendarDayHint: "点击日期查看当天的面谈和有事时间。", calendarHolidayLoading: "正在获取节假日……", calendarHolidayUnavailable: "节假日暂时无法获取，灰色日期可能不完整。", previousMonth: "上个月", nextMonth: "下个月", calendarInterviewCount: "{count} 项面谈", editSchedule: "编辑时间安排", cancel: "取消",
-    busySchedule: "有事时间段", addBusyBlock: "添加事项", busyTime: "时间段有事", busyStart: "开始时间", busyEnd: "结束时间", saveBusyBlock: "保存事项", noBusyBlocks: "还没有添加事项。", invalidBusyTime: "请选择整点开始和结束，结束时间须晚于开始时间。",
+    busySchedule: "有事时间段", addBusyBlock: "添加事项", busyTime: "时间段有事", busyStart: "开始时间", busyEnd: "结束时间", saveBusyBlock: "保存事项", noBusyBlocks: "还没有添加事项。", invalidBusyTime: "请选择整点开始和结束，结束时间须晚于开始时间。", noInterviewDay: "当天无面谈",
     title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言", privacyMode: "隐私模式",
     protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
@@ -41,7 +41,7 @@ const TRANSLATIONS = {
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
     latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
     scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", scheduleUpcomingEmpty: "No upcoming interviews.", showAllSchedules: "Show all", hidePastSchedules: "Hide past", listView: "List", calendarView: "Calendar", hasInterviewDay: "Interview", freeDay: "No interview", holidayDay: "Weekend / holiday", calendarDayHint: "Select a date to view its interviews and busy periods.", calendarHolidayLoading: "Loading holidays…", calendarHolidayUnavailable: "Holidays could not be loaded; some gray dates may be missing.", previousMonth: "Previous month", nextMonth: "Next month", calendarInterviewCount: "{count} interviews", editSchedule: "Edit interview", cancel: "Cancel",
-    busySchedule: "Busy periods", addBusyBlock: "Add busy time", busyTime: "Busy period", busyStart: "Start", busyEnd: "End", saveBusyBlock: "Save busy time", noBusyBlocks: "No busy periods added.", invalidBusyTime: "Choose whole-hour times, with the end after the start.",
+    busySchedule: "Busy periods", addBusyBlock: "Add busy time", busyTime: "Busy period", busyStart: "Start", busyEnd: "End", saveBusyBlock: "Save busy time", noBusyBlocks: "No busy periods added.", invalidBusyTime: "Choose whole-hour times, with the end after the start.", noInterviewDay: "No interview today",
     title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language", privacyMode: "Privacy mode",
     protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
@@ -69,7 +69,7 @@ const TRANSLATIONS = {
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
     latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
     scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", scheduleUpcomingEmpty: "これからの面談はありません。", showAllSchedules: "すべて表示", hidePastSchedules: "終了分を隠す", listView: "一覧", calendarView: "カレンダー", hasInterviewDay: "面談あり", freeDay: "面談なし", holidayDay: "週末・祝日", calendarDayHint: "日付を選ぶと面談と予定ありの時間帯を確認できます。", calendarHolidayLoading: "祝日を取得しています…", calendarHolidayUnavailable: "祝日を取得できませんでした。灰色の日付が一部表示されない可能性があります。", previousMonth: "前月", nextMonth: "翌月", calendarInterviewCount: "面談 {count} 件", editSchedule: "日程を編集", cancel: "キャンセル",
-    busySchedule: "予定ありの時間帯", addBusyBlock: "予定を追加", busyTime: "時間帯に予定あり", busyStart: "開始時刻", busyEnd: "終了時刻", saveBusyBlock: "予定を保存", noBusyBlocks: "予定はまだありません。", invalidBusyTime: "開始・終了を毎時00分で指定し、終了を開始より後にしてください。",
+    busySchedule: "予定ありの時間帯", addBusyBlock: "予定を追加", busyTime: "時間帯に予定あり", busyStart: "開始時刻", busyEnd: "終了時刻", saveBusyBlock: "予定を保存", noBusyBlocks: "予定はまだありません。", invalidBusyTime: "開始・終了を毎時00分で指定し、終了を開始より後にしてください。", noInterviewDay: "面談なし",
     title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語", privacyMode: "プライバシーモード",
     protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
@@ -1634,6 +1634,25 @@ function buildSelectableAvailabilityDays(
   }).filter(day => day.slots.length > 0);
 }
 
+function hasInterviewOnDay(date) {
+  const dayStart = new Date(date);
+  dayStart.setHours(0, 0, 0, 0);
+  const dayEnd = new Date(dayStart);
+  dayEnd.setDate(dayStart.getDate() + 1);
+  const defaultDurationMs = Math.max(15, Number(state.settings.durationMinutes) || 60) * 60_000;
+
+  return state.scheduleItems.some(item => {
+    if (!item?.startAt) return false;
+    const start = new Date(item.startAt);
+    if (Number.isNaN(start.getTime())) return false;
+    const savedEnd = new Date(item.endAt);
+    const end = Number.isNaN(savedEnd.getTime()) || savedEnd <= start
+      ? new Date(start.getTime() + defaultDurationMs)
+      : savedEnd;
+    return start < dayEnd && end > dayStart;
+  });
+}
+
 function renderAvailableSchedule() {
   const optionsElement = document.getElementById("availabilityOptions");
   const noticeElement = document.getElementById("availabilityNotice");
@@ -1668,8 +1687,9 @@ function renderAvailableSchedule() {
       ? days.map((day, index) => {
         const dayKey = localDateKey(day.date);
         const isOpen = openDays.has(dayKey) || (!hadDayOptions && index === 0);
-        return `<details class="availability-option-day" data-day-key="${dayKey}" ${isOpen ? "open" : ""}>
-          <summary><span>${escapeHtml(dateFormatter.format(day.date))}</span><span class="muted small">${escapeHtml(t("availableSlotsCount", { count: day.slots.length }))}</span></summary>
+        const noInterview = !hasInterviewOnDay(day.date);
+        return `<details class="availability-option-day${noInterview ? " no-interview" : ""}" data-day-key="${dayKey}" ${isOpen ? "open" : ""}>
+          <summary><span class="availability-day-heading"><span>${escapeHtml(dateFormatter.format(day.date))}</span>${noInterview ? `<span class="availability-no-interview"><span aria-hidden="true">✓</span>${escapeHtml(t("noInterviewDay"))}</span>` : ""}</span><span class="muted small">${escapeHtml(t("availableSlotsCount", { count: day.slots.length }))}</span></summary>
           <div class="availability-option-list">${day.slots.map(slot => `
             <button class="availability-choice" type="button" data-slot-id="${escapeHtml(slot.id)}" aria-pressed="${selectedAvailabilitySlots.has(slot.id)}">${escapeHtml(slot.label)}</button>
           `).join("")}</div>
