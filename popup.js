@@ -12,81 +12,84 @@ const TRANSLATIONS = {
     analyzeTab: "分析", scheduleTab: "面试日程", availabilityTab: "可用日程", settingsTab: "设置",
     analyzeCurrent: "分析当前对话", copyConversation: "复制原始对话", checkingConversation: "正在检查当前会话。",
     latestInterview: "最新面试安排", analysisResultTitle: "分析结果", analyzingConversation: "正在分析当前对话…", analysisEmpty: "分析后显示已确定、暂定的面试或候选时间请求。",
-    scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", scheduleUpcomingEmpty: "没有未结束的面谈。", showAllSchedules: "显示全部", hidePastSchedules: "隐藏已结束", listView: "列表", calendarView: "日历", hasInterviewDay: "有面谈", freeDay: "无面谈", holidayDay: "周末 / 节假日", calendarDayHint: "点击日期查看当天的面谈。", calendarHolidayLoading: "正在获取节假日……", calendarHolidayUnavailable: "节假日暂时无法获取，灰色日期可能不完整。", previousMonth: "上个月", nextMonth: "下个月", calendarInterviewCount: "{count} 项面谈", editSchedule: "编辑时间安排", cancel: "取消",
+    scheduleTitle: "面试日程", scheduleEmpty: "还没有确定或暂定的面试。", scheduleUpcomingEmpty: "没有未结束的面谈。", showAllSchedules: "显示全部", hidePastSchedules: "隐藏已结束", listView: "列表", calendarView: "日历", hasInterviewDay: "有面谈", freeDay: "无面谈", holidayDay: "周末 / 节假日", calendarDayHint: "点击日期查看当天的面谈和有事时间。", calendarHolidayLoading: "正在获取节假日……", calendarHolidayUnavailable: "节假日暂时无法获取，灰色日期可能不完整。", previousMonth: "上个月", nextMonth: "下个月", calendarInterviewCount: "{count} 项面谈", editSchedule: "编辑时间安排", cancel: "取消",
+    busySchedule: "有事时间段", addBusyBlock: "添加事项", busyTime: "时间段有事", busyStart: "开始时间", busyEnd: "结束时间", saveBusyBlock: "保存事项", noBusyBlocks: "还没有添加事项。", invalidBusyTime: "请选择整点开始和结束，结束时间须晚于开始时间。",
     title: "标题", start: "开始", end: "结束", saveChanges: "保存更新", language: "语言", privacyMode: "隐私模式",
     protocolHint: "根据 URL 自动判断协议", modelName: "模型名称", testConnection: "测试连接", saveAi: "保存 AI 设置", scheduling: "日程设置",
     availableFrom: "每天开始", availableTo: "每天结束", duration: "面谈时长", buffer: "面试时间前后余量（分钟）", candidateCount: "候选数量",
     saveSettings: "保存设置", privacyNotSaved: "隐私模式已在当前窗口生效，但未能保存设置。", data: "数据", importData: "导入数据", exportData: "导出数据", clearData: "清空本地数据",
-    dataFooter: "API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。",
+    dataFooter: "API Key、消息、分析结果、面试日程和有事时间段都保存在此浏览器的扩展本地存储中。",
     unreadable: "当前页面不可读取", openFindy: "请打开 Findy 或 BizReach 的对话页面后重新打开插件。", messageCount: "{count} 条消息",
     updatedAt: "更新于 {time}", noConfirmed: "当前没有已确定的面试", noConfirmedDesc: "对话中没有明确确认的面试时间。",
     contact: "联系人", method: "方式", location: "地点 / 链接", notes: "备注", rationale: "判断",
     scheduleCount: "{count} 项", confirmed: "已确定", tentative: "仮予定", edit: "编辑", delete: "删除",
-    dataSummary: "{messages} 条消息 · {analyses} 条分析 · {schedules} 项面试日程",
+    dataSummary: "{messages} 条消息 · {analyses} 条分析 · {schedules} 项面试日程 · {busy} 项有事时间段",
     interview: "面试", reading: "正在读取当前对话……", noMessages: "当前对话没有可分析的消息。",
     missingAi: "请到设置中填写 API URL、API Key 和模型后再次分析。", reanalyzing: "上次报告晚于最新消息，正在重新分析完整对话……",
     analyzingFull: "正在分析当前完整对话（{count} 条消息）……", analyzeDone: "分析完成。", analysisTimeout: "分析超过 90 秒，尚未取得结果。请重试。", copyDone: "原始对话已复制到剪贴板。",
     unsupported: "当前页面暂不支持。请打开 Findy 或 BizReach 的对话页面。", ready: "当前会话已准备好，可以开始分析。",
     aiFieldsRequired: "请填写 API URL、API Key 和模型名称。", testingConnection: "正在测试连接……", connectionOk: "连接成功。", connectionFailed: "连接失败：{error}", permissionDenied: "未授予该 API 地址的访问权限。", aiSaved: "AI 设置已保存。", settingsSaved: "设置已保存到本地。",
-    clearConfirm: "确定清空所有本地消息、分析和面试日程吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
+    clearConfirm: "确定清空所有本地消息、分析、面试日程和有事时间段吗？", dataCleared: "业务数据已清空，设置仍然保留。", invalidTime: "请检查开始和结束时间。",
     importConfirm: "导入会覆盖当前所有本地数据和设置，确定继续吗？", importDone: "数据导入完成。", importFailed: "无法导入：请选择由本扩展导出的有效 JSON 文件。", exportDone: "数据已导出。", jobLink: "职位信息", messageLink: "消息页面"
     ,candidateRequest: "待回复候选时间", nextTwoWeeks: "未来两周可用时间", allAvailable: "{start}–{end} 都可以", unavailable: "没有可用时间",
-    availability: "可用时间设置", availabilityPageTitle: "可选择的时间", availabilityIntro: "根据设置和已保存的面试日程，选择未来两周的候选时间。", selectedAvailability: "已选候选时间", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "复制已选时间", noSelectedAvailability: "尚未选择时间。", noSlotsAvailable: "未来两周没有符合设置的可用时间。", availableSlotsCount: "{count} 个可选时间", selectLimit: "最多选择 {count} 个时间。", copiedAvailability: "已复制候选时间。", invalidAvailabilitySettings: "请检查每天的起止时间、面谈时长、候选数量和缓冲时间。", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用",
-    refreshAvailability: "刷新可用时间", availabilityRefreshed: "已从本地数据读取 {count} 项面试日程，并重新计算可用时间（{time}）。"
+    availability: "可用时间设置", availabilityPageTitle: "可选择的时间", availabilityIntro: "根据设置、已保存的面试日程和有事时间，选择未来两周的候选时间。", selectedAvailability: "已选候选时间", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "复制已选时间", noSelectedAvailability: "尚未选择时间。", noSlotsAvailable: "未来两周没有符合设置的可用时间。", availableSlotsCount: "{count} 个可选时间", selectLimit: "最多选择 {count} 个时间。", copiedAvailability: "已复制候选时间。", invalidAvailabilitySettings: "请检查每天的起止时间、面谈时长、候选数量和缓冲时间。", holidaysLoading: "正在获取日本节假日……", holidaysUnavailable: "日本节假日暂时无法获取，以下日期可能包含节假日。", availableDayCount: "{count} 个工作日", fullWindowAvailable: "全部时段可用",
+    refreshAvailability: "刷新可用时间", availabilityRefreshed: "已读取 {count} 项面试日程和 {busy} 项有事时间，重新计算可用时间（{time}）。"
   },
   en: {
     appTitle: "Interview Manager", appSubtitle: "Spend less time organizing and more time communicating",
     analyzeTab: "Analyze", scheduleTab: "Interviews", availabilityTab: "Availability", settingsTab: "Settings",
     analyzeCurrent: "Analyze current conversation", copyConversation: "Copy conversation", checkingConversation: "Checking the current conversation.",
     latestInterview: "Latest interview arrangement", analysisResultTitle: "Analysis result", analyzingConversation: "Analyzing the current conversation…", analysisEmpty: "A confirmed or tentative interview, or request for candidate times, will appear here.",
-    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", scheduleUpcomingEmpty: "No upcoming interviews.", showAllSchedules: "Show all", hidePastSchedules: "Hide past", listView: "List", calendarView: "Calendar", hasInterviewDay: "Interview", freeDay: "No interview", holidayDay: "Weekend / holiday", calendarDayHint: "Select a date to view its interviews.", calendarHolidayLoading: "Loading holidays…", calendarHolidayUnavailable: "Holidays could not be loaded; some gray dates may be missing.", previousMonth: "Previous month", nextMonth: "Next month", calendarInterviewCount: "{count} interviews", editSchedule: "Edit interview", cancel: "Cancel",
+    scheduleTitle: "Interview schedule", scheduleEmpty: "No confirmed or tentative interviews yet.", scheduleUpcomingEmpty: "No upcoming interviews.", showAllSchedules: "Show all", hidePastSchedules: "Hide past", listView: "List", calendarView: "Calendar", hasInterviewDay: "Interview", freeDay: "No interview", holidayDay: "Weekend / holiday", calendarDayHint: "Select a date to view its interviews and busy periods.", calendarHolidayLoading: "Loading holidays…", calendarHolidayUnavailable: "Holidays could not be loaded; some gray dates may be missing.", previousMonth: "Previous month", nextMonth: "Next month", calendarInterviewCount: "{count} interviews", editSchedule: "Edit interview", cancel: "Cancel",
+    busySchedule: "Busy periods", addBusyBlock: "Add busy time", busyTime: "Busy period", busyStart: "Start", busyEnd: "End", saveBusyBlock: "Save busy time", noBusyBlocks: "No busy periods added.", invalidBusyTime: "Choose whole-hour times, with the end after the start.",
     title: "Title", start: "Start", end: "End", saveChanges: "Save changes", language: "Language", privacyMode: "Privacy mode",
     protocolHint: "Protocol is detected from the URL", modelName: "Model", testConnection: "Test connection", saveAi: "Save AI settings", scheduling: "Schedule settings",
     availableFrom: "Daily start", availableTo: "Daily end", duration: "Duration", buffer: "Minutes blocked before and after an interview", candidateCount: "Candidate slots",
     saveSettings: "Save settings", privacyNotSaved: "Privacy mode is active in this window, but the setting could not be saved.", data: "Data", importData: "Import data", exportData: "Export data", clearData: "Clear local data",
-    dataFooter: "The API key, messages, analysis results, and interview schedule are stored locally in this browser extension.",
+    dataFooter: "The API key, messages, analysis results, interview schedule, and busy periods are stored locally in this browser extension.",
     unreadable: "This page cannot be read", openFindy: "Open a Findy or BizReach conversation and reopen the extension.", messageCount: "{count} messages",
     updatedAt: "Updated {time}", noConfirmed: "No confirmed interview", noConfirmedDesc: "The conversation does not contain a clearly confirmed interview time.",
     contact: "Contact", method: "Method", location: "Location / link", notes: "Notes", rationale: "Reason",
     scheduleCount: "{count} items", confirmed: "Confirmed", tentative: "Tentative", edit: "Edit", delete: "Delete",
-    dataSummary: "{messages} messages · {analyses} analyses · {schedules} interviews",
+    dataSummary: "{messages} messages · {analyses} analyses · {schedules} interviews · {busy} busy periods",
     interview: "Interview", reading: "Reading the current conversation…", noMessages: "There are no messages to analyze.",
     missingAi: "Set the API URL, API key, and model in Settings, then analyze again.", reanalyzing: "The previous report is newer than the latest message. Reanalyzing the full conversation…",
     analyzingFull: "Analyzing the full conversation ({count} messages)…", analyzeDone: "Analysis complete.", analysisTimeout: "No analysis result after 90 seconds. Please retry.", copyDone: "Conversation copied to the clipboard.",
     unsupported: "This page is not supported. Open a Findy or BizReach conversation.", ready: "The current conversation is ready to analyze.",
     aiFieldsRequired: "Enter the API URL, API key, and model.", testingConnection: "Testing connection…", connectionOk: "Connection successful.", connectionFailed: "Connection failed: {error}", permissionDenied: "Access to this API address was not granted.", aiSaved: "AI settings saved.", settingsSaved: "Settings saved locally.",
-    clearConfirm: "Clear all locally stored messages, analyses, and interview schedules?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
+    clearConfirm: "Clear all locally stored messages, analyses, interview schedules, and busy periods?", dataCleared: "Local data cleared. Settings were retained.", invalidTime: "Check the start and end times.",
     importConfirm: "Importing will replace all current local data and settings. Continue?", importDone: "Data imported.", importFailed: "Import failed. Select a valid JSON file exported by this extension.", exportDone: "Data exported.", jobLink: "Job details", messageLink: "Messages"
     ,candidateRequest: "Candidate times requested", nextTwoWeeks: "Availability for the next two weeks", allAvailable: "Any time from {start}–{end}", unavailable: "No available time",
-    availability: "Availability", availabilityPageTitle: "Available times", availabilityIntro: "Choose times in the next two weeks based on your settings and saved interviews.", selectedAvailability: "Selected times", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "Copy selected times", noSelectedAvailability: "No times selected.", noSlotsAvailable: "No times match your settings in the next two weeks.", availableSlotsCount: "{count} available times", selectLimit: "Choose up to {count} times.", copiedAvailability: "Selected times copied.", invalidAvailabilitySettings: "Check your daily hours, interview duration, candidate count, and buffer.", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available",
-    refreshAvailability: "Refresh available times", availabilityRefreshed: "Read {count} saved interviews and recalculated availability ({time})."
+    availability: "Availability", availabilityPageTitle: "Available times", availabilityIntro: "Choose times in the next two weeks based on your settings, interviews, and busy periods.", selectedAvailability: "Selected times", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "Copy selected times", noSelectedAvailability: "No times selected.", noSlotsAvailable: "No times match your settings in the next two weeks.", availableSlotsCount: "{count} available times", selectLimit: "Choose up to {count} times.", copiedAvailability: "Selected times copied.", invalidAvailabilitySettings: "Check your daily hours, interview duration, candidate count, and buffer.", holidaysLoading: "Loading Japanese public holidays…", holidaysUnavailable: "Japanese public holidays could not be loaded. The dates below may include holidays.", availableDayCount: "{count} business days", fullWindowAvailable: "Full window available",
+    refreshAvailability: "Refresh available times", availabilityRefreshed: "Read {count} interviews and {busy} busy periods; recalculated availability ({time})."
   },
   ja: {
     appTitle: "転職面談管理", appSubtitle: "整理の手間を減らし、連絡に集中",
     analyzeTab: "分析", scheduleTab: "面談日程", availabilityTab: "空き時間", settingsTab: "設定",
     analyzeCurrent: "現在の会話を分析", copyConversation: "元の会話をコピー", checkingConversation: "現在の会話を確認しています。",
     latestInterview: "最新の面談予定", analysisResultTitle: "分析結果", analyzingConversation: "現在の会話を分析しています…", analysisEmpty: "分析後、確定・仮予定の面談または候補日時の提示依頼を表示します。",
-    scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", scheduleUpcomingEmpty: "これからの面談はありません。", showAllSchedules: "すべて表示", hidePastSchedules: "終了分を隠す", listView: "一覧", calendarView: "カレンダー", hasInterviewDay: "面談あり", freeDay: "面談なし", holidayDay: "週末・祝日", calendarDayHint: "日付を選ぶと面談を確認できます。", calendarHolidayLoading: "祝日を取得しています…", calendarHolidayUnavailable: "祝日を取得できませんでした。灰色の日付が一部表示されない可能性があります。", previousMonth: "前月", nextMonth: "翌月", calendarInterviewCount: "面談 {count} 件", editSchedule: "日程を編集", cancel: "キャンセル",
+    scheduleTitle: "面談日程", scheduleEmpty: "確定または仮予定の面談はまだありません。", scheduleUpcomingEmpty: "これからの面談はありません。", showAllSchedules: "すべて表示", hidePastSchedules: "終了分を隠す", listView: "一覧", calendarView: "カレンダー", hasInterviewDay: "面談あり", freeDay: "面談なし", holidayDay: "週末・祝日", calendarDayHint: "日付を選ぶと面談と予定ありの時間帯を確認できます。", calendarHolidayLoading: "祝日を取得しています…", calendarHolidayUnavailable: "祝日を取得できませんでした。灰色の日付が一部表示されない可能性があります。", previousMonth: "前月", nextMonth: "翌月", calendarInterviewCount: "面談 {count} 件", editSchedule: "日程を編集", cancel: "キャンセル",
+    busySchedule: "予定ありの時間帯", addBusyBlock: "予定を追加", busyTime: "時間帯に予定あり", busyStart: "開始時刻", busyEnd: "終了時刻", saveBusyBlock: "予定を保存", noBusyBlocks: "予定はまだありません。", invalidBusyTime: "開始・終了を毎時00分で指定し、終了を開始より後にしてください。",
     title: "タイトル", start: "開始", end: "終了", saveChanges: "変更を保存", language: "言語", privacyMode: "プライバシーモード",
     protocolHint: "URL からプロトコルを自動判定", modelName: "モデル名", testConnection: "接続をテスト", saveAi: "AI 設定を保存", scheduling: "日程設定",
     availableFrom: "毎日の開始時刻", availableTo: "毎日の終了時刻", duration: "面談時間", buffer: "面談時刻の前後に空ける時間（分）", candidateCount: "候補数",
     saveSettings: "設定を保存", privacyNotSaved: "この画面ではプライバシーモードが有効ですが、設定を保存できませんでした。", data: "データ", importData: "データを読み込む", exportData: "データを書き出す", clearData: "ローカルデータを消去",
-    dataFooter: "API キー、メッセージ、分析結果、面談日程は、このブラウザ拡張機能のローカルストレージに保存されます。",
+    dataFooter: "API キー、メッセージ、分析結果、面談日程、予定ありの時間帯は、このブラウザ拡張機能のローカルストレージに保存されます。",
     unreadable: "現在のページを読み取れません", openFindy: "Findy または BizReach の会話ページを開いてから、拡張機能を開き直してください。", messageCount: "{count} 件のメッセージ",
     updatedAt: "更新：{time}", noConfirmed: "確定済みの面談はありません", noConfirmedDesc: "会話内に明確に確定した面談日時がありません。",
     contact: "担当者", method: "実施方法", location: "場所 / リンク", notes: "備考", rationale: "判断根拠",
     scheduleCount: "{count} 件", confirmed: "確定", tentative: "仮予定", edit: "編集", delete: "削除",
-    dataSummary: "メッセージ {messages} 件 · 分析 {analyses} 件 · 面談日程 {schedules} 件",
+    dataSummary: "メッセージ {messages} 件 · 分析 {analyses} 件 · 面談日程 {schedules} 件 · 予定あり {busy} 件",
     interview: "面談", reading: "現在の会話を読み込んでいます…", noMessages: "分析できるメッセージがありません。",
     missingAi: "設定で API URL、API キー、モデルを入力してから、もう一度分析してください。", reanalyzing: "前回のレポートが最新メッセージより新しいため、会話全文を再分析しています…",
     analyzingFull: "現在の会話全文（{count} 件）を分析しています…", analyzeDone: "分析が完了しました。", analysisTimeout: "90秒以内に分析結果を取得できませんでした。再試行してください。", copyDone: "元の会話をクリップボードにコピーしました。",
     unsupported: "このページは未対応です。Findy または BizReach の会話ページを開いてください。", ready: "現在の会話を分析できます。",
     aiFieldsRequired: "API URL、API キー、モデル名を入力してください。", testingConnection: "接続をテストしています…", connectionOk: "接続に成功しました。", connectionFailed: "接続に失敗しました：{error}", permissionDenied: "この API アドレスへのアクセスが許可されませんでした。", aiSaved: "AI 設定を保存しました。", settingsSaved: "設定をローカルに保存しました。",
-    clearConfirm: "ローカルのメッセージ、分析結果、面談日程をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
+    clearConfirm: "ローカルのメッセージ、分析結果、面談日程、予定ありの時間帯をすべて消去しますか？", dataCleared: "データを消去しました。設定は保持されています。", invalidTime: "開始時刻と終了時刻を確認してください。",
     importConfirm: "読み込むと現在のローカルデータと設定がすべて上書きされます。続行しますか？", importDone: "データを読み込みました。", importFailed: "読み込めませんでした。この拡張機能から書き出した有効な JSON ファイルを選択してください。", exportDone: "データを書き出しました。", jobLink: "求人情報", messageLink: "メッセージ"
     ,candidateRequest: "候補日時の返信待ち", nextTwoWeeks: "今後2週間の空き時間", allAvailable: "{start}〜{end} はいつでも可", unavailable: "空き時間なし",
-    availability: "空き時間設定", availabilityPageTitle: "選択できる時間", availabilityIntro: "設定と保存済みの面談日程から、今後2週間の候補時間を選べます。", selectedAvailability: "選択した候補時間", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "選択した時間をコピー", noSelectedAvailability: "時間が選択されていません。", noSlotsAvailable: "今後2週間に設定に合う空き時間はありません。", availableSlotsCount: "{count} 件の候補時間", selectLimit: "最大 {count} 件まで選択できます。", copiedAvailability: "候補時間をコピーしました。", invalidAvailabilitySettings: "一日の時間帯、面談時間、候補数、前後の余裕時間を確認してください。", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き",
-    refreshAvailability: "空き時間を更新", availabilityRefreshed: "保存済みの面談 {count} 件を読み込み、空き時間を再計算しました（{time}）。"
+    availability: "空き時間設定", availabilityPageTitle: "選択できる時間", availabilityIntro: "設定と保存済みの面談日程・予定ありの時間帯から、今後2週間の候補時間を選べます。", selectedAvailability: "選択した候補時間", selectedAvailabilityCount: "{selected}/{limit}", copySelectedAvailability: "選択した時間をコピー", noSelectedAvailability: "時間が選択されていません。", noSlotsAvailable: "今後2週間に設定に合う空き時間はありません。", availableSlotsCount: "{count} 件の候補時間", selectLimit: "最大 {count} 件まで選択できます。", copiedAvailability: "候補時間をコピーしました。", invalidAvailabilitySettings: "一日の時間帯、面談時間、候補数、前後の余裕時間を確認してください。", holidaysLoading: "日本の祝日を取得しています…", holidaysUnavailable: "日本の祝日を取得できませんでした。以下の日付には祝日が含まれる可能性があります。", availableDayCount: "{count} 営業日", fullWindowAvailable: "全時間帯で空き",
+    refreshAvailability: "空き時間を更新", availabilityRefreshed: "面談 {count} 件と予定あり {busy} 件を読み込み、空き時間を再計算しました（{time}）。"
   }
 };
 
@@ -231,6 +234,7 @@ function createEmptyState() {
     messages: [],
     analyses: [],
     scheduleItems: [],
+    busyBlocks: [],
     analysisJob: null,
     settings: createDefaultSettings()
   };
@@ -267,6 +271,7 @@ function createMockPreview(mockData) {
     messages: mockData.messages,
     analyses: mockData.analyses,
     scheduleItems: mockData.scheduleItems,
+    busyBlocks: Array.isArray(mockData.busyBlocks) ? mockData.busyBlocks : [],
     settings: normalizeSettings(mockData.settings || {})
   };
 
@@ -350,6 +355,7 @@ function normalizeStoredState(saved) {
     messages: Array.isArray(saved.messages) ? saved.messages : [],
     analyses: Array.isArray(saved.analyses) ? saved.analyses : [],
     scheduleItems: Array.isArray(saved.scheduleItems) ? saved.scheduleItems : [],
+    busyBlocks: Array.isArray(saved.busyBlocks) ? saved.busyBlocks : [],
     settings: normalizeSettings(saved.settings)
   };
 }
@@ -384,6 +390,9 @@ function normalizeImportedState(payload) {
   if (collectionKeys.some(key => !Array.isArray(imported[key]))) {
     throw new Error("Invalid backup data.");
   }
+  if (imported.busyBlocks !== undefined && !Array.isArray(imported.busyBlocks)) {
+    throw new Error("Invalid backup data.");
+  }
 
   if (!imported.settings || typeof imported.settings !== "object" || Array.isArray(imported.settings)) {
     throw new Error("Invalid backup settings.");
@@ -396,6 +405,7 @@ function normalizeImportedState(payload) {
     messages: imported.messages,
     analyses: imported.analyses,
     scheduleItems: imported.scheduleItems,
+    busyBlocks: Array.isArray(imported.busyBlocks) ? imported.busyBlocks : [],
     analysisJob: imported.analysisJob && typeof imported.analysisJob === "object" ? imported.analysisJob : null,
     settings: normalizeSettings(imported.settings)
   };
@@ -1531,7 +1541,8 @@ function buildAvailabilityDays(
   scheduleItems = state.scheduleItems,
   settings = state.settings,
   referenceDate = new Date(),
-  holidayDates = japaneseHolidayDates
+  holidayDates = japaneseHolidayDates,
+  busyBlocks = state.busyBlocks
 ) {
   const startMinutes = clockToMinutes(settings.availableFrom, 10 * 60);
   const configuredEnd = clockToMinutes(settings.availableTo, 19 * 60);
@@ -1547,16 +1558,21 @@ function buildAvailabilityDays(
     const nextDate = new Date(date);
     nextDate.setDate(date.getDate() + 1);
 
-    const blocked = scheduleItems
-      .map(item => {
+    const blocked = [
+      ...scheduleItems.map(item => ({ item, margin: bufferMinutes, manual: false })),
+      ...busyBlocks.map(item => ({ item, margin: 0, manual: true }))
+    ]
+      .map(({ item, margin, manual }) => {
+        if (!item?.startAt) return null;
         const start = new Date(item.startAt);
         if (Number.isNaN(start.getTime())) return null;
         const savedEnd = new Date(item.endAt);
+        if (manual && (Number.isNaN(savedEnd.getTime()) || savedEnd <= start)) return null;
         const end = Number.isNaN(savedEnd.getTime()) || savedEnd <= start
           ? new Date(start.getTime() + durationMinutes * 60_000)
           : savedEnd;
-        const blockedStart = start.getTime() - bufferMinutes * 60_000;
-        const blockedEnd = end.getTime() + bufferMinutes * 60_000;
+        const blockedStart = start.getTime() - margin * 60_000;
+        const blockedEnd = end.getTime() + margin * 60_000;
         if (blockedStart >= nextDate.getTime() || blockedEnd <= date.getTime()) return null;
         return [
           Math.max(startMinutes, Math.floor((blockedStart - date.getTime()) / 60_000)),
@@ -1934,6 +1950,43 @@ function renderSchedule() {
   }).join("");
 }
 
+function renderBusyBlocks() {
+  const list = document.getElementById("busyBlockList");
+  const items = [...state.busyBlocks]
+    .filter(item => item?.startAt && item.endAt)
+    .sort((a, b) => new Date(a.startAt) - new Date(b.startAt));
+  list.innerHTML = items.length
+    ? items.map(item => `<div class="busy-block-row">
+        <span class="busy-block-time">${escapeHtml(t("busyTime"))} · ${escapeHtml(formatInterviewDateTime(item.startAt))} → ${escapeHtml(formatInterviewDateTime(item.endAt))}</span>
+        <button class="secondary-button edit-busy-block" type="button" data-busy-id="${escapeHtml(item.id)}">${escapeHtml(t("edit"))}</button>
+        <button class="danger-button delete-busy-block" type="button" data-busy-id="${escapeHtml(item.id)}">${escapeHtml(t("delete"))}</button>
+      </div>`).join("")
+    : `<div class="muted small">${escapeHtml(t("noBusyBlocks"))}</div>`;
+}
+
+function showBusyBlockEditor(id = null) {
+  const item = id ? state.busyBlocks.find(candidate => candidate.id === id) : null;
+  if (id && !item) return;
+  const now = new Date();
+  const defaultStart = selectedCalendarDateKey && scheduleViewMode === "calendar"
+    ? new Date(`${selectedCalendarDateKey}T10:00:00`)
+    : new Date(now);
+  if (!item && defaultStart.toDateString() === now.toDateString() && defaultStart <= now) {
+    defaultStart.setHours(now.getHours() + 1, 0, 0, 0);
+  } else if (!item) {
+    defaultStart.setMinutes(0, 0, 0);
+  }
+  document.getElementById("busyBlockEditId").value = item?.id || "";
+  document.getElementById("busyBlockStart").value = toDateTimeLocalValue(item?.startAt || defaultStart);
+  document.getElementById("busyBlockEnd").value = toDateTimeLocalValue(item?.endAt || new Date(defaultStart.getTime() + 3_600_000));
+  setStatus(document.getElementById("busyBlockStatus"), "");
+  document.getElementById("busyBlockEditor").classList.remove("hidden");
+}
+
+function hideBusyBlockEditor() {
+  document.getElementById("busyBlockEditor").classList.add("hidden");
+}
+
 function calendarHolidaysForYear(year) {
   if (calendarHolidayCache.has(year)) return calendarHolidayCache.get(year);
   if (availabilityYears().includes(year)) {
@@ -2010,6 +2063,17 @@ function renderScheduleCalendar() {
   });
   const firstWeekday = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const validBusyBlocks = state.busyBlocks.filter(item => item?.startAt && item.endAt).map(item => ({
+    start: new Date(item.startAt), end: new Date(item.endAt)
+  })).filter(item => Number.isFinite(item.start.getTime()) &&
+    Number.isFinite(item.end.getTime()) && item.end > item.start);
+  const busyByDate = new Map();
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const dayStart = new Date(year, month, day);
+    const dayEnd = new Date(year, month, day + 1);
+    const busy = validBusyBlocks.filter(item => item.start < dayEnd && item.end > dayStart);
+    if (busy.length) busyByDate.set(localDateKey(dayStart), busy);
+  }
   const cellCount = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
   const todayKey = localDateKey(new Date());
   const weekdayCells = Array.from({ length: 7 }, (_, index) =>
@@ -2020,13 +2084,16 @@ function renderScheduleCalendar() {
     const date = new Date(year, month, day);
     const dateKey = localDateKey(date);
     const interviewCount = interviewsByDate.get(dateKey)?.length || 0;
+    const hasBusy = busyByDate.has(dateKey);
     const isHoliday = date.getDay() === 0 || date.getDay() === 6 || (holidayDates?.has(dateKey) ?? false);
     const classes = ["calendar-day", interviewCount ? "has-interview" : "free"];
     if (isHoliday) classes.push("holiday");
+    if (hasBusy) classes.push("has-busy");
     if (dateKey === todayKey) classes.push("today");
     if (dateKey === selectedCalendarDateKey) classes.push("selected");
     const label = [dateFormatter.format(date),
-      t(interviewCount ? "calendarInterviewCount" : "freeDay", { count: interviewCount }),
+      interviewCount ? t("calendarInterviewCount", { count: interviewCount }) : hasBusy ? "" : t("freeDay"),
+      hasBusy ? t("busyTime") : "",
       isHoliday ? t("holidayDay") : ""].filter(Boolean).join(" · ");
     return `<button class="${classes.join(" ")}" type="button" data-date-key="${dateKey}" aria-label="${escapeHtml(label)}" aria-pressed="${dateKey === selectedCalendarDateKey}">
       <span>${day}</span>${interviewCount ? `<span class="calendar-day-count">${interviewCount}</span>` : ""}
@@ -2041,15 +2108,26 @@ function renderScheduleCalendar() {
   }
   const selectedDate = new Date(`${selectedCalendarDateKey}T00:00:00`);
   const selectedItems = interviewsByDate.get(selectedCalendarDateKey) || [];
+  const selectedBusy = busyByDate.get(selectedCalendarDateKey) || [];
   const selectedIsHoliday = selectedDate.getDay() === 0 || selectedDate.getDay() === 6 || (holidayDates?.has(selectedCalendarDateKey) ?? false);
+  const interviewDetails = selectedItems.map(item => {
+    const company = state.companies.find(candidate => candidate.id === item.companyId);
+    const start = new Date(item.startAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+    const end = item.endAt && item.endAt !== item.startAt
+      ? new Date(item.endAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" }) : "";
+    return `<div class="calendar-day-detail-item">${escapeHtml(privacyText(company?.name || t("interview")))} · ${escapeHtml(start)}${end ? `–${escapeHtml(end)}` : ""}</div>`;
+  }).join("");
+  const nextDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + 1);
+  const busyDetails = selectedBusy.map(item => {
+    const start = new Date(Math.max(item.start.getTime(), selectedDate.getTime()))
+      .toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+    const endTime = Math.min(item.end.getTime(), nextDate.getTime());
+    const end = endTime === nextDate.getTime() ? "24:00" : new Date(endTime)
+      .toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+    return `<div class="calendar-day-detail-item busy">${escapeHtml(t("busyTime"))} · ${escapeHtml(start)}–${escapeHtml(end)}</div>`;
+  }).join("");
   detail.innerHTML = `<div class="calendar-day-detail-title">${escapeHtml(dateFormatter.format(selectedDate))}${selectedIsHoliday ? ` · ${escapeHtml(t("holidayDay"))}` : ""}</div>
-    ${selectedItems.length ? selectedItems.map(item => {
-      const company = state.companies.find(candidate => candidate.id === item.companyId);
-      const start = new Date(item.startAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
-      const end = item.endAt && item.endAt !== item.startAt
-        ? new Date(item.endAt).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" }) : "";
-      return `<div class="calendar-day-detail-item">${escapeHtml(privacyText(company?.name || t("interview")))} · ${escapeHtml(start)}${end ? `–${escapeHtml(end)}` : ""}</div>`;
-    }).join("") : `<div class="muted">${escapeHtml(t("freeDay"))}</div>`}`;
+    ${interviewDetails}${busyDetails}${!selectedItems.length && !selectedBusy.length ? `<div class="muted">${escapeHtml(t("freeDay"))}</div>` : ""}`;
 }
 
 function showScheduleEditor(scheduleId) {
@@ -2081,7 +2159,8 @@ function renderSettings() {
   document.getElementById("dataSummary").textContent = t("dataSummary", {
     messages: state.messages.length,
     analyses: state.analyses.length,
-    schedules: state.scheduleItems.length
+    schedules: state.scheduleItems.length,
+    busy: state.busyBlocks.length
   });
 }
 
@@ -2089,6 +2168,7 @@ function renderAll() {
   applyTranslations();
   renderAnalyze();
   renderSchedule();
+  renderBusyBlocks();
   renderScheduleCalendar();
   renderAvailableSchedule();
   renderSettings();
@@ -2373,6 +2453,67 @@ function bindEvents() {
     renderScheduleCalendar();
   });
 
+  document.getElementById("addBusyBlock").addEventListener("click", () => showBusyBlockEditor());
+  document.getElementById("cancelBusyBlock").addEventListener("click", hideBusyBlockEditor);
+  document.getElementById("busyBlockList").addEventListener("click", async event => {
+    const button = event.target.closest("button[data-busy-id]");
+    if (!button) return;
+    if (button.classList.contains("edit-busy-block")) {
+      showBusyBlockEditor(button.dataset.busyId);
+      return;
+    }
+    const previous = state.busyBlocks;
+    state.busyBlocks = previous.filter(item => item.id !== button.dataset.busyId);
+    button.disabled = true;
+    try {
+      await saveState();
+      hideBusyBlockEditor();
+      renderAll();
+      setStatus(document.getElementById("busyListStatus"), "");
+    } catch (error) {
+      state.busyBlocks = previous;
+      button.disabled = false;
+      setStatus(document.getElementById("busyListStatus"), error.message || String(error), "error");
+    }
+  });
+  document.getElementById("saveBusyBlock").addEventListener("click", async () => {
+    const startValue = document.getElementById("busyBlockStart").value;
+    const endValue = document.getElementById("busyBlockEnd").value;
+    const start = new Date(startValue);
+    const end = new Date(endValue);
+    const status = document.getElementById("busyBlockStatus");
+    if (!/T\d{2}:00$/.test(startValue) || !/T\d{2}:00$/.test(endValue) ||
+      !Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) ||
+      end <= start || (end.getTime() - start.getTime()) % 3_600_000 !== 0) {
+      setStatus(status, t("invalidBusyTime"), "error");
+      return;
+    }
+    const id = document.getElementById("busyBlockEditId").value;
+    const previous = state.busyBlocks;
+    const existing = id ? previous.find(item => item.id === id) : null;
+    if (id && !existing) {
+      setStatus(status, t("invalidBusyTime"), "error");
+      return;
+    }
+    const saved = { ...(existing || {}), id: id || createId("busy"), startAt: start.toISOString(), endAt: end.toISOString() };
+    state.busyBlocks = existing
+      ? previous.map(item => item.id === id ? saved : item)
+      : [...previous, saved];
+    const saveButton = document.getElementById("saveBusyBlock");
+    saveButton.disabled = true;
+    try {
+      await saveState();
+      hideBusyBlockEditor();
+      renderAll();
+      setStatus(document.getElementById("busyListStatus"), "");
+    } catch (error) {
+      state.busyBlocks = previous;
+      setStatus(status, error.message || String(error), "error");
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
   document.getElementById("refreshAvailabilityButton").addEventListener("click", async () => {
     const button = document.getElementById("refreshAvailabilityButton");
     const status = document.getElementById("availabilityRefreshStatus");
@@ -2381,11 +2522,13 @@ function bindEvents() {
       state = await loadState();
       applyTranslations();
       renderSchedule();
+      renderBusyBlocks();
       renderScheduleCalendar();
       renderAvailableSchedule();
       renderSettings();
       setStatus(status, t("availabilityRefreshed", {
         count: state.scheduleItems.filter(item => item.startAt).length,
+        busy: state.busyBlocks.length,
         time: formatDateTime(new Date().toISOString())
       }), "success");
     } catch (error) {

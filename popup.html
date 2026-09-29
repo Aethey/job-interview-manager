@@ -554,11 +554,13 @@
     .calendar-legend .has-interview { background: #a7c4fb; }
     .calendar-legend .free { background: #c9e9d5; }
     .calendar-legend .holiday { background: #cbd1da; }
+    .calendar-legend .has-busy { background: #c9b4f4; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
     .calendar-weekday { padding: 4px 0; color: var(--muted); font-size: 10px; font-weight: 700; text-align: center; }
     .calendar-day { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 46px; padding: 3px; border: 1px solid #c9e9d5; border-radius: 8px; background: #eef8f1; color: #3a7355; font-size: 11px; font-weight: 750; }
     .calendar-day.has-interview { border-color: #a7c4fb; background: #eaf2ff; color: #1f62dc; }
     .calendar-day.holiday { border-color: #cbd1da; background: #eef0f3; color: #687487; }
+    .calendar-day.has-busy { border-color: #c9b4f4; background: #f3edff; color: #7546b6; }
     .calendar-day.today { box-shadow: inset 0 0 0 2px var(--primary); }
     .calendar-day.selected { outline: 2px solid var(--primary); outline-offset: 1px; }
     .calendar-day-count { min-width: 16px; padding: 1px 4px; border-radius: 999px; background: var(--primary); color: #fff; font-size: 9px; line-height: 1.2; }
@@ -567,6 +569,16 @@
     .calendar-day-detail-title { margin-bottom: 7px; font-weight: 750; }
     .calendar-day-detail-item { padding: 5px 0; border-top: 1px solid var(--line); }
     .calendar-day-detail-item:first-of-type { border-top: 0; }
+    .calendar-day-detail-item.busy { color: #7546b6; }
+    .busy-block-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 11px; }
+    .busy-block-row:first-child { border-top: 0; }
+    .busy-block-time { flex: 1; min-width: 0; }
+    .busy-block-row button { min-height: 28px; padding: 4px 7px; font-size: 10px; }
+    .busy-block-editor { margin-top: 11px; padding-top: 11px; border-top: 1px solid var(--line); }
+    .busy-block-editor .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .busy-block-editor input { min-width: 0; }
+    .busy-block-actions { display: flex; gap: 8px; }
+    .busy-block-actions button { flex: 1; }
     .schedule-item {
       position: relative;
       padding: 0;
@@ -791,10 +803,28 @@
             <span><i class="has-interview"></i><span data-i18n="hasInterviewDay">有面谈</span></span>
             <span><i class="free"></i><span data-i18n="freeDay">无面谈</span></span>
             <span><i class="holiday"></i><span data-i18n="holidayDay">周末 / 节假日</span></span>
+            <span><i class="has-busy"></i><span data-i18n="busyTime">时间段有事</span></span>
           </div>
           <div id="calendarHolidayNotice" class="status-message"></div>
           <div id="calendarGrid" class="calendar-grid"></div>
           <div id="calendarDayDetail" class="calendar-day-detail"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span data-i18n="busySchedule">有事时间段</span><button id="addBusyBlock" class="secondary-button" type="button" data-i18n="addBusyBlock">添加事项</button></div>
+        <div id="busyBlockList"></div>
+        <div id="busyListStatus" class="status-message" role="status"></div>
+        <div id="busyBlockEditor" class="busy-block-editor hidden">
+          <input id="busyBlockEditId" type="hidden">
+          <div class="grid-2">
+            <div class="field"><label for="busyBlockStart" data-i18n="busyStart">开始时间</label><input id="busyBlockStart" type="datetime-local" step="3600"></div>
+            <div class="field"><label for="busyBlockEnd" data-i18n="busyEnd">结束时间</label><input id="busyBlockEnd" type="datetime-local" step="3600"></div>
+          </div>
+          <div class="busy-block-actions">
+            <button id="saveBusyBlock" class="primary-button" type="button" data-i18n="saveBusyBlock">保存事项</button>
+            <button id="cancelBusyBlock" class="secondary-button" type="button" data-i18n="cancel">取消</button>
+          </div>
+          <div id="busyBlockStatus" class="status-message" role="status"></div>
         </div>
       </div>
       <div id="scheduleEditorCard" class="card hidden">
@@ -813,7 +843,7 @@
     <section id="view-availability" class="view">
       <div class="card">
         <div class="card-title"><span data-i18n="availabilityPageTitle">可选择的时间</span><span id="availabilityDayCount" class="muted small"></span></div>
-        <p class="muted small availability-intro" data-i18n="availabilityIntro">根据设置和已保存的面试日程，选择未来两周的候选时间。</p>
+        <p class="muted small availability-intro" data-i18n="availabilityIntro">根据设置、已保存的面试日程和有事时间，选择未来两周的候选时间。</p>
         <button id="refreshAvailabilityButton" class="secondary-button wide-button" data-i18n="refreshAvailability">刷新可用时间</button>
         <div id="availabilityRefreshStatus" class="status-message" role="status"></div>
         <div id="availabilityNotice"></div>
@@ -900,7 +930,7 @@
           <input id="importDataInput" type="file" accept="application/json,.json" hidden>
           <button id="clearDataButton" class="danger-button wide-button" style="margin-top:10px" data-i18n="clearData">清空本地数据</button>
           <div id="dataStatus" class="status-message"></div>
-          <div class="footer-note" data-i18n="dataFooter">API Key、消息、分析结果和面试日程都保存在此浏览器的扩展本地存储中。</div>
+          <div class="footer-note" data-i18n="dataFooter">API Key、消息、分析结果、面试日程和有事时间段都保存在此浏览器的扩展本地存储中。</div>
         </div>
       </details>
     </section>
